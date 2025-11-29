@@ -29,6 +29,37 @@
         }
       </div>
 
+      <!-- PHONE -->
+<div class="mb-3">
+  <input
+    type="tel"
+    name="phone"
+    class="form-control input-glass"
+    placeholder="رقم الهاتف"
+    required
+    minlength="10"
+    maxlength="15"
+    ngModel
+    #phone="ngModel"
+  />
+
+  @if (phone.invalid && (phone.dirty || phone.touched || f.submitted)) {
+
+    @if (phone.errors?.['required']) {
+      <div class="text-danger mt-1 small">
+        ✦ رقم الهاتف مطلوب
+      </div>
+    }
+
+    @if (phone.errors?.['minlength']) {
+      <div class="text-danger mt-1 small">
+        ✦ رقم الهاتف يجب أن يكون 10 أرقام على الأقل
+      </div>
+    }
+
+  }
+</div>
+
       
 
       <!-- EMAIL -->
