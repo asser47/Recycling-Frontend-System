@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './manage-factories.html',
   styleUrl: './manage-factories.css',
 })
-export class ManageFactories {
+export class ManageFactoriesComponent {
 
 }

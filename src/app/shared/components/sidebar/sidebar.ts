@@ -1,11 +1,19 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-sidebar',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './sidebar.html',
-  styleUrl: './sidebar.css',
+  styleUrls: ['./sidebar.css']
 })
-export class Sidebar {
+export class SidebarComponent {
 
+  constructor(private router: Router) {}
+
+  go(path: string) {
+    this.router.navigate(['/' + path]);
+  }
 }

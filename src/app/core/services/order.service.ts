@@ -15,7 +15,7 @@ export class OrderService {
     return this.http.get<Order[]>(this.url);
   }
 
-  getUserOrders(userId: string): Observable<Order[]> {
-    return this.http.get<Order[]>(`${this.url}/user/${userId}`);
-  }
+  // getUserOrders(userId: string): Observable<Order[]> {
+  //   return this.http.get<Order[]>(`${this.url}/user/${userId}`);
+  // }
 }

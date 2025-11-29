@@ -1,0 +1,16 @@
+.side-btn {
+  width: 100%;
+  padding: 12px;
+  text-align: left;
+  background: transparent;
+  border: none;
+  color: #d1d5db;
+  border-radius: 6px;
+  margin-bottom: 5px;
+  transition: 0.2s;
+}
+
+.side-btn:hover {
+  background: #1f2937;
+  color: #fff;
+}

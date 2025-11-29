@@ -1,1 +1,57 @@
-<p>manage-materials works!</p>
+<div class="mb-4">
+  <h4>إدارة المواد</h4>
+ @if (loading) {
+  <div class="alert alert-info">جاري التحميل...</div>
+}
+
+@if (error) {
+  <div class="alert alert-danger">{{ error }}</div>
+}
+<form #f="ngForm" (ngSubmit)="onCreate(f)" class="row g-2 mb-3">
+
+  <div class="col-md-4">
+    <input name="typeName" [(ngModel)]="newMaterial.typeName"
+           required class="form-control" placeholder="اسم المادة" />
+  </div>
+
+  <div class="col-md-2">
+    <input name="size" [(ngModel)]="newMaterial.size"
+           required class="form-control" placeholder="الحجم" />
+  </div>
+
+  <div class="col-md-2">
+    <input name="price" type="number" [(ngModel)]="newMaterial.price"
+           required class="form-control" placeholder="السعر" />
+  </div>
+
+  <div class="col-md-2">
+    <input name="factoryId" type="number" [(ngModel)]="newMaterial.factoryId"
+           required class="form-control" placeholder="FactoryId" />
+  </div>
+
+  <div class="col-md-2">
+    <button class="btn btn-success w-100" [disabled]="f.invalid">إضافة</button>
+  </div>
+
+</form>
+
+
+ <div class="row">
+
+  @for (m of materials; track m.id) {
+    <div class="col-md-4 mb-3">
+      <div class="card material-card">
+        <div class="card-body">
+
+          <h5>{{ m.typeName }}</h5>
+          <p>الحجم: {{ m.size }}</p>
+          <p>السعر: {{ m.price }}$</p>
+
+          <button class="btn btn-danger btn-sm" (click)="delete(m.id)">حذف</button>
+        </div>
+      </div>
+    </div>
+  }
+
+</div>
+</div>

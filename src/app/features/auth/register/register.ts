@@ -3,13 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, NgForm } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { NavbarComponent } from "../../../shared/components/navbar/navbar";
 
 @Component({
   standalone: true,
   selector: 'app-register',
   templateUrl: './register.html',
   styleUrls: ['./register.css'],
-  imports: [CommonModule, FormsModule]
+  imports: [CommonModule, FormsModule, NavbarComponent]
 })
 export class RegisterComponent {
   error: string | null = null;

@@ -1,0 +1,16 @@
+.dash-card {
+  background: white;
+  border-radius: 12px;
+  transition: 0.2s;
+}
+
+.dash-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+.count {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #007bff;
+}

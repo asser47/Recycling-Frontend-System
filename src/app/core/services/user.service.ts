@@ -7,7 +7,7 @@ import { API_CONFIG } from './api.config';
 @Injectable({ providedIn: 'root' })
 export class UserService {
 
-  private url = `${API_CONFIG.baseUrl}/user`;
+  private url = `${API_CONFIG.baseUrl}/users`;
 
   constructor(private http: HttpClient) {}
 

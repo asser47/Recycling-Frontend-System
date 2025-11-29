@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   templateUrl: './manage-users.html',
   styleUrl: './manage-users.css',
 })
-export class ManageUsers {
+export class ManageUsersComponent {
 
 }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ManageMaterials } from './manage-materials';
+import { ManageMaterialsComponent } from './manage-materials';
 
 describe('ManageMaterials', () => {
-  let component: ManageMaterials;
-  let fixture: ComponentFixture<ManageMaterials>;
+  let component: ManageMaterialsComponent;
+  let fixture: ComponentFixture<ManageMaterialsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ManageMaterials]
+      imports: [ManageMaterialsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ManageMaterials);
+    fixture = TestBed.createComponent(ManageMaterialsComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

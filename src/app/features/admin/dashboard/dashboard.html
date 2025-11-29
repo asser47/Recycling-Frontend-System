@@ -1,59 +1,12 @@
-<div class="container py-4">
-  <h2 class="mb-4">Admin Dashboard</h2>
+<h2 class="mb-3">لوحة التحكم</h2>
 
-  @if (loading) {
-    <div class="alert alert-info">Loading data...</div>
-  }
-
-  <!-- MATERIALS -->
-  <h4 class="mt-4">Available Materials</h4>
-
-  @if (!loading) {
-
-    @if (materials.length === 0) {
-      <p class="text-muted">No materials found.</p>
-    }
-
-    @if (materials.length > 0) {
-      <div class="row">
-        @for (m of materials; track m.id) {
-          <div class="col-md-4 mb-3">
-            <div class="card shadow-sm">
-              <div class="card-body">
-                <h5>{{ m.typeName }}</h5>
-                <p>Size: {{ m.size }}</p>
-                <p>Price: {{ m.price }}</p>
-              </div>
-            </div>
-          </div>
-        }
+<div class="row g-3 mt-3">
+  @for (card of cards; track card.title) {
+    <div class="col-md-3">
+      <div class="dash-card text-center p-3 shadow-sm rounded">
+        <h4>{{ card.title }}</h4>
+        <p class="count">{{ card.count }}</p>
       </div>
-    }
-
+    </div>
   }
-
-  <hr>
-
-  <!-- USERS -->
-  <h4 class="mt-4">All Users</h4>
-
-  @if (!loading) {
-
-    @if (users.length === 0) {
-      <p class="text-muted">No users found.</p>
-    }
-
-    @if (users.length > 0) {
-      <ul class="list-group">
-        @for (u of users; track u.id) {
-          <li class="list-group-item d-flex justify-content-between">
-            <span>{{ u.fullName }}</span>
-            <span>{{ u.email }}</span>
-          </li>
-        }
-      </ul>
-    }
-
-  }
-
 </div>
