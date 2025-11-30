@@ -1,0 +1,4 @@
+/* small local tweaks (most styling is in global styles.scss) */
+:host {
+  display:block;
+}

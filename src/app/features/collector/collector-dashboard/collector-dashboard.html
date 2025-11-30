@@ -1,0 +1,37 @@
+<div class="header mb-4">
+  <div style="display:flex;align-items:center;gap:10px;">
+    <div style="width:38px;height:38px;background:#fff1e9;border-radius:10px;display:flex;align-items:center;justify-content:center;color:var(--brand-green);font-weight:700;">🚛</div>
+    <div>
+      <div style="font-weight:700">Collector Dashboard</div>
+      <div style="font-size:13px;opacity:0.9">Overview & live requests</div>
+    </div>
+  </div>
+</div>
+
+<!-- stats -->
+<div class="row g-3 mb-3">
+  @for (s of stats(); track s) {
+    <div class="col-12 col-md-4">
+      <app-stat-card [value]="s.value" [label]="s.label"></app-stat-card>
+    </div>
+  }
+</div>
+
+<!-- live map: نمرّر الماركارات من requests() -->
+<div class="mb-3">
+  <app-live-map [markers]="requests()"></app-live-map>
+</div>
+
+<!-- requests -->
+<div class="requests mt-3">
+  <h5 class="mb-3">Available Requests</h5>
+
+  @for (r of requests(); track r) {
+    <app-request-item
+      [area]="r.area"
+      [distance]="r.distance"
+      [type]="r.type"
+      [weight]="r.weight">
+    </app-request-item>
+  }
+</div>

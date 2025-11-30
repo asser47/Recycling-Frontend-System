@@ -8,11 +8,10 @@ import { ManageFactoriesComponent } from './features/admin/manage-factories/mana
 import { ManageUsersComponent } from './features/admin/manage-users/manage-users';
 import { OrdersApprovalComponent } from './features/admin/orders-approval/orders-approval';
 import { RewardsComponent } from './features/admin/rewards/rewards';
+import { CollectorDashboard } from './features/collector/collector-dashboard/collector-dashboard';
 
 export const routes: Routes = [
-
-  // 🔵 تسجيل الدخول أول صفحة (ده الطبيعي)
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+{ path: '', redirectTo: '/admin/dashboard', pathMatch: 'full' },
 
   // 🔵 صفحات المستخدم العادي
   { path: 'login', component: LoginComponent },
@@ -32,6 +31,10 @@ export const routes: Routes = [
       { path: 'rewards', component: RewardsComponent },
     ]
   },
+
+  // صفحة اللوجين والريفجيستر العاديين
+  { path: 'login', component:LoginComponent },
+  { path: 'register', component: RegisterComponent },
 
   { path: '**', redirectTo: 'login' }
 ];

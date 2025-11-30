@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { CollectorDashboard } from './features/collector/collector-dashboard/collector-dashboard';
 
 
 @Component({

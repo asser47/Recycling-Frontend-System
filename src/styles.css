@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+
+:root{
+  --brand-green: #109d63;
+  --muted: #6c757d;
+  --card-bg: #ffffff;
+  --light-gray: #eef0f2;
+  --box-radius: 12px;
+}
+
+*{ box-sizing: border-box; }
+body{
+  font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  background: linear-gradient(180deg, #f6f9fb 0%, #ffffff 100%);
+  margin: 0;
+  padding: 16px;
+  color: #222;
+}
+
+/* Container */
+.app-shell{
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+/* Header */
+.header {
+  background: linear-gradient(180deg, var(--brand-green), #09a05f 60%);
+  color: #fff;
+  padding: 14px 18px;
+  border-radius: 12px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  box-shadow: 0 6px 18px rgba(16,157,99,0.12);
+}
+
+/* Stat card */
+.stat-card {
+  background: var(--card-bg);
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 6px 16px rgba(34,34,34,0.06);
+  border: 1px solid rgba(0,0,0,0.04);
+  min-height: 92px;
+}
+.stat-card h3{ margin:0; font-weight:700; color: var(--brand-green); font-size: 30px;}
+.stat-card p{ margin:0; color: var(--muted); font-size: 14px; }
+
+/* Live map */
+.live-map {
+  background: #f2f4f6;
+  border-radius: var(--box-radius);
+  padding: 0;
+  min-height: 220px;
+  border: 1px dashed rgba(0,0,0,0.04);
+  display:block;
+}
+
+/* Requests container */
+.requests {
+  background: var(--card-bg);
+  padding: 18px;
+  border-radius: var(--box-radius);
+  box-shadow: 0 6px 16px rgba(34,34,34,0.04);
+  border: 1px solid rgba(0,0,0,0.03);
+}
+
+/* Request item */
+.request-item {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 6px;
+}
+.request-item .meta { font-size:14px; }
+.request-item .sub { color: var(--muted); font-size: 13px; margin-top:4px; }
+
+.btn-accept {
+  background: linear-gradient(180deg,#17c26b,#0e9a5a);
+  border: none;
+  color:white;
+  padding: 8px 16px;
+  border-radius: 18px;
+  font-weight:600;
+  box-shadow: 0 6px 18px rgba(16,157,99,0.18);
+}
+
+.small-pin {
+  font-size: 18px;
+}
+
+@media (max-width: 576px){
+  .stat-card h3{ font-size: 26px; }
+  .live-map { min-height: 160px; }
+}
