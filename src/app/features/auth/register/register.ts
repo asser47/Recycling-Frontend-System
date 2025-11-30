@@ -1,34 +1,45 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
-import { AuthService } from '../../../core/services/auth.service';
+import { Component, inject } from '@angular/core';
+import { NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
 import { NavbarComponent } from "../../../shared/components/navbar/navbar";
+import { extractAuthError } from '../../../core/utils/auth-error.util';
 
 @Component({
-  standalone: true,
   selector: 'app-register',
+  standalone: true,
   templateUrl: './register.html',
   styleUrls: ['./register.css'],
-  imports: [CommonModule, FormsModule, NavbarComponent]
+  imports: [FormsModule, NavbarComponent]
 })
 export class RegisterComponent {
+
+  private auth = inject(AuthService);
+  private router = inject(Router);
+
   error: string | null = null;
 
-  constructor(private auth: AuthService, private router: Router) {}
-
-  async onRegister(f: NgForm) {
-    if (!f.valid) return;
-
-    try {
-      await this.auth.register(f.value);
-      this.router.navigate(['/materials']);
-    } catch {
-      this.error = 'هذا البريد مستخدم من قبل';
+  onRegister(form: NgForm) {
+    if (!form.valid) {
+      this.error = "الرجاء ملء جميع الحقول بشكل صحيح";
+      form.form.markAllAsTouched();
+      return;
     }
-  }
-  goToLogin() {
-  this.router.navigate(['/login']);
-}
 
+    const payload = form.value;
+
+    this.auth.register(payload).subscribe({
+      next: (msg) => {
+        alert(msg);
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        this.error = extractAuthError(err);
+      }
+    });
+  }
+
+  goToLogin() {
+    this.router.navigate(['/login']);
+  }
 }

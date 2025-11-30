@@ -1,6 +1,7 @@
-  <div class="content-area">
-    <app-navbar></app-navbar>
-    </div>
+<div class="content-area">
+  <app-navbar></app-navbar>
+</div>
+
 <div class="auth-container">
   <div class="auth-card">
 
@@ -12,52 +13,52 @@
 
     <form #f="ngForm" (ngSubmit)="onLogin(f)">
 
-      <!-- Email -->
+      <!-- EMAIL -->
       <div class="mb-3">
-        <input 
-          type="email"
-          name="email"
-          class="form-control input-glass"
-          placeholder="البريد الإلكتروني"
-          required
-          email
-          ngModel
-          #email="ngModel"
-        />
+        <input type="email"
+               name="email"
+               class="form-control input-glass"
+               placeholder="البريد الإلكتروني"
+               required
+               email
+               ngModel
+               #email="ngModel">
 
         @if (email.invalid && (email.dirty || email.touched || f.submitted)) {
-          <div class="text-danger mt-1 small">
+          <div class="text-danger small mt-1">
             ✦ الرجاء إدخال بريد إلكتروني صالح
           </div>
         }
       </div>
 
-      <!-- Password -->
+      <!-- PASSWORD -->
       <div class="mb-3">
-        <input 
-          type="password"
-          name="password"
-          class="form-control input-glass"
-          placeholder="كلمة المرور"
-          required
-          minlength="6"
-          ngModel
-          #password="ngModel"
-        />
+        <input type="password"
+               name="password"
+               class="form-control input-glass"
+               placeholder="كلمة المرور"
+               required
+               minlength="6"
+               ngModel
+               #password="ngModel">
 
         @if (password.invalid && (password.dirty || password.touched || f.submitted)) {
-          <div class="text-danger mt-1 small">
+          <div class="text-danger small mt-1">
             ✦ كلمة المرور يجب أن تكون 6 أحرف على الأقل
           </div>
         }
       </div>
 
-      <button type="submit" class="btn btn-primary w-100 py-2 rounded-3">
-        دخول
+      <!-- LOGIN BUTTON -->
+      <button class="btn btn-primary w-100 py-2 fw-bold shadow-sm rounded-3">
+        تسجيل الدخول
       </button>
 
-      <div class="text-center mt-3">
-        <button class="btn btn-outline-warning mt-2" type="button" (click)="goToRegister()">
+      <!-- SWITCH TO REGISTER -->
+      <div class="text-center mt-4">
+        <button type="button"
+                class="btn btn-outline-success px-4"
+                (click)="goToRegister()">
           إنشاء حساب جديد
         </button>
       </div>

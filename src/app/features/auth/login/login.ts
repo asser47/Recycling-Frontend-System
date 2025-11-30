@@ -1,31 +1,40 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
-import { AuthService } from '../../../core/services/auth.service';
+import { Component, inject } from '@angular/core';
+import { NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
 import { NavbarComponent } from "../../../shared/components/navbar/navbar";
+import { extractAuthError } from '../../../core/utils/auth-error.util';
 
 @Component({
-  standalone: true,
   selector: 'app-login',
+  standalone: true,
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
-  imports: [CommonModule, FormsModule, NavbarComponent]
+  imports: [FormsModule, NavbarComponent]
 })
 export class LoginComponent {
 
+  private auth = inject(AuthService);
+  private router = inject(Router);
+
   error: string | null = null;
 
-  constructor(private auth: AuthService, private router: Router) {}
-
-  async onLogin(f: NgForm) {
-    if (!f.valid) return;
-    try {
-      await this.auth.login(f.value.email, f.value.password);
-      this.router.navigate(['/materials']);
-    } catch (e) {
-      this.error = 'البريد أو كلمة المرور غير صحيحة';
+  onLogin(form: NgForm) {
+    if (form.invalid) {
+      this.error = "الرجاء إدخال بيانات صحيحة";
+      form.form.markAllAsTouched();
+      return;
     }
+
+    this.auth.login(form.value).subscribe({
+      next: (msg) => {
+        alert(msg);
+        this.router.navigate(['/admin/dashboard']);
+      },
+      error: (err) => {
+        this.error = extractAuthError(err);
+      }
+    });
   }
 
   goToRegister() {

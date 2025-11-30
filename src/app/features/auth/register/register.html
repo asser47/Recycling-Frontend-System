@@ -1,6 +1,7 @@
-  <div class="content-area">
-    <app-navbar></app-navbar>
-    </div>
+<div class="content-area">
+  <app-navbar></app-navbar>
+</div>
+
 <div class="auth-container">
   <div class="auth-card">
 
@@ -14,69 +15,26 @@
 
       <!-- FULL NAME -->
       <div class="mb-3">
-        <input
-          type="text"
-          name="name"
-          class="form-control input-glass"
-          placeholder="الاسم الكامل"
-          required
-          minlength="3"
-          ngModel
-          #name="ngModel"
-        />
+        <input type="text" name="fullName"
+               class="form-control input-glass"
+               placeholder="الاسم الكامل"
+               required minlength="3"
+               ngModel #fullName="ngModel">
 
-        @if (name.invalid && (name.dirty || name.touched || f.submitted)) {
+        @if (fullName.invalid && (fullName.dirty || fullName.touched || f.submitted)) {
           <div class="text-danger mt-1 small">
             ✦ الاسم يجب أن يكون 3 أحرف على الأقل
           </div>
         }
       </div>
 
-      <!-- PHONE -->
-<div class="mb-3">
-  <input
-    type="tel"
-    name="phone"
-    class="form-control input-glass"
-    placeholder="رقم الهاتف"
-    required
-    minlength="10"
-    maxlength="15"
-    ngModel
-    #phone="ngModel"
-  />
-
-  @if (phone.invalid && (phone.dirty || phone.touched || f.submitted)) {
-
-    @if (phone.errors?.['required']) {
-      <div class="text-danger mt-1 small">
-        ✦ رقم الهاتف مطلوب
-      </div>
-    }
-
-    @if (phone.errors?.['minlength']) {
-      <div class="text-danger mt-1 small">
-        ✦ رقم الهاتف يجب أن يكون 10 أرقام على الأقل
-      </div>
-    }
-
-  }
-</div>
-
-      
-
       <!-- EMAIL -->
       <div class="mb-3">
-        <input
-          type="email"
-          name="email"
-          class="form-control input-glass"
-          placeholder="البريد الإلكتروني"
-          required
-          email
-          ngModel
-          #email="ngModel"
-        />
+        <input type="email" name="email"
+               class="form-control input-glass"
+               placeholder="البريد الإلكتروني"
+               required email
+               ngModel #email="ngModel">
 
         @if (email.invalid && (email.dirty || email.touched || f.submitted)) {
           <div class="text-danger mt-1 small">
@@ -87,16 +45,11 @@
 
       <!-- PASSWORD -->
       <div class="mb-3">
-        <input
-          type="password"
-          name="password"
-          class="form-control input-glass"
-          placeholder="كلمة المرور"
-          required
-          minlength="6"
-          ngModel
-          #password="ngModel"
-        />
+        <input type="password" name="password"
+               class="form-control input-glass"
+               placeholder="كلمة المرور"
+               required minlength="6"
+               ngModel #password="ngModel">
 
         @if (password.invalid && (password.dirty || password.touched || f.submitted)) {
           <div class="text-danger mt-1 small">
@@ -105,7 +58,22 @@
         }
       </div>
 
-      <!-- SUBMIT -->
+      <!-- CONFIRM PASSWORD -->
+      <div class="mb-3">
+        <input type="password" name="confirmPassword"
+               class="form-control input-glass"
+               placeholder="تأكيد كلمة المرور"
+               required minlength="6"
+               ngModel #confirmPassword="ngModel">
+
+        @if (confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched || f.submitted)) {
+          <div class="text-danger mt-1 small">
+            ✦ يجب تأكيد كلمة المرور بشكل صحيح
+          </div>
+        }
+      </div>
+
+      <!-- SUBMIT BUTTON -->
       <button type="submit" class="btn btn-success w-100 py-2 rounded-3 fw-bold shadow-sm">
         إنشاء حساب
       </button>

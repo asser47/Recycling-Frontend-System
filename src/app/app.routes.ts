@@ -10,25 +10,28 @@ import { OrdersApprovalComponent } from './features/admin/orders-approval/orders
 import { RewardsComponent } from './features/admin/rewards/rewards';
 
 export const routes: Routes = [
-{ path: '', redirectTo: '/admin/dashboard', pathMatch: 'full' },
 
-{
+  // 🔵 تسجيل الدخول أول صفحة (ده الطبيعي)
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
+
+  // 🔵 صفحات المستخدم العادي
+  { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+
+  // 🔵 صفحات الأدمن
+  {
     path: 'admin',
     component: AdminLayoutComponent,
     children: [
-      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },  
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
       { path: 'dashboard', component: AdminDashboardComponent },
       { path: 'materials', component: ManageMaterialsComponent },
       { path: 'factories', component: ManageFactoriesComponent },
       { path: 'users', component: ManageUsersComponent },
       { path: 'orders', component: OrdersApprovalComponent },
-      { path: 'rewards', component: RewardsComponent }
+      { path: 'rewards', component: RewardsComponent },
     ]
   },
 
-  // صفحة اللوجين والريفجيستر العاديين
-  { path: 'login', component:LoginComponent },
-  { path: 'register', component: RegisterComponent },
-
-  { path: '**', redirectTo: 'admin/dashboard' }
+  { path: '**', redirectTo: 'login' }
 ];
