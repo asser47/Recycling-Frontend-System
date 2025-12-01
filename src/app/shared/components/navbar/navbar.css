@@ -1,45 +1,122 @@
-.navbar-container {
+/* =========================================================
+   NAVBAR
+   =======================================================*/
+
+.eco-navbar {
+  width: 100%;
   background: #ffffff;
-  border-bottom: 1px solid #e5e5e5;
-  padding: 10px 0;
+  padding: 16px 26px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
   position: sticky;
   top: 0;
-  z-index: 1000;
+  z-index: 999;
 }
 
-.brand-btn {
-  font-size: 1.4rem;
+/* ---------- Inner Container ---------- */
+.nav-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* =========================================================
+   LOGO
+   =======================================================*/
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+/* ---- CUSTOM LOGO (Vector) ---- */
+.eco-logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Leaf 1 */
+.eco-leaf {
+  width: 26px;
+  height: 26px;
+  background: #0bb56b;
+  border-radius: 50% 0 50% 50%;
+  transform: rotate(-35deg);
+}
+
+/* Leaf 2 */
+.eco-leaf.small {
+  width: 20px;
+  height: 20px;
+  background: #089a5a;
+  border-radius: 50% 0 50% 50%;
+  transform: rotate(-20deg);
+}
+
+/* Title */
+.eco-title {
+  font-size: 22px;
   font-weight: 700;
-  color: #009975;
-  background: none;
-  border: none;
-  cursor: pointer;
+  color: #1e293b;
+  letter-spacing: 0.3px;
 }
 
-.nav-action {
-  margin-left: 10px;
-  padding: 7px 16px;
-  border-radius: 8px;
-  border: none;
+
+/* =========================================================
+   BUTTONS (Right Side)
+   =======================================================*/
+
+.nav-right {
+  display: flex;
+  gap: 14px;
+}
+
+.nav-btn {
+  padding: 9px 16px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: #f8fafc;
+
+  font-size: 15px;
   font-weight: 600;
+
   cursor: pointer;
+  transition: 0.2s ease;
 }
 
+/* ----- Login Button ----- */
 .nav-login {
-  background: #009975;
-  color: #fff;
+  color: #0bb56b;
+  border-color: #0bb56b;
 }
 
+.nav-login:hover {
+  background: #0bb56b;
+  color: #ffffff;
+}
+
+/* ----- Register Button ----- */
 .nav-register {
-  background: #ffb300;
-  color: #fff;
+  background: #0bb56b;
+  border-color: #0bb56b;
+  color: #ffffff;
 }
 
+.nav-register:hover {
+  background: #089a5a;
+}
+
+/* ----- Logout Button ----- */
 .nav-logout {
-  background: #d32f2f;
+  background: #ef4444;
+  border-color: #ef4444;
   color: white;
 }
 
-.nav-action:hover {
-  opacity: .85;
+.nav-logout:hover {
+  background: #dc2626;
 }

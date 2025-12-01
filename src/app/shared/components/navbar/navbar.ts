@@ -12,14 +12,26 @@ import { CommonModule } from '@angular/common';
 })
 export class NavbarComponent {
 
-  constructor(public auth: AuthService, private router: Router) {}
+  constructor(
+    public auth: AuthService, 
+    private router: Router
+  ) {}
 
   goTo(path: string) {
+
+    // 🔥 لو ما بعتش Path → روح للهوم
+    if (!path) {
+      this.router.navigate(['/']);
+      return;
+    }
+
     this.router.navigate([`/${path}`]);
   }
 
   logout() {
     this.auth.logout();
+
+    // 🔥 مهم جدًا بعد Logout → تنقل للّوجين
     this.router.navigate(['/login']);
   }
 }

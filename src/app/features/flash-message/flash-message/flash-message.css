@@ -1,0 +1,66 @@
+.flash-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2000;
+}
+
+.flash-box {
+  min-width: 250px;
+  max-width: 350px;
+  padding: 14px 18px;
+  color: #fff;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  animation: slideIn 0.4s ease, fadeOut 0.4s ease 2.6s forwards;
+  position: relative;
+  overflow: hidden;
+  font-size: 15px;
+}
+
+/* Success */
+.flash-box.success {
+  background: linear-gradient(135deg, #32d96c, #19b354);
+}
+
+/* Error */
+.flash-box.error {
+  background: linear-gradient(135deg, #ff6767, #e63a3a);
+}
+
+.flash-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.flash-text {
+  flex: 1;
+}
+
+/* Timer bar */
+.flash-timer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: rgba(255,255,255,0.7);
+  animation: timerShrink 3s linear forwards;
+  width: 100%;
+}
+
+/* Animations */
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes fadeOut {
+  to { opacity: 0; transform: translateX(100%); }
+}
+
+@keyframes timerShrink {
+  from { width: 100%; }
+  to { width: 0%; }
+}

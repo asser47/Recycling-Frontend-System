@@ -1,30 +1,33 @@
-<nav class="navbar-container">
-  <div class="container d-flex justify-content-between align-items-center">
+<nav class="eco-navbar">
+  <div class="nav-container">
 
-    <button class="brand-btn" (click)="goTo('')">
-      ♻️ Recycling
-    </button>
+    <!-- LEFT SIDE — LOGO + NAME -->
+<div class="eco-logo-wrapper" (click)="goTo('')">
+  <div class="eco-leaf"></div>
+  <div class="eco-leaf small"></div>
+  <span class="eco-text">EcoCollect</span>
+</div>
 
-    <div class="d-flex align-items-center">
+
+    <!-- RIGHT SIDE — BUTTONS -->
+    <div class="nav-right">
 
       @if (!auth.isLogged()) {
 
-        <button class="nav-action nav-login" (click)="goTo('login')">
-          دخول
-        </button>
+      <button class="nav-btn nav-login" (click)="goTo('login')">
+        Login
+      </button>
 
-        <button class="nav-action nav-register" (click)="goTo('register')">
-          تسجيل
-        </button>
-
+      <button class="nav-btn nav-register" (click)="goTo('register')">
+        Create Account
+      </button>
       }
 
       @if (auth.isLogged()) {
 
-        <button class="nav-action nav-logout" (click)="logout()">
-          خروج
-        </button>
-
+      <button class="nav-btn nav-logout" (click)="logout()">
+        Logout
+      </button>
       }
 
     </div>

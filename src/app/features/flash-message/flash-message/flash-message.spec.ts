@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ForgotPasswordComponent } from './forgot-password';
+import { FlashMessageComponent } from './flash-message';
 
-describe('ForgotPassword', () => {
-  let component: ForgotPasswordComponent;
-  let fixture: ComponentFixture<ForgotPasswordComponent>;
+describe('FlashMessage', () => {
+  let component: FlashMessageComponent;
+  let fixture: ComponentFixture<FlashMessageComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ForgotPasswordComponent]
+      imports: [FlashMessageComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ForgotPasswordComponent);
+    fixture = TestBed.createComponent(FlashMessageComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
@@ -21,3 +21,5 @@ describe('ForgotPassword', () => {
     expect(component).toBeTruthy();
   });
 });
+export { FlashMessageComponent };
+

@@ -1,137 +1,113 @@
-/* =========================
-   AUTH CONTAINER (BACKGROUND)
-   ========================= */
-.auth-container {
+/* ---------- Background ---------- */
+.auth-wrapper {
   min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #f8fafc;
   padding: 25px;
-  background: linear-gradient(135deg, #b8f3d9, #8ee7ff);
-  background-size: cover;
 }
 
-/* =========================
-   AUTH CARD (GLASS BOX)
-   ========================= */
+/* ---------- Card ---------- */
 .auth-card {
-  width: 100%;
-  max-width: 420px;
-  padding: 35px 30px;
-  border-radius: 20px;
-  background: rgba(255, 255, 255, 0.85); /* أفتح */
-  border: 1px solid rgba(255, 255, 255, 0.90);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.18);
-  animation: fadeIn 0.7s ease;
+  width: 420px;
+  background: white;
+  padding: 40px 32px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.1);
+  animation: fadeIn 0.5s ease;
 }
 
-/* =========================
-   TITLES
-   ========================= */
-.title {
-  color: #1b1b1b; /* غامق وواضح */
-  font-weight: 800;
-  letter-spacing: 1px;
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* =========================
-   INPUT FIELDS
-   ========================= */
-.input-glass {
-  background: rgba(255, 255, 255, 0.7) !important; /* أفتح */
-  border: 1px solid #cfcfcf !important;
-  color: #222 !important; /* غامق */
-  padding: 14px;
-  border-radius: 12px !important;
-  transition: 0.3s;
+/* ---------- Logo (Vector Style) ---------- */
+.eco-logo-big {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 18px;
 }
 
-.input-glass::placeholder {
-  color: #7a7a7a !important; /* رمادي واضح */
+.leaf {
+  width: 32px;
+  height: 32px;
+  border-radius: 50% 0 50% 50%;
 }
 
-.input-glass:focus {
-  background: rgba(255, 255, 255, 0.95) !important;
-  border-color: #00c47a !important;
-  box-shadow: 0 0 0 2px #00c47a !important;
-  outline: none !important;
+.leaf.one {
+  background: #0bb56b;
+  transform: rotate(-35deg);
 }
 
-/* =========================
-   MAIN BUTTONS
-   ========================= */
-button.btn-primary,
-button.btn-success {
-  font-size: 1.1rem;
+.leaf.two {
+  background: #089a5a;
+  transform: rotate(-20deg);
+}
+
+/* ---------- Titles ---------- */
+.auth-title {
+  font-size: 28px;
   font-weight: 700;
-  border-radius: 12px !important;
+  color: #1e293b;
+  margin-bottom: 6px;
+}
+
+.auth-subtitle {
+  font-size: 15px;
+  color: #6b7280;
+  margin-bottom: 25px;
+}
+
+/* ---------- Inputs ---------- */
+.auth-input, .auth-select {
+  width: 100%;
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  background: #f1f5f9;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.auth-input:focus, .auth-select:focus {
+  outline: none;
+  border-color: #0bb56b;
+  background: white;
+  box-shadow: 0 0 6px rgba(11,181,107,0.35);
+}
+
+/* ---------- Button ---------- */
+.auth-btn {
+  width: 100%;
   padding: 12px;
   border: none;
+  border-radius: 10px;
+  background: #0bb56b;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
   transition: 0.25s;
 }
 
-button.btn-primary {
-  background-color: #1e88e5 !important; /* أزرق واضح */
-  color: white;
+.auth-btn:hover {
+  background: #089a5a;
 }
 
-button.btn-primary:hover {
-  background-color: #166ec0 !important;
-  transform: translateY(-2px);
+/* ---------- Footer ---------- */
+.auth-footer {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #475569;
 }
 
-button.btn-success {
-  background-color: #00b76a !important; /* أخضر قوي */
-  color: white;
-}
-
-button.btn-success:hover {
-  background-color: #00995a !important;
-  transform: translateY(-2px);
-}
-
-/* =========================
-   OUTLINE BUTTON
-   ========================= */
-.btn-outline-warning {
+.auth-footer span {
+  color: #0bb56b;
+  cursor: pointer;
   font-weight: 600;
-  border-radius: 10px !important;
-  padding: 10px 20px;
-  border-width: 2px !important;
-  color: #f5a000 !important;
-}
-
-.btn-outline-warning:hover {
-  background: #ffb300 !important;
-  color: #000 !important;
-  transform: translateY(-2px);
-}
-
-/* =========================
-   SWITCH SECTION
-   ========================= */
-.auth-switch button {
-  font-weight: 600;
-  border-radius: 10px;
-  color: #1565c0; /* أزرق واضح */
-}
-
-.auth-switch button:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
-}
-
-/* =========================
-   ANIMATION
-   ========================= */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(18px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }

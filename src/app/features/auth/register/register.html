@@ -1,88 +1,73 @@
-<div class="content-area">
-  <app-navbar></app-navbar>
-</div>
+<app-navbar></app-navbar>
 
-<div class="auth-container">
+<div class="auth-wrapper">
   <div class="auth-card">
 
-    <h2 class="title mb-4 text-center">إنشاء حساب</h2>
+    <!-- LOGO -->
+    <div class="eco-logo-big">
+      <div class="leaf one"></div>
+      <div class="leaf two"></div>
+    </div>
 
+    <h2 class="auth-title">Create Account</h2>
+    <p class="auth-subtitle">Join EcoCollect and start making a difference</p>
+
+    <!-- ERROR MESSAGE -->
     @if (error) {
-      <div class="alert alert-danger text-center">{{ error }}</div>
+      <div class="alert alert-danger">{{ error }}</div>
     }
 
     <form #f="ngForm" (ngSubmit)="onRegister(f)">
 
       <!-- FULL NAME -->
-      <div class="mb-3">
-        <input type="text" name="fullName"
-               class="form-control input-glass"
-               placeholder="الاسم الكامل"
-               required minlength="3"
-               ngModel #fullName="ngModel">
-
-        @if (fullName.invalid && (fullName.dirty || fullName.touched || f.submitted)) {
-          <div class="text-danger mt-1 small">
-            ✦ الاسم يجب أن يكون 3 أحرف على الأقل
-          </div>
-        }
-      </div>
+      <input class="auth-input"
+             name="fullName"
+             ngModel
+             required
+             placeholder="Full Name">
 
       <!-- EMAIL -->
-      <div class="mb-3">
-        <input type="email" name="email"
-               class="form-control input-glass"
-               placeholder="البريد الإلكتروني"
-               required email
-               ngModel #email="ngModel">
-
-        @if (email.invalid && (email.dirty || email.touched || f.submitted)) {
-          <div class="text-danger mt-1 small">
-            ✦ الرجاء إدخال بريد إلكتروني صالح
-          </div>
-        }
-      </div>
+      <input class="auth-input"
+             type="email"
+             name="email"
+             ngModel
+             required
+             placeholder="you@example.com">
 
       <!-- PASSWORD -->
-      <div class="mb-3">
-        <input type="password" name="password"
-               class="form-control input-glass"
-               placeholder="كلمة المرور"
-               required minlength="6"
-               ngModel #password="ngModel">
-
-        @if (password.invalid && (password.dirty || password.touched || f.submitted)) {
-          <div class="text-danger mt-1 small">
-            ✦ كلمة المرور يجب أن تكون 6 أحرف على الأقل
-          </div>
-        }
-      </div>
+      <input class="auth-input"
+             type="password"
+             name="password"
+             ngModel
+             required
+             minlength="6"
+             placeholder="Create a secure password">
 
       <!-- CONFIRM PASSWORD -->
-      <div class="mb-3">
-        <input type="password" name="confirmPassword"
-               class="form-control input-glass"
-               placeholder="تأكيد كلمة المرور"
-               required minlength="6"
-               ngModel #confirmPassword="ngModel">
+      <input class="auth-input"
+             type="password"
+             name="confirmPassword"
+             ngModel
+             required
+             minlength="6"
+             placeholder="Confirm password">
 
-        @if (confirmPassword.invalid && (confirmPassword.dirty || confirmPassword.touched || f.submitted)) {
-          <div class="text-danger mt-1 small">
-            ✦ يجب تأكيد كلمة المرور بشكل صحيح
-          </div>
-        }
-      </div>
+      <!-- PASSWORD MATCH ERROR -->
+      @if (f.submitted && f.value.password !== f.value.confirmPassword) {
+        <div class="text-danger small mb-2">
+          Passwords do not match ❌
+        </div>
+      }
 
       <!-- SUBMIT BUTTON -->
-      <button type="submit" class="btn btn-success w-100 py-2 rounded-3 fw-bold shadow-sm">
-        إنشاء حساب
+      <button class="auth-btn" type="submit">
+        Create Account
       </button>
 
-      <!-- SWITCH TO LOGIN -->
-      <div class="text-center mt-4">
-        <button type="button" class="btn btn-outline-warning px-4" (click)="goToLogin()">
-          لدي حساب — تسجيل الدخول
-        </button>
+      <!-- FOOTER LINK -->
+      <div class="auth-footer">
+        Already have an account?
+        <span (click)="goToLogin()">Sign in</span>
       </div>
 
     </form>

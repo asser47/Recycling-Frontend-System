@@ -15,29 +15,33 @@ export class AuthService {
   // -------------------------
   // Register
   // -------------------------
-register(data: any) {
-  return this.http.post(`${this.apiUrl}/register`, data, {
-    responseType: 'text', // ← أهم سطر
-  });
-}
-
-
+  register(data: any) {
+    return this.http.post(`${this.apiUrl}/register`, data, {
+      responseType: 'text'
+    });
+  }
 
   // -------------------------
   // Login
   // -------------------------
-login(data: any) {
-  return this.http.post(`${this.apiUrl}/login`, data, {
-    responseType: 'text'
-  });
-}
-
+  login(data: any) {
+    return this.http.post(`${this.apiUrl}/login`, data, {
+      responseType: 'text'  // السيرفر بيرجع token كسلسلة نصية
+    });
+  }
 
   // -------------------------
   // Save Token
   // -------------------------
   saveToken(token: string) {
     localStorage.setItem('token', token);
+  }
+
+  // -------------------------
+  // Get Token
+  // -------------------------
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 
   // -------------------------
@@ -54,5 +58,4 @@ login(data: any) {
     localStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
-
 }
