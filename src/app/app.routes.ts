@@ -8,6 +8,8 @@ import { ManageFactoriesComponent } from './features/admin/manage-factories/mana
 import { ManageUsersComponent } from './features/admin/manage-users/manage-users';
 import { OrdersApprovalComponent } from './features/admin/orders-approval/orders-approval';
 import { RewardsComponent } from './features/admin/rewards/rewards';
+import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password';
+import { AuthGuard } from './core/guards/auth/auth-guard';
 
 export const routes: Routes = [
 { path: '', redirectTo: '/admin/dashboard', pathMatch: 'full' },

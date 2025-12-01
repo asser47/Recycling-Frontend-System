@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { FlashMessageComponent } from './features/flash-message/flash-message/flash-message';
 
 
 @Component({
