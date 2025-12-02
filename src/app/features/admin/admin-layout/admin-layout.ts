@@ -24,5 +24,4 @@ goToAccount() {
   this.router.navigate(['user', 'account']);
 }
 
-
 }
