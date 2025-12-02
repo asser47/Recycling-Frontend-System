@@ -11,9 +11,10 @@ import { RewardsComponent } from './features/admin/rewards/rewards';
 import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password';
 import { AuthGuard } from './core/guards/auth/auth-guard';
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password';
+import { Citizen } from './features/citizen/citizen';
 
 export const routes: Routes = [
-{ path: '', redirectTo: '/admin/dashboard', pathMatch: 'full' },
+{ path: '', redirectTo: '/citizen', pathMatch: 'full' },
 
   // 🔵 صفحات المستخدم العادي
   { path: 'login', component: LoginComponent },
@@ -37,6 +38,12 @@ export const routes: Routes = [
       { path: 'rewards', component: RewardsComponent },
     ]
   },
+
+  //صفحة المواطن العادي
+  {
+    path: 'citizen', component: Citizen,
+  },
+
 
   // صفحة اللوجين والريفجيستر العاديين
   { path: 'login', component:LoginComponent },
