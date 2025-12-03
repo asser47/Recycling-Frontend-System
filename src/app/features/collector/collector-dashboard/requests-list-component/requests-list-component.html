@@ -1,0 +1,10 @@
+<div class="requests-box">
+  <h3>Pending Collection Requests</h3>
+  <p class="sub">Accept and manage incoming collection requests</p>
+
+  <div class="requests-grid">
+    @for (req of requests; track req.name) {
+      <app-request-item [request]="req"></app-request-item>
+    }
+  </div>
+</div>
