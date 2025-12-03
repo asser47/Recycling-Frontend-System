@@ -1,22 +1,26 @@
-import { CommonModule } from '@angular/common';
 import { Component,Input } from '@angular/core';
 
 @Component({
   selector: 'app-request-item',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './request-item.html',
   styleUrl: './request-item.css',
 })
 export class RequestItem {
 
-  @Input() area = '';
-  @Input() distance: number | string = '';
-  @Input() type = '';
-  @Input() weight = '';
+@Input() request!: {
+    name: string;
+    address: string;
+    type: string;
+    weight: number;
+    distance: number;
+  };
 
-  accept() {
-    // dummy action: يمكنك استبداله بمناداة HTTP service
-    alert(`Accepted pickup at ${this.area} — ${this.weight}`);
+  onAccept() {
+    console.log('Accepted:', this.request.name);
   }
 
+  onRoute() {
+    console.log('View Route:', this.request.name);
+  }
 }
