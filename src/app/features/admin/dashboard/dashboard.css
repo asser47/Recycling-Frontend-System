@@ -1,16 +1,52 @@
-.dash-card {
-  background: white;
-  border-radius: 12px;
-  transition: 0.2s;
+/* ---------- Dashboard Wrapper ---------- */
+.dashboard-wrapper {
+  padding: 25px 30px;
+  background: #f8fafc;
+  min-height: 100vh;
 }
 
-.dash-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+/* ---------- Title ---------- */
+.dash-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 25px;
+  text-align: center;
 }
 
-.count {
-  font-size: 2rem;
-  font-weight: bold;
-  color: #007bff;
+/* ---------- Cards Grid ---------- */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 20px;
+}
+
+/* ---------- Card Style ---------- */
+.dashboard-card {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 6px 25px rgba(0,0,0,0.08);
+  transition: 0.3s ease;
+  border: 1px solid #e2e8f0;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+}
+
+/* ---------- Card Content ---------- */
+.card-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #475569;
+  margin-bottom: 10px;
+}
+
+.card-count {
+  font-size: 32px;
+  font-weight: 700;
+  color: #0bb56b;
 }

@@ -1,12 +1,14 @@
-<h2 class="mb-3">لوحة التحكم</h2>
+<h2 class="dash-title">Admin Dashboard</h2>
 
-<div class="row g-3 mt-3">
-  @for (card of cards; track card.title) {
-    <div class="col-md-3">
-      <div class="dash-card text-center p-3 shadow-sm rounded">
-        <h4>{{ card.title }}</h4>
-        <p class="count">{{ card.count }}</p>
+<div class="dashboard-wrapper">
+
+  <div class="dashboard-cards">
+    @for (card of cards; track card.title) {
+      <div class="dashboard-card">
+        <h4 class="card-title">{{ card.title }}</h4>
+        <p class="card-count">{{ card.count }}</p>
       </div>
-    </div>
-  }
+    }
+  </div>
+
 </div>

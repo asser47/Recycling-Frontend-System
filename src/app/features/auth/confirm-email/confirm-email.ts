@@ -30,7 +30,7 @@ export class ConfirmEmailComponent {
     this.auth.confirmEmail(email, token).subscribe({
       next: () => {
         this.status = 'success';
-        this.flash.showSuccess("تم تأكيد البريد الإلكتروني ✔");
+        this.flash.showSuccess("Email confirmed ✔");
         setTimeout(() => this.router.navigate(['/login']), 2000);
       },
       error: () => {
