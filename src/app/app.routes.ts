@@ -11,6 +11,9 @@ import { RewardsComponent } from './features/admin/rewards/rewards';
 import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password';
 import { AuthGuard } from './core/guards/auth/auth-guard';
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password';
+import { Citizen } from './features/citizen/citizen';
+import { CollectorDashboard } from './features/collector/collector-dashboard/collector-dashboard';
+import { adminGuard } from './core/guards/admin/admin-guard';
 
 export const routes: Routes = [
 { path: '', redirectTo: '/collector', pathMatch: 'full' },
