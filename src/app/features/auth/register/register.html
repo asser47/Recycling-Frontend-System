@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 
-<div class="auth-wrapper">
+<div class="auth-wrapper" [ngClass]="{'register-page': isRegister()}">
   <div class="auth-card">
 
     <!-- LOGO -->
@@ -10,7 +10,7 @@
     </div>
 
     <h2 class="auth-title">Create Account</h2>
-    <p class="auth-subtitle">Join EcoCollect and start making a difference</p>
+    <p class="auth-subtitle">Join GreenZone and start making a difference</p>
 
     <!-- ERROR MESSAGE -->
     @if (error) {

@@ -1,21 +1,47 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { Factory } from '../models/factory.model';
-import { API_CONFIG } from './api.config';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class FactoryService {
 
-  private url = `${API_CONFIG.baseUrl}/factory`;
+  private http = inject(HttpClient);
+  private base = 'https://localhost:4375/api/Factory';
 
-  constructor(private http: HttpClient) {}
-
-  getAll(): Observable<Factory[]> {
-    return this.http.get<Factory[]>(`${this.url}`);
+  // GET ALL → JSON
+  getAll() {
+    return this.http.get<Factory[]>(this.base, { responseType: 'json' });
   }
 
-  getById(id: number): Observable<Factory> {
-    return this.http.get<Factory>(`${this.url}/${id}`);
+  // GET BY ID → JSON
+  getById(id: number) {
+    return this.http.get<Factory>(`${this.base}/${id}`, { responseType: 'json' });
+  }
+
+  // GET DETAILS → JSON
+  getDetails(id: number) {
+    return this.http.get(`${this.base}/${id}/details`, { responseType: 'json' });
+  }
+
+  search(name: string) {
+    return this.http.get<Factory[]>(`${this.base}/type/${name}`, { responseType: 'json' });
+  }
+
+
+  // POST → TEXT
+  create(model: Factory) {
+    return this.http.post(this.base, model, { responseType: 'text' });
+  }
+
+  // PUT → TEXT
+  update(model: Factory) {
+    return this.http.put(this.base, model, { responseType: 'text' });
+  }
+
+  // DELETE → TEXT
+  delete(id: number) {
+    return this.http.delete(`${this.base}/${id}`, { responseType: 'text' });
   }
 }

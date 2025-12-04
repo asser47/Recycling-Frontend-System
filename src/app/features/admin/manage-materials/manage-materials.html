@@ -1,57 +1,64 @@
-<div class="mb-4">
-  <h4>إدارة المواد</h4>
- @if (loading) {
-  <div class="alert alert-info">جاري التحميل...</div>
-}
+<h1 class="page-title">Materials</h1>
+<p class="page-sub">Manage recyclable materials and pricing</p>
 
-@if (error) {
-  <div class="alert alert-danger">{{ error }}</div>
-}
-<form #f="ngForm" (ngSubmit)="onCreate(f)" class="row g-2 mb-3">
-
-  <div class="col-md-4">
-    <input name="typeName" [(ngModel)]="newMaterial.typeName"
-           required class="form-control" placeholder="اسم المادة" />
-  </div>
-
-  <div class="col-md-2">
-    <input name="size" [(ngModel)]="newMaterial.size"
-           required class="form-control" placeholder="الحجم" />
-  </div>
-
-  <div class="col-md-2">
-    <input name="price" type="number" [(ngModel)]="newMaterial.price"
-           required class="form-control" placeholder="السعر" />
-  </div>
-
-  <div class="col-md-2">
-    <input name="factoryId" type="number" [(ngModel)]="newMaterial.factoryId"
-           required class="form-control" placeholder="FactoryId" />
-  </div>
-
-  <div class="col-md-2">
-    <button class="btn btn-success w-100" [disabled]="f.invalid">إضافة</button>
-  </div>
-
-</form>
-
-
- <div class="row">
-
-  @for (m of materials; track m.id) {
-    <div class="col-md-4 mb-3">
-      <div class="card material-card">
-        <div class="card-body">
-
-          <h5>{{ m.typeName }}</h5>
-          <p>الحجم: {{ m.size }}</p>
-          <p>السعر: {{ m.price }}$</p>
-
-          <button class="btn btn-danger btn-sm" (click)="delete(m.id)">حذف</button>
-        </div>
-      </div>
-    </div>
+<!-- Header Row -->
+<div class="header-row">
+  @if (isAdmin()) {
+  <button class="btn-primary" (click)="startAdd()">+ Add Material</button>
   }
 
+  <div class="search-box">
+    <input type="text" placeholder="Search..." [(ngModel)]="searchText"(keyup)="onSearchChange()"/>
+    <button class="btn-secondary" (click)="search()">Search</button>
+  </div>
 </div>
+
+<!-- Table -->
+<div class="table-card">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Type</th>
+        <th>Size</th>
+        <th>Price</th>
+        @if (isAdmin()) { <th>Actions</th> }
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (m of materials; track m.id) {
+      <tr>
+        <td>{{ m.id }}</td>
+        <td>{{ m.typeName }}</td>
+        <td>{{ m.size }}</td>
+        <td>{{ m.price }} LE</td>
+
+        @if (isAdmin()) {
+        <td class="actions">
+          <button class="btn-edit" (click)="startEdit(m)">Edit</button>
+          <button class="btn-delete" (click)="delete(m.id)">Delete</button>
+        </td>
+        }
+      </tr>
+      }
+    </tbody>
+  </table>
 </div>
+
+<!-- Form -->
+@if (showForm && isAdmin()) {
+<div class="form-card">
+  <h3>{{ editing ? "Edit Material" : "Add Material" }}</h3>
+
+  <input type="text" placeholder="Type Name" [(ngModel)]="form.typeName">
+  <input type="text" placeholder="Size" [(ngModel)]="form.size">
+  <input type="number" placeholder="Price" [(ngModel)]="form.price">
+
+  <button class="btn-save" (click)="save()">
+    {{ editing ? "Save Changes" : "Add Material" }}
+  </button>
+  <button class="close-btn" (click)="cancel()">Cancel</button>
+
+</div>
+}

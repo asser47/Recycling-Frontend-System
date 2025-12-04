@@ -1,35 +1,40 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
 import { Material } from '../models/material.model';
-import { API_CONFIG } from './api.config';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class MaterialService {
 
-  private url = `${API_CONFIG.baseUrl}/material`;
+  private http = inject(HttpClient);
+  private base = 'https://localhost:4375/api/Material';
 
-  constructor(private http: HttpClient) {}
-
+  // GET → JSON
   getAll() {
-    return this.http.get<Material[]>(this.url);
+    return this.http.get<Material[]>(this.base, { responseType: 'json' });
   }
 
   getById(id: number) {
-    return this.http.get<Material>(`${this.url}/${id}`);
+    return this.http.get<Material>(`${this.base}/${id}`, { responseType: 'json' });
   }
 
-  create(data: Partial<Material>) {
-    const body = { ...data };
-    delete body.id; // مهم: سيب الباك يولد id
-    return this.http.post<Material>(this.url, body);
+  search(typeName: string) {
+    return this.http.get<Material[]>(`${this.base}/type/${typeName}`, { responseType: 'json' });
   }
 
-  update(id: number, data: Partial<Material>) {
-    return this.http.put<Material>(`${this.url}/${id}`, data);
+  // POST → TEXT
+  create(model: Material) {
+    return this.http.post(this.base, model, { responseType: 'text' });
   }
 
+  // PUT → TEXT
+  update(id: number, body: Material) {
+    return this.http.put(`${this.base}/${id}`, body, { responseType: 'text' });
+  }
+
+  // DELETE → TEXT
   delete(id: number) {
-    return this.http.delete(`${this.url}/${id}`);
+    return this.http.delete(`${this.base}/${id}`, { responseType: 'text' });
   }
 }

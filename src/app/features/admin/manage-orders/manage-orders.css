@@ -1,0 +1,129 @@
+.page-title {
+  font-size: 32px;
+  font-weight: 800;
+}
+
+.page-sub {
+  color: gray;
+  margin-bottom: 25px;
+}
+
+/* Card */
+.section-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+  margin-bottom: 25px;
+}
+.section-card h3 {
+  margin-bottom: 15px;
+}
+
+/* Form Row */
+.form-row {
+  display: flex;
+  gap: 15px;
+  align-items: flex-end;
+}
+.form-row div { display: flex; flex-direction: column; }
+.form-row input, .form-row select {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  width: 190px;
+}
+.form-row label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+/* Buttons */
+.btn-create {
+  background: #198754;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 6px;
+  border: none;
+}
+.btn-clear {
+  background: #6c757d;
+  color: white;
+  padding: 9px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+.btn-view {
+  background: #0d6efd;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: none;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th {
+  color: gray;
+  padding: 10px 0;
+}
+td {
+  padding: 12px 0;
+  border-top: 1px solid #eee;
+}
+
+/* Badges */
+.badge {
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  color: white;
+}
+.pending { background:#ffc107 }
+.accepted { background:#0d6efd }
+.completed { background:#198754 }
+.cancelled { background:#dc3545 }
+
+/* Details Modal */
+.details-modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.4);
+  display: flex; justify-content: center; align-items: center;
+}
+.details-content {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  width: 350px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+.btn-group button {
+  margin-right: 10px;
+  padding: 8px 14px;
+}
+.btn-close {
+  background: black;
+  color: white;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: none;
+  margin-top: 10px;
+}
+.btn-secondary {
+  background: linear-gradient(135deg, #0d6efd, #0b58d0);
+  color: white;
+  padding: 9px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.25s;
+}

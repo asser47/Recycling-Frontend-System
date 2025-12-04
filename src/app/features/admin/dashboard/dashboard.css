@@ -1,52 +1,48 @@
-/* ---------- Dashboard Wrapper ---------- */
-.dashboard-wrapper {
-  padding: 25px 30px;
-  background: #f8fafc;
-  min-height: 100vh;
+/* src/app/features/admin/dashboard/dashboard.css */
+.dashboard-container {
+  padding: 24px;
+  background: #f5f7fb;
+  min-height: 100%;
+  box-sizing: border-box;
 }
 
-/* ---------- Title ---------- */
-.dash-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 25px;
-  text-align: center;
-}
+.head-title { font-size: 34px; margin: 4px 0; font-weight: 700; }
+.sub { color: #6c757d; margin-bottom: 18px; }
 
-/* ---------- Cards Grid ---------- */
-.dashboard-cards {
+.cards-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+  margin-bottom: 24px;
 }
 
-/* ---------- Card Style ---------- */
-.dashboard-card {
-  background: #ffffff;
-  padding: 25px;
-  border-radius: 16px;
-  text-align: center;
-  box-shadow: 0 6px 25px rgba(0,0,0,0.08);
-  transition: 0.3s ease;
-  border: 1px solid #e2e8f0;
+.stat-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
 }
 
-.dashboard-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+.stat-title { color: #6c757d; font-weight: 600; margin-bottom: 6px; }
+.stat-value { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+.stat-sub { color: #6c757d; font-size: 13px; }
+.stat-change { font-size: 12px; color: #198754; margin-top: 8px; }
+.stat-change .down { color: #dc3545; }
+.stat-icon { font-size: 36px; opacity: .9; }
+
+.analytics-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 18px;
+  box-shadow: 0 6px 18px rgba(16,24,40,0.06);
 }
 
-/* ---------- Card Content ---------- */
-.card-title {
-  font-size: 18px;
-  font-weight: 600;
-  color: #475569;
-  margin-bottom: 10px;
-}
+.chart-area { margin-top: 12px; padding: 20px; background:#f0f2f5; border-radius:8px; min-height: 200px; display:flex; align-items:center; justify-content:center; color:#98a0a8; }
 
-.card-count {
-  font-size: 32px;
-  font-weight: 700;
-  color: #0bb56b;
-}
+/* fix double scroll: assuming layout where sidebar is fixed and content scrolls */
+:host ::ng-deep .admin-shell { height: 100vh; display:flex; overflow:hidden; }
+:host ::ng-deep .sidebar { width: 220px; flex: 0 0 220px; overflow:auto; position:relative; }
+:host ::ng-deep .content { flex: 1 1 auto; overflow:auto; height:100vh; padding: 20px 32px; box-sizing:border-box; }

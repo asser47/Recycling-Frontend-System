@@ -1,40 +1,42 @@
-/* ---------- Background ---------- */
+/* ===== AUTH WRAPPER (Page background & center content) ===== */
 .auth-wrapper {
-  min-height: 100vh;
+  min-height: calc(100vh - 55px);
   display: flex;
   justify-content: center;
-  align-items: center;
-  background: #f8fafc;
-  padding: 25px;
+  align-items: flex-start;
+  background: linear-gradient(145deg, #0bb56b, #0a9a5c, #06723b);
+  padding-top: 25px; /* 🔥 بدل 30 */
 }
 
-/* ---------- Card ---------- */
+/* ===== AUTH CARD (Glass + Shadow) ===== */
 .auth-card {
-  width: 420px;
-  background: white;
-  padding: 40px 32px;
-  border-radius: 16px;
+  width: 370px;
+  background: rgba(255, 255, 255, 0.96);
+  padding: 22px 18px;      /* 🔥 تقليل المساحة الداخلية */
+  border-radius: 14px; 
   text-align: center;
-  box-shadow: 0 6px 25px rgba(0,0,0,0.1);
-  animation: fadeIn 0.5s ease;
+  box-shadow: 0px 8px 23px rgba(0,0,0,0.18);
+  animation: fadeIn 0.45s ease;
+  margin-top: 0px;
 }
 
+/* Fade Animation */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
+  from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ---------- Logo (Vector Style) ---------- */
+/* ===== LOGO SIMPLE ECO ICON ===== */
 .eco-logo-big {
   display: flex;
   justify-content: center;
-  gap: 6px;
-  margin-bottom: 18px;
+  gap: 7px;
+  margin-bottom: 15px;
 }
 
 .leaf {
-  width: 32px;
-  height: 32px;
+  width: 34px;
+  height: 34px;
   border-radius: 50% 0 50% 50%;
 }
 
@@ -48,66 +50,89 @@
   transform: rotate(-20deg);
 }
 
-/* ---------- Titles ---------- */
+/* ===== TITLES ===== */
 .auth-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: #1e293b;
-  margin-bottom: 6px;
+  font-size: 24px;
+  font-weight: 800;
+  color: #163325;
+  margin-bottom: 4px;
 }
 
 .auth-subtitle {
-  font-size: 15px;
-  color: #6b7280;
-  margin-bottom: 25px;
+  font-size: 13px;
+  color: #445b51;
+  margin-bottom: 16px;
 }
 
-/* ---------- Inputs ---------- */
-.auth-input, .auth-select {
+/* ===== INPUTS ===== */
+.auth-input {
   width: 100%;
-  padding: 12px 14px;
-  margin-bottom: 16px;
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
+  padding: 9px 10px;
+  margin-bottom: 8px;
+  background: #f7f9fa;
+  border: 1px solid #d4dfd8;
   border-radius: 10px;
   font-size: 15px;
   transition: 0.2s;
+  color: #264235;
 }
 
-.auth-input:focus, .auth-select:focus {
+.auth-input::placeholder {
+  color: #7d9288;
+}
+
+.auth-input:focus {
   outline: none;
   border-color: #0bb56b;
   background: white;
   box-shadow: 0 0 6px rgba(11,181,107,0.35);
 }
 
-/* ---------- Button ---------- */
+/* ===== ERROR TEXT ===== */
+.text-danger {
+  color: #d62828;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+/* ===== BUTTON ===== */
 .auth-btn {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   border: none;
   border-radius: 10px;
   background: #0bb56b;
   color: white;
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   cursor: pointer;
+  margin-top: 4px;
   transition: 0.25s;
 }
 
 .auth-btn:hover {
   background: #089a5a;
+  transform: translateY(-2px);
 }
 
-/* ---------- Footer ---------- */
+/* ===== FOOTER LINK ===== */
 .auth-footer {
-  margin-top: 16px;
-  font-size: 14px;
-  color: #475569;
+  margin-top: 12px;        
+  font-size: 15px;         
+  color: #1b2e23;         
+  display: block;
 }
 
 .auth-footer span {
-  color: #0bb56b;
+  color: #0a8f4c;          
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 700;
+  transition: 0.2s;
 }
+
+.auth-footer span:hover {
+  letter-spacing: 0.3px;
+  color: #06723b;
+}
+

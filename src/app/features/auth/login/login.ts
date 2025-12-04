@@ -23,27 +23,27 @@ export class LoginComponent {
 
   error: string | null = null;
 
-  onLogin(form: NgForm) {
-    if (form.invalid) {
-      this.error = "Please enter correct information.";
-      form.form.markAllAsTouched();
-      return;
-    }
-
-    this.auth.login(form.value).subscribe({
-      next: (token) => {
-
-        this.auth.saveToken(token);
-        this.flash.showSuccess("Successful login 🎉");
-        this.router.navigate(['/admin/dashboard']);
-      },
-      error: (err) => {
-        this.error = extractAuthError(err);
-        this.flash.showError("Login error");
-      }
-    });
-
+onLogin(form: NgForm) {
+  if (form.invalid) {
+    this.error = "Please enter correct information.";
+    form.form.markAllAsTouched();
+    return;
   }
+
+  this.auth.login(form.value).subscribe({
+    next: (token) => {
+      this.auth.saveToken(token);
+      this.flash.showSuccess("Successful login 🎉");
+      this.router.navigate(['/admin/dashboard']);
+    },
+    error: (err) => {
+      const msg = extractAuthError(err) || "Incorrect email or password";
+      this.error = msg;
+      this.flash.showError(msg);
+    }
+  });
+}
+
 
   goToRegister() {
     this.router.navigate(['/register']);

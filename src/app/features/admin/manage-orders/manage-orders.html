@@ -1,0 +1,102 @@
+<h1 class="page-title">Orders Management</h1>
+<p class="page-sub">Create, filter and manage recycling orders.</p>
+
+<!-- CREATE ORDER -->
+<div class="section-card">
+  <h3>Create New Order</h3>
+
+  <div class="form-row">
+    <div>
+      <label>User ID</label>
+      <input type="text" placeholder="Enter user ID..." [(ngModel)]="newOrder.userId">
+    </div>
+
+    <div>
+      <label>Collector ID</label>
+      <input type="text" placeholder="Enter collector ID..." [(ngModel)]="newOrder.collectorId">
+    </div>
+
+    <div>
+      <label>Factory ID</label>
+      <input type="number" placeholder="Enter factory ID..." [(ngModel)]="newOrder.factoryId">
+    </div>
+
+    <button class="btn-create" (click)="createOrder()">+ Create Order</button>
+  </div>
+</div>
+
+<!-- FILTERS -->
+<div class="section-card filter-section">
+  <h3>Filter Orders</h3>
+  <div class="form-row">
+    <select [(ngModel)]="statusFilter" (change)="filter()">
+      <option value="">Filter by Status</option>
+      <option>Pending</option>
+      <option>Accepted</option>
+      <option>Completed</option>
+      <option>Cancelled</option>
+    </select>
+
+    <input type="text" placeholder="Collector ID" [(ngModel)]="collectorFilter">
+    <input type="number" placeholder="Factory ID" [(ngModel)]="factoryFilter">
+    <button class="btn-secondary" (click)="filter()">Search</button>
+    <button class="btn-clear" (click)="statusFilter='';collectorFilter='';factoryFilter='';load();">Clear</button>
+  </div>
+</div>
+
+<!-- ORDERS TABLE -->
+<div class="section-card">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>User</th>
+        <th>Collector</th>
+        <th>Factory</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tbody>
+      @for (o of orders; track o.id) {
+        <tr>
+          <td>{{ o.id }}</td>
+          <td>{{ o.orderDate | date }}</td>
+          <td><span class="badge {{ o.status.toLowerCase() }}">{{ o.status }}</span></td>
+          <td>{{ o.userName }}</td>
+          <td>{{ o.collectorName }}</td>
+          <td>{{ o.factoryName }}</td>
+          <td><button class="btn-view" (click)="showDetails(o.id!)">View</button></td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
+
+<!-- DETAILS -->
+@if (selectedOrder) {
+<div class="details-modal">
+  <div class="details-content">
+    <h3>Order Details</h3>
+
+    <p><b>ID:</b> {{ selectedOrder.id }}</p>
+    <p><b>Status:</b> {{ selectedOrder.status }}</p>
+    <p><b>User:</b> {{ selectedOrder.userName }}</p>
+    <p><b>Collector:</b> {{ selectedOrder.collectorName }}</p>
+    <p><b>Factory:</b> {{ selectedOrder.factoryName }}</p>
+
+    @if (isAdmin()) {
+      <h4>Change Status</h4>
+      <div class="btn-group">
+        <button (click)="updateStatus('Accepted')">Accept</button>
+        <button (click)="updateStatus('Completed')">Complete</button>
+        <button (click)="updateStatus('Cancelled')">Cancel</button>
+      </div>
+    }
+
+    <button class="btn-close" (click)="closeDetails()">Close</button>
+  </div>
+</div>
+}

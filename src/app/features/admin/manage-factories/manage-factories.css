@@ -1,0 +1,211 @@
+/* ===========================
+    PAGE HEADER
+=========================== */
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 2px;
+  color: #343a40;
+}
+
+.page-sub {
+  color: #6c757d;
+  margin-bottom: 26px;
+  font-size: 15px;
+}
+
+/* ===========================
+    HEADER ROW
+=========================== */
+.header-row {
+  display: flex;
+  justify-content: space-between; /* أهم سطر */
+  align-items: center;
+  margin-bottom: 18px;
+}
+
+
+/* Add Button */
+.btn-primary {
+  background: linear-gradient(135deg, #0d6efd, #0b58d0);
+  padding: 9px 16px;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #0b5ed7, #0949a7);
+  transform: translateY(-2px);
+}
+
+/* ===========================
+    SEARCH BOX
+=========================== */
+.search-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-box input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 260px;
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #0d6efd;
+  box-shadow: 0 0 3px rgba(13,110,253,0.4);
+}
+
+.btn-secondary {
+  background: linear-gradient(135deg, #0d6efd, #0b58d0);
+  color: white;
+  padding: 9px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.btn-secondary:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
+}
+
+/* ===========================
+    TABLE
+=========================== */
+.table-card {
+  background: white;
+  padding: 18px;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  margin-bottom: 24px;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  padding: 13px;
+  color: #6c757d;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+td {
+  padding: 12px;
+  border-top: 1px solid #e9ecef;
+  font-size: 15px;
+  color: #343a40;
+}
+
+/* ===========================
+    ACTION BUTTONS
+=========================== */
+.actions button {
+  margin-right: 6px;
+}
+
+.btn-edit {
+  background: #ffc107;
+  color: black;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-edit:hover {
+  background: #d39e00;
+  transform: scale(1.05);
+}
+
+.btn-delete {
+  background: #dc3545;
+  color: white;
+  padding: 6px 14px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-delete:hover {
+  background: #b02a37;
+  transform: scale(1.05);
+}
+
+/* ===========================
+   FORM CARD
+=========================== */
+.form-card {
+  background: white;
+  padding: 22px;
+  border-radius: 14px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+  margin-bottom: 25px;
+}
+
+.form-card input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 14px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  font-size: 15px;
+  transition: 0.2s;
+}
+
+.form-card input:focus {
+  outline: none;
+  border-color: #198754;
+  box-shadow: 0 0 3px rgba(25,135,84,0.4);
+}
+
+.btn-save {
+  width: 100%;
+  padding: 12px;
+  background: #198754;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-save:hover {
+  background: #157347;
+  transform: translateY(-2px);
+}
+
+.close-btn {
+  width: 100%;
+  padding: 10px;
+  background: #6c757d;
+  color: white;
+  border-radius: 8px;
+  border: none;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.close-btn:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
+}

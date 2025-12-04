@@ -3,5 +3,4 @@ export interface Material {
   typeName: string;
   size: string;
   price: number;
-  factoryId: number;
 }

@@ -12,55 +12,53 @@ export class AuthService {
 
   private apiUrl = 'https://localhost:4375/api/Auth';
 
-  // Register
   register(data: any) {
-    return this.http.post(`${this.apiUrl}/register`, data, {
-      responseType: 'text'
-    });
+    return this.http.post(`${this.apiUrl}/register`, data, { responseType: 'text' });
   }
 
-  // Login
   login(data: any) {
-    return this.http.post(`${this.apiUrl}/login`, data, {
-      responseType: 'text'
-    });
+    return this.http.post(`${this.apiUrl}/login`, data, { responseType: 'text' });
   }
 
-  // Forgot Password
   forgotPassword(email: string) {
-    return this.http.post(`${this.apiUrl}/forgot-password`, { email }, {
-      responseType: 'text'
-    });
+    return this.http.post(`${this.apiUrl}/forgot-password`, { email }, { responseType: 'text' });
   }
 
-  // Reset Password
   resetPassword(data: any) {
-    return this.http.post(`${this.apiUrl}/reset-password`, data, {
-      responseType: 'text'
-    });
-  }
-  //confirmEmail
-  confirmEmail(email: string, token: string) {
-    return this.http.get(`${this.apiUrl}/confirm-email?email=${email}&token=${token}`, {
-      responseType: 'text'
-    });
+    return this.http.post(`${this.apiUrl}/reset-password`, data, { responseType: 'text' });
   }
 
-  // Token Handling
+  confirmEmail(email: string, token: string) {
+    return this.http.get(
+      `${this.apiUrl}/confirm-email?email=${email}&token=${token}`,
+      { responseType: 'text' }
+    );
+  }
+
+  // ===========================
+  // TOKEN
+  // ===========================
+
   saveToken(token: string) {
     localStorage.setItem('token', token);
+    localStorage.setItem('role', 'Admin'); // مؤقتًا
   }
 
-  getToken(): string | null {
+  getToken() {
     return localStorage.getItem('token');
   }
 
-  isLogged(): boolean {
+  isLogged() {
     return !!localStorage.getItem('token');
   }
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('role');
     this.router.navigate(['/login']);
+  }
+
+  getRole(): string {
+    return localStorage.getItem('role') || '';
   }
 }

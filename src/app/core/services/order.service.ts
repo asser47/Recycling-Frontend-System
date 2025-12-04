@@ -1,21 +1,48 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { Order } from '../models/order.model';
-import { API_CONFIG } from './api.config';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
 export class OrderService {
 
-  private url = `${API_CONFIG.baseUrl}/order`;
+  private http = inject(HttpClient);
+  private base = 'https://localhost:4375/api/Order';
 
-  constructor(private http: HttpClient) {}
-
-  getAll(): Observable<Order[]> {
-    return this.http.get<Order[]>(this.url);
+  getAll() {
+    return this.http.get<Order[]>(this.base);
   }
 
-  // getUserOrders(userId: string): Observable<Order[]> {
-  //   return this.http.get<Order[]>(`${this.url}/user/${userId}`);
-  // }
+  getById(id: number) {
+    return this.http.get<Order>(`${this.base}/${id}`);
+  }
+
+  create(model: Partial<Order>) {
+    return this.http.post(this.base, model);
+  }
+
+  update(id: number, model: Partial<Order>) {
+    return this.http.put(`${this.base}/${id}`, model);
+  }
+
+  delete(id: number) {
+    return this.http.delete(`${this.base}/${id}`);
+  }
+
+  getByUser(userId: string) {
+    return this.http.get<Order[]>(`${this.base}/user/${userId}`);
+  }
+
+  getByCollector(collectorId: string) {
+    return this.http.get<Order[]>(`${this.base}/collector/${collectorId}`);
+  }
+
+  getByFactory(factoryId: number) {
+    return this.http.get<Order[]>(`${this.base}/factory/${factoryId}`);
+  }
+
+  getByStatus(status: string) {
+    return this.http.get<Order[]>(`${this.base}/status/${status}`);
+  }
 }

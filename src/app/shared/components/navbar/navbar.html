@@ -1,11 +1,10 @@
-<nav class="eco-navbar">
+<nav class="eco-navbar" [ngClass]="{'auth-small-logo': isAuthPage()}">
   <div class="nav-container">
 
     <!-- LEFT SIDE — LOGO + NAME -->
 <div class="eco-logo-wrapper" (click)="goTo('')">
-  <div class="eco-leaf"></div>
-  <div class="eco-leaf small"></div>
-  <span class="eco-text">EcoCollect</span>
+  <img src="assets/images/greenzone-logo.jpg" class="eco-logo-img" alt="GreenZone Logo">
+  <span class="eco-text">GreenZone</span>
 </div>
 
 

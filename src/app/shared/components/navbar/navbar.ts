@@ -21,17 +21,18 @@ export class NavbarComponent {
 
     // 🔥 لو ما بعتش Path → روح للهوم
     if (!path) {
-      this.router.navigate(['/']);
+      this.router.navigate(['/login']);
       return;
     }
 
     this.router.navigate([`/${path}`]);
   }
 
-  logout() {
-    this.auth.logout();
+  isAuthPage() {
+  return this.router.url.includes('login') || this.router.url.includes('register');
+}
 
-    // 🔥 مهم جدًا بعد Logout → تنقل للّوجين
+  logout() {
     this.router.navigate(['/login']);
   }
 }

@@ -5,13 +5,14 @@ import { AuthService } from '../../../core/services/auth.service';
 import { NavbarComponent } from "../../../shared/components/navbar/navbar";
 import { FlashMessageService } from '../../../core/services/flash-message.service';
 import { ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-register',
   standalone: true,
   templateUrl: './register.html',
   styleUrls: ['./register.css'],
-  imports: [FormsModule, NavbarComponent]
+  imports: [CommonModule,FormsModule, NavbarComponent]
 })
 export class RegisterComponent {
 
@@ -62,8 +63,14 @@ export class RegisterComponent {
   goToLogin() {
     this.router.navigate(['/login']);
 }
+
 clearError() {
   this.error = null;
   this.cdr.detectChanges();
 }
+
+isRegister() {
+  return this.router.url.includes('register');
+}
+
 }

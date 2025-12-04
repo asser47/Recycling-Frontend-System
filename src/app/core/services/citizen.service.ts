@@ -5,9 +5,9 @@ import { ApplicationUser } from '../models/application-user.model';
 import { API_CONFIG } from './api.config';
 
 @Injectable({ providedIn: 'root' })
-export class UserService {
+export class CitizenService {
 
-  private url = `${API_CONFIG.baseUrl}/users`;
+  private url = `${API_CONFIG.baseUrl}/User`;
 
   constructor(private http: HttpClient) {}
 

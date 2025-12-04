@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { MaterialService } from '../../../core/services/material.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { Material } from '../../../core/models/material.model';
+import { NgZone, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   standalone: true,
@@ -11,67 +13,99 @@ import { Material } from '../../../core/models/material.model';
   styleUrls: ['./manage-materials.css'],
   imports: [CommonModule, FormsModule]
 })
-export class ManageMaterialsComponent implements OnInit {
+export class ManageMaterialsComponent {
+
+  private service = inject(MaterialService);
+  public auth = inject(AuthService);
+  private zone = inject(NgZone);
+  private cdr = inject(ChangeDetectorRef);
 
   materials: Material[] = [];
-  loading = false;
-  error: string | null = null;
+  searchText = '';
 
-  newMaterial: Partial<Material> = { 
-    typeName: '', 
-    size: '', 
-    price: 0, 
-    factoryId: 1 
+  form: Material = {
+    id: 0,
+    typeName: '',
+    size: '',
+    price: 0
   };
 
-  constructor(private materialService: MaterialService) {}
+  editing = false;
+  showForm = false;
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.load();
   }
 
   load() {
-    this.loading = true;
-
-    this.materialService.getAll().subscribe({
-      next: (data) => {
-        this.materials = data;
-        this.loading = false;
-      },
-      error: () => {
-        this.error = 'Failed to load materials';
-        this.loading = false;
-      }
+    this.service.getAll().subscribe(res => {
+      this.zone.run(() => {
+        this.materials = res;
+        this.cdr.detectChanges();
+      });
     });
   }
+  isAdmin() {
+    return this.auth.getRole() === 'Admin';
+  }
 
-  onCreate(f: NgForm) {
-    if (!f.valid) {
-      f.control.markAllAsTouched();
+  search() {
+    if (!this.searchText.trim()) {
+      this.load();
       return;
     }
 
-    this.materialService.create(this.newMaterial).subscribe({
-      next: (created) => {
-        this.materials.unshift(created);
-        f.resetForm({ typeName: '', size: '', price: 0, factoryId: 1 });
-      },
-      error: () => this.error = 'Failed to create'
+    this.service.search(this.searchText).subscribe(res => {
+      this.zone.run(() => {
+        this.materials = res;
+        this.cdr.detectChanges();
+      });
     });
   }
 
-  delete(id: number) {   // ← أهم تعديل
-    if (!confirm('هل أنت متأكد؟')) return;
-
-    this.materialService.delete(id).subscribe({
-      next: () => {
-        this.materials = this.materials.filter(m => m.id !== id);
-      },
-      error: () => this.error = 'Delete failed'
-    });
+  onSearchChange() {
+  if (!this.searchText.trim()) {
+    this.load();
+  }
   }
 
-  trackById(index: number, item: Material) {
-    return item.id;
+  startAdd() {
+    this.editing = false;
+    this.showForm = true;
+    this.form = { id: 0, typeName: '', size: '', price: 0 };
+  }
+
+  startEdit(m: Material) {
+    this.editing = true;
+    this.showForm = true;
+    this.form = { ...m };
+  }
+
+  save() {
+    if (!this.isAdmin()) return;
+
+    if (this.editing) {
+      this.service.update(this.form.id, this.form).subscribe(() => {
+        this.load();
+        this.showForm = false;
+        this.startAdd();
+      });
+    } else {
+      this.service.create(this.form).subscribe(() => {
+        this.load();
+        this.showForm = false;
+        this.startAdd();
+      });
+    }
+  }
+
+
+  delete(id: number) {
+    if (!this.isAdmin()) return;
+    this.service.delete(id).subscribe(() => this.load());
+  }
+  cancel() {
+    this.showForm = false;
+    this.editing = false;
   }
 }
