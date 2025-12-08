@@ -1,1 +1,20 @@
-<p>add-order works!</p>
+<div *ngIf="open" class="modal fade show d-block" style="background: rgba(0,0,0,.5)">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content shadow-lg">
+
+      <div class="modal-header">
+        <h5 class="modal-title">Create Collection Request</h5>
+        <button class="btn-close" (click)="close()"></button>
+      </div>
+
+      <div class="modal-body">
+        <p class="text-muted">Form content here...</p>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="close()">Close</button>
+      </div>
+
+    </div>
+  </div>
+</div>

@@ -1,0 +1,23 @@
+.requests-box {
+  background: #fff;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: rgba(0,0,0,0.05) 0px 2px 6px;
+}
+
+.requests-box h3 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.requests-box .sub {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.requests-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+  gap: 20px;
+}

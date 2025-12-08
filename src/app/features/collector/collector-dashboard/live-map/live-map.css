@@ -1,6 +1,14 @@
-.live-map {
+#collectorMap {
   width: 100%;
-  height: 220px;
-  border-radius: 10px;
+  height: 380px;
+  background: #f8f8f8;
+  border-radius: 15px;
   overflow: hidden;
+  box-shadow: rgba(0,0,0,0.05) 0px 2px 6px;
+  margin-bottom: 30px;
+}
+
+.leaflet-container {
+  height: 100%;
+  width: 100%;
 }

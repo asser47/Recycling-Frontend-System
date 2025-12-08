@@ -10,12 +10,14 @@ import { ManageOrdersComponent } from './features/admin/manage-orders/manage-ord
 import { RewardsComponent } from './features/admin/rewards/rewards';
 import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password';
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password';
+import { Citizen } from './features/citizen/citizen';
+import { CollectorDashboard } from './features/collector/collector-dashboard/collector-dashboard';
 import { adminGuard } from './core/guards/admin/admin-guard';
 import { ConfirmEmailComponent } from './features/auth/confirm-email/confirm-email';
 import { RegisterSuccessComponent } from './features/auth/register-success/register-success';
 
 export const routes: Routes = [
-{ path: '', redirectTo: '/admin/dashboard', pathMatch: 'full' },
+{ path: '', redirectTo: '/collector', pathMatch: 'full' },
 
   // 🔵 صفحات المستخدم العادي
   { path: 'login', component: LoginComponent },
@@ -40,6 +42,17 @@ export const routes: Routes = [
       { path: 'rewards', component: RewardsComponent },
     ]
   },
+
+  //صفحة المواطن
+  {
+    path: 'citizen', component: Citizen,
+  },
+
+// صفحة الجامع
+  {
+    path: 'collector', component : CollectorDashboard
+  },
+
 
   // صفحة اللوجين والريفجيستر العاديين
   { path: 'login', component:LoginComponent },

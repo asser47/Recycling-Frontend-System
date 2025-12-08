@@ -3,13 +3,14 @@ import { Component,Input } from '@angular/core';
 
 @Component({
   selector: 'app-stat-card',
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './stat-card.html',
   styleUrl: './stat-card.css',
 })
 export class StatCard {
 
-  @Input() label!: string;
+@Input() title!: string;
   @Input() value!: string | number;
-
+  @Input() sub!: string;
+  @Input() icon!: string;
 }
