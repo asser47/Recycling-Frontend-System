@@ -6,10 +6,12 @@
     "outDir": "./out-tsc/spec",
     "types": [
       "vitest/globals"
-    ]
+    ],
+    "module": "ESNext"
   },
   "include": [
     "src/**/*.d.ts",
     "src/**/*.spec.ts"
   ]
 }
+
