@@ -6,7 +6,8 @@
   <h3>Filter Orders</h3>
 
 <div class="form-row">
-  <select [(ngModel)]="statusFilter" (change)="filter()">
+  <label for="statusFilterSelect" class="visually-hidden">Order Status Filter</label>
+  <select id="statusFilterSelect" [(ngModel)]="statusFilter" (change)="filter()" aria-label="Order Status Filter">
     <option value="">Filter by Status</option>
     <option>Pending</option>
     <option>Accepted</option>

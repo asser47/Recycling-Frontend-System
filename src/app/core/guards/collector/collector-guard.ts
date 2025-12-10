@@ -11,4 +11,3 @@ export const collectorGuard: CanActivateFn = () => {
   router.navigate(['/']);
   return false;
 };
-
