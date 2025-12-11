@@ -18,6 +18,7 @@ import { HomeComponent } from './features/home/home';
 import { citizenGuard } from './core/guards/citizin/citizen-guard';
 import { collectorGuard } from './core/guards/collector/collector-guard';
 import { RewardManagementComponent } from './features/admin/reward-management/reward-management';
+import { EditRewardComponent } from './features/admin/edit-reward/edit-reward';
 
 export const routes: Routes = [
 
@@ -44,8 +45,16 @@ export const routes: Routes = [
       { path: 'factories', component: ManageFactoriesComponent },
       { path: 'users', component: ManageUsersComponent },
       { path: 'orders', component: ManageOrdersComponent },
-    // Rewards
-    { path: 'rewards', component: RewardManagementComponent },
+      
+      {
+        path: 'rewards',
+        children: [
+          { path: '', component: RewardManagementComponent },          // /admin/rewards
+          { path: 'edit/:id', component: EditRewardComponent }         // /admin/rewards/edit/5
+        ]
+      }
+
+
     ]
   },
 
@@ -54,11 +63,11 @@ export const routes: Routes = [
 
   // 🟡 Collector Page
   { path: 'collector', component: CollectorDashboard },
-// // 🟡 Citizen Page
-// { path: 'citizen', component: Citizen, canActivate: [citizenGuard] },
+  // // 🟡 Citizen Page
+  // { path: 'citizen', component: Citizen, canActivate: [citizenGuard] },
 
-// // 🟡 Collector Page
-// { path: 'collector', component: CollectorDashboard, canActivate: [collectorGuard] },
+  // // 🟡 Collector Page
+  // { path: 'collector', component: CollectorDashboard, canActivate: [collectorGuard] },
 
   // 🚨 Fallback — Any Wrong URL → Go Home
   { path: '**', redirectTo: '' }

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RewardManagementComponent } from './reward-management';
+import { EditRewardComponent } from './edit-reward';
 
-describe('RewardManagement', () => {
-  let component: RewardManagementComponent;
-  let fixture: ComponentFixture<RewardManagementComponent>;
+describe('EditReward', () => {
+  let component: EditRewardComponent;
+  let fixture: ComponentFixture<EditRewardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RewardManagementComponent]
+      imports: [EditRewardComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RewardManagementComponent);
+    fixture = TestBed.createComponent(EditRewardComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
