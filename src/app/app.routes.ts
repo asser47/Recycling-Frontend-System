@@ -1,37 +1,59 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from '../app/core/guards/auth/auth-guard';
 import { AdminNavbarComponent } from './features/admin/admin-navbar/admin-navbar';
 import { AdminDashboardComponent } from './features/admin/dashboard/dashboard';
 import { ManageMaterialsComponent } from './features/admin/manage-materials/manage-materials';
-import { LoginComponent } from './features/auth/login/login';
-import { RegisterComponent } from './features/auth/register/register';
 import { ManageFactoriesComponent } from './features/admin/manage-factories/manage-factories';
 import { ManageUsersComponent } from './features/admin/manage-users/manage-users';
 import { ManageOrdersComponent } from './features/admin/manage-orders/manage-orders';
-import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password';
-import { ResetPasswordComponent } from './features/auth/reset-password/reset-password';
-import { Citizen } from './features/citizen/citizen';
-import { CollectorDashboard } from './features/collector/collector-dashboard/collector-dashboard';
 import { adminGuard } from './core/guards/admin/admin-guard';
-import { ConfirmEmailComponent } from './features/auth/confirm-email/confirm-email';
-import { RegisterSuccessComponent } from './features/auth/register-success/register-success';
-import { HomeComponent } from './features/home/home';
-import { citizenGuard } from './core/guards/citizin/citizen-guard';
-import { collectorGuard } from './core/guards/collector/collector-guard';
 import { RewardManagementComponent } from './features/admin/reward-management/reward-management';
 import { EditRewardComponent } from './features/admin/edit-reward/edit-reward';
 
 export const routes: Routes = [
-
-  // 🟢 Home Page
-  { path: '', component: HomeComponent },
-
-  // 🟢 Auth Pages
-  { path: 'login', component: LoginComponent },
-  { path: 'register', component: RegisterComponent },
-  { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: 'reset-password', component: ResetPasswordComponent },
-  { path: 'confirm-email', component: ConfirmEmailComponent },
-  { path: 'register-success', component: RegisterSuccessComponent },
+  {
+    path: '',
+    loadComponent: () => import('./features/landing/landing.component').then(m => m.LandingComponent)
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./features/auth/login/login').then(m => m.LoginComponent)
+  },
+  {
+    path: 'register',
+    loadComponent: () => import('./features/auth/register/register').then(m => m.RegisterComponent)
+  },
+  {
+    path: 'register-success',
+    loadComponent: () => import('./features/auth/register-success/register-success').then(m => m.RegisterSuccessComponent)
+  },
+  {
+    path: 'confirm-email',
+    loadComponent: () => import('./features/auth/confirm-email/confirm-email').then(m => m.ConfirmEmailComponent)
+  },
+  {
+    path: 'forgot-password',
+    loadComponent: () => import('./features/auth/forgot-password/forgot-password').then(m => m.ForgotPasswordComponent)
+  },
+  {
+    path: 'reset-password',
+    loadComponent: () => import('./features/auth/reset-password/reset-password').then(m => m.ResetPasswordComponent)
+  },
+  {
+    path: 'role-selection',
+    loadComponent: () => import('./features/auth/role-selection/role-selection.component').then(m => m.RoleSelectionComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'citizen-dashboard',
+    loadComponent: () => import('./features/citizen/citizen-dashboard/citizen-dashboard.component').then(m => m.CitizenDashboardComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'collector-dashboard',
+    loadComponent: () => import('./features/collector/collector-dashboard/collector-dashboard').then(m => m.CollectorDashboardComponent),
+    canActivate: [AuthGuard]
+  },
 
   // 🔵 Admin Pages with Guard
   {
@@ -45,7 +67,7 @@ export const routes: Routes = [
       { path: 'factories', component: ManageFactoriesComponent },
       { path: 'users', component: ManageUsersComponent },
       { path: 'orders', component: ManageOrdersComponent },
-      
+
       {
         path: 'rewards',
         children: [
@@ -58,17 +80,43 @@ export const routes: Routes = [
     ]
   },
 
-  // 🟡 Citizen Page
-  { path: 'citizen', component: Citizen },
-
-  // 🟡 Collector Page
-  { path: 'collector', component: CollectorDashboard },
-  // // 🟡 Citizen Page
-  // { path: 'citizen', component: Citizen, canActivate: [citizenGuard] },
-
-  // // 🟡 Collector Page
-  // { path: 'collector', component: CollectorDashboard, canActivate: [collectorGuard] },
-
-  // 🚨 Fallback — Any Wrong URL → Go Home
-  { path: '**', redirectTo: '' }
+  {
+    path: 'my-requests',
+    loadComponent: () => import('./features/requests/my-requests/my-requests.component').then(m => m.MyRequestsComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'profile',
+    loadComponent: () => import('./features/profile/profile.component').then(m => m.ProfileComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'notifications',
+    loadComponent: () => import('./features/notifications/notifications.component').then(m => m.NotificationsComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'settings',
+    loadComponent: () => import('./features/settings/settings.component').then(m => m.SettingsComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: '**',
+    loadComponent: () => import('./features/errors/not-found/not-found.component').then(m => m.NotFoundComponent)
+  }
 ];
+
+
+
+
+
+  // {
+  //   path: 'admin/dashboard',
+  //   loadComponent: () => import('./features/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent),
+  //   canActivate: [AuthGuard]
+  // },
+  // {
+  //   path: 'rewards',
+  //   loadComponent: () => import('./features/rewards/rewards.component').then(m => m.RewardsComponent),
+  //   canActivate: [AuthGuard]
+  // },
