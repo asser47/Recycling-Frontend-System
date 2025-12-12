@@ -1,12 +1,15 @@
 import { Routes } from '@angular/router';
 import { AuthGuard } from '../app/core/guards/auth/auth-guard';
+import { adminGuard } from './core/guards/admin/admin-guard';
+import { collectorGuard } from './core/guards/collector/collector.guard';
+import { citizenGuard } from './core/guards/citizen/citizen.guard';
+import { roleSelectionGuard } from './core/guards/role-selection/role-selection.guard';
 import { AdminNavbarComponent } from './features/admin/admin-navbar/admin-navbar';
 import { AdminDashboardComponent } from './features/admin/dashboard/dashboard';
 import { ManageMaterialsComponent } from './features/admin/manage-materials/manage-materials';
 import { ManageFactoriesComponent } from './features/admin/manage-factories/manage-factories';
 import { ManageUsersComponent } from './features/admin/manage-users/manage-users';
 import { ManageOrdersComponent } from './features/admin/manage-orders/manage-orders';
-import { adminGuard } from './core/guards/admin/admin-guard';
 import { RewardManagementComponent } from './features/admin/reward-management/reward-management';
 import { EditRewardComponent } from './features/admin/edit-reward/edit-reward';
 
@@ -47,12 +50,12 @@ export const routes: Routes = [
   {
     path: 'citizen-dashboard',
     loadComponent: () => import('./features/citizen/citizen-dashboard/citizen-dashboard.component').then(m => m.CitizenDashboardComponent),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, citizenGuard]
   },
   {
     path: 'collector-dashboard',
     loadComponent: () => import('./features/collector/collector-dashboard/collector-dashboard').then(m => m.CollectorDashboardComponent),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, collectorGuard]
   },
 
   // 🔵 Admin Pages with Guard
@@ -83,40 +86,25 @@ export const routes: Routes = [
   {
     path: 'my-requests',
     loadComponent: () => import('./features/requests/my-requests/my-requests.component').then(m => m.MyRequestsComponent),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, roleSelectionGuard]
   },
   {
     path: 'profile',
     loadComponent: () => import('./features/profile/profile.component').then(m => m.ProfileComponent),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, roleSelectionGuard]
   },
   {
     path: 'notifications',
     loadComponent: () => import('./features/notifications/notifications.component').then(m => m.NotificationsComponent),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, roleSelectionGuard]
   },
   {
     path: 'settings',
     loadComponent: () => import('./features/settings/settings.component').then(m => m.SettingsComponent),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard, roleSelectionGuard]
   },
   {
     path: '**',
     loadComponent: () => import('./features/errors/not-found/not-found.component').then(m => m.NotFoundComponent)
   }
 ];
-
-
-
-
-
-  // {
-  //   path: 'admin/dashboard',
-  //   loadComponent: () => import('./features/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent),
-  //   canActivate: [AuthGuard]
-  // },
-  // {
-  //   path: 'rewards',
-  //   loadComponent: () => import('./features/rewards/rewards.component').then(m => m.RewardsComponent),
-  //   canActivate: [AuthGuard]
-  // },

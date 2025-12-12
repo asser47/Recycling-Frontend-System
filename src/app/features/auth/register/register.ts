@@ -63,7 +63,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     // Redirect if already logged in
     if (this.authService.isLogged()) {
-      this.router.navigate(['/citizen/dashboard']);
+      this.router.navigate(['/role-selection']);
     }
   }
 
