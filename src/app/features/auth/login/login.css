@@ -1,158 +1,19 @@
-/* ---------- Background ---------- */
-.auth-wrapper {
-  min-height: calc(100vh - 80px); /* يخلي الفورم يقرب للوسط بعد النافبار */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background: linear-gradient(135deg, #0bb56b, #0aa45f, #06723b);
-  padding:25px;
-}
+/* Login Component Specific Styles */
 
-/* ---------- Card ---------- */
-.auth-card {
-  width: 370px;
-  background: white;
-  padding: 38px 30px;
-  border-radius: 18px;
-  text-align: center;
-  box-shadow: 0 10px 35px rgba(0,0,0,0.13);
-  animation: fadeIn 0.5s ease;
-  transform: translateY(-20px);
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(25px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* ---------- Logo Top ---------- */
-.eco-logo-big img {
-  width: 55px;
-  height: 55px;
-  object-fit: contain;
-  margin-bottom: 8px;
-}
-
-/* ---------- Titles ---------- */
-.auth-title {
-  font-size: 30px;
-  font-weight: 800;
-  color: #1e293b;
-  margin-bottom: 4px;
-}
-
-.auth-subtitle {
-  font-size: 15px;
-  color: #6b7280;
-  margin-bottom: 28px;
-}
-
-/* ---------- Inputs ---------- */
-.auth-input, .auth-select {
-  width: 100%;
-  padding: 13px 15px;
-  margin-bottom: 14px;
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  font-size: 15px;
-  transition: 0.2s;
-}
-
-.auth-input:focus, .auth-select:focus {
-  outline: none;
-  border-color: #0bb56b;
-  background: white;
-  box-shadow: 0 0 7px rgba(11,181,107,0.35);
-}
-
-/* ---------- Forgot Password ---------- */
-.auth-forgot {
-  width: 100%;
-  text-align: right;
-  margin-top: -8px;
-  margin-bottom: 16px;
-  font-size: 14px;
-}
-
-.auth-forgot span {
-  color:#0a8f4c;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-/* ---------- Button ---------- */
-.auth-btn {
-  width: 100%;
-  padding: 13px;
-  border: none;
-  border-radius: 10px;
-  background: #0bb56b;
-  color: white;
-  font-size: 17px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 4px;
-  transition: 0.25s;
-}
-
-.auth-btn:hover {
-  background: #089a5a;
-  transform: translateY(-1px);
-}
-
-/* ---------- Footer ---------- */
-.auth-footer {
-  margin-top: 12px;        
-  font-size: 15px;         
-  color: #1b2e23;         
+:host {
   display: block;
+  background: hsl(var(--background));
 }
 
-.auth-footer span {
-  color: #0a8f4c;          
-  cursor: pointer;
-  font-weight: 700;
-  transition: 0.2s;
+.input-base {
+  transition: var(--transition-fast);
 }
 
-.auth-footer span:hover {
-  letter-spacing: 0.3px;
-  color: #06723b;
+.input-base:focus {
+  box-shadow: 0 0 0 3px hsl(var(--primary) / 0.1);
 }
 
-/* ===== ERROR TEXT ===== */
-.alert-danger, .text-danger {
-  color: #d62828;
-  font-size: 14px;
-  font-weight: 600;
-  background: #ffdada;
-  border: 1px solid #ffb9b9;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 12px;   /* خلي في مساحة بعد الرسالة */
-}
-
-/* ===== LOGO SIMPLE ECO ICON ===== */
-.eco-logo-big {
-  display: flex;
-  justify-content: center;
-  gap: 7px;
-  margin-bottom: 15px;
-}
-
-.leaf {
-  width: 34px;
-  height: 34px;
-  border-radius: 50% 0 50% 50%;
-}
-
-.leaf.one {
-  background: #0bb56b;
-  transform: rotate(-35deg);
-}
-
-.leaf.two {
-  background: #089a5a;
-  transform: rotate(-20deg);
+/* Dark mode specific adjustments */
+:host-context(.dark) .input-base {
+  background: hsl(var(--input));
 }
