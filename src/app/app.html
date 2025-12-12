@@ -1,2 +1,7 @@
-<app-flash-message></app-flash-message>
-<router-outlet></router-outlet>
+<div class="min-h-screen flex flex-col transition-colors duration-300">
+  <app-navbar></app-navbar>
+  <app-flash-messages></app-flash-messages>
+  <main class="flex-1">
+    <router-outlet></router-outlet>
+  </main>
+</div>
