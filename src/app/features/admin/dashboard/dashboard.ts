@@ -1,5 +1,5 @@
 // src/app/features/admin/dashboard/dashboard.ts
-import { Component, OnInit, inject, NgZone, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
@@ -24,7 +24,6 @@ export class AdminDashboardComponent implements OnInit {
   orders: any[] = [];
   users: any[] = [];
 
-  private zone = inject(NgZone);
   private cdr = inject(ChangeDetectorRef);
 
   private materialService = inject(MaterialService);
