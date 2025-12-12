@@ -1,132 +1,125 @@
 /* =========================================================
-   NAVBAR
-   =======================================================*/
-
+   NAVBAR — Compact Version
+=========================================================*/
 .eco-navbar {
   width: 100%;
-  background: linear-gradient(180deg, #0bb56b, #088652);
-  padding: 10px 20px; /* كان 16px قللناه */
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  padding: 6px 16px;       /* أصغر */
+  border-bottom: 1px solid #e5e7eb;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+
   position: sticky;
   top: 0;
-  padding: 4px 18px;  /* أصغر */
-  min-height: 55px;   /* ثابت وواضح */
+  min-height: 50px;        /* أصغر */
   z-index: 999;
+
+  display: flex;
+  justify-content: center;
 }
 
-/* ---------- Inner Container ---------- */
 .nav-container {
-  max-width: 1280px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: 1200px;       /* أصغر */
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
-/* =========================================================
-   LOGO
-   =======================================================*/
 
+/* =========================================================
+   LOGO AREA — Smaller + Clean
+=========================================================*/
 .nav-left {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   cursor: pointer;
 }
 
-/* ---- CUSTOM LOGO (Vector) ---- */
 .eco-logo-wrapper {
   display: flex;
   align-items: center;
-  gap: 14px;       /* مسافة بين النص والصورة */
-  cursor: pointer;
-  padding: 4px;
+  gap: 10px;
 }
 
+/* ✔️ اللوجو مصغّر */
 .eco-logo-img {
-  width: 110px;
-  height: 74px;
+  width: 90px;          /* كان 125 */
+  height: auto;
   object-fit: contain;
-  filter: drop-shadow(0px 3px 6px rgba(0,0,0,0.15));
+  filter: drop-shadow(0px 2px 4px rgba(0,0,0,0.15));
 }
 
 .eco-text {
-  font-size: 26px;
+  font-size: 20px;      /* كان 28 */
   font-weight: 800;
-  color: white;
-  letter-spacing: 1.2px;
-  text-transform: uppercase;
-  text-shadow: 0px 2px 3px rgba(0,0,0,0.25);
+  letter-spacing: 1px;
+  background: linear-gradient(90deg, #0bb56b, #0aa764);
+  color: transparent;
 }
 
 
 /* =========================================================
-   BUTTONS (Right Side)
-   =======================================================*/
-
+   BUTTONS — Smaller
+=========================================================*/
 .nav-right {
   display: flex;
-  gap: 14px;
+  gap: 10px;
 }
 
 .nav-btn {
-  padding: 9px 16px;
-  border-radius: 10px;
-  border: 1px solid #d1d5db;
-  background: #f8fafc;
-
-  font-size: 15px;
+  padding: 6px 14px;      /* أصغر */
+  border-radius: 8px;
+  border: 1.5px solid #0bb56b;
+  background: white;
+  font-size: 13px;         /* أصغر */
   font-weight: 600;
-
   cursor: pointer;
-  transition: 0.2s ease;
+  transition: 0.25s ease-in-out;
 }
 
-/* ----- Login Button ----- */
+/* Login */
 .nav-login {
   color: #0bb56b;
-  border-color: #0bb56b;
 }
-
 .nav-login:hover {
   background: #0bb56b;
-  color: #ffffff;
-}
-
-/* ----- Register Button ----- */
-.nav-register {
-  color: #0bb56b;
-  border-color: #0bb56b;
-}
-
-.nav-register:hover {
-  background: #089a5a;
-  color: #ffffff;
-
-}
-
-/* ----- Logout Button ----- */
-.nav-logout {
-  background: #ef4444;
-  border-color: #ef4444;
   color: white;
 }
 
+/* Register */
+.nav-register {
+  background: #0bb56b;
+  color: white;
+}
+.nav-register:hover {
+  background: #089a5a;
+}
+
+/* Logout */
+.nav-logout {
+  background: #ef4444;
+  color: white;
+  border-color: #ef4444;
+}
 .nav-logout:hover {
   background: #dc2626;
 }
+
+
+/* =========================================================
+   SMALL LOGO — For Login/Register Pages
+=========================================================*/
 .auth-small-logo {
-  padding-top: 6px;
-  padding-bottom: 6px;
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
 }
 
-/* When user is on login / register */
 .auth-small-logo .eco-logo-img {
-  width: 70px;
-  height: 48px;
+  width: 60px;        /* أصغر */
 }
 
 .auth-small-logo .eco-text {
-  font-size: 18px;
-  margin-top: 0px;
+  font-size: 16px;
 }
