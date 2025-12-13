@@ -12,9 +12,15 @@ export const roleSelectionGuard: CanActivateFn = (_route, state) => {
   const userService = inject(UserService);
   const router = inject(Router);
 
-  // If not logged in, let other guards handle it
+  // If not logged in, redirect to login
   if (!auth.isLogged()) {
+    router.navigate(['/login']);
     return false;
+  }
+
+  // If trying to access role-selection page, allow it
+  if (state.url.includes('/role-selection')) {
+    return true;
   }
 
   // If user has already selected a role, allow access
@@ -23,12 +29,7 @@ export const roleSelectionGuard: CanActivateFn = (_route, state) => {
     return true;
   }
 
-  // If trying to access role-selection page, allow it
-  if (state.url.includes('/role-selection')) {
-    return true;
-  }
-
-  // Otherwise redirect to role-selection
+  // Otherwise redirect to role-selection (must select a role first)
   router.navigate(['/role-selection']);
   return false;
 };

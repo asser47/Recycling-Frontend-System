@@ -1,21 +1,22 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../services/user.service';
 
 /**
  * Guard to restrict access to collector routes
  * Only users with 'Collector' role can access these routes
  */
 export const collectorGuard: CanActivateFn = () => {
-  const auth = inject(AuthService);
+  const userService = inject(UserService);
   const router = inject(Router);
 
-  const role = auth.getRole()?.toLowerCase();
+  const role = userService.currentRole();
 
   if (role === 'collector') {
     return true;
   }
 
-  router.navigate(['/']);
+  // Redirect to role selection to choose correct role
+  router.navigate(['/role-selection']);
   return false;
 };

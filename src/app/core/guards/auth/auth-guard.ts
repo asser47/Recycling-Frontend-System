@@ -9,8 +9,13 @@ export class AuthGuard implements CanActivate {
   private router = inject(Router);
 
   canActivate(): boolean {
-    if (this.auth.isLogged()) return true;
+    if (this.auth.isLogged()) {
+      return true;
+    }
+
+    // Redirect to login instead of just returning false
     this.router.navigate(['/login']);
     return false;
   }
 }
+
