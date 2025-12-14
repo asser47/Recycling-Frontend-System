@@ -1,59 +1,159 @@
-# RecyclingProject
+# EcoCollect - Angular 20 Project
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+مشروع EcoCollect - منصة ذكية لجمع وإعادة تدوير النفايات
 
-## Development server
+## ✅ تم تحويل المشروع بالكامل من React إلى Angular 20
 
-To start a local development server, run:
+### الميزات الرئيسية:
+- ✅ **Angular 20** - أحدث إصدار من Angular
+- ✅ **Standalone Components** - مكونات مستقلة
+- ✅ **Angular Signals** - لإدارة الحالة
+- ✅ **Tailwind CSS** - للتصميم
+- ✅ **Reactive Forms** - للنماذج
+- ✅ **Lazy Loading** - تحميل الصفحات عند الحاجة
 
+### المكونات والخدمات:
+
+#### Services:
+- `ThemeService` - إدارة الوضع الفاتح/الداكن
+- `LanguageService` - إدارة اللغة (عربي/إنجليزي) مع RTL/LTR
+- `UserService` - إدارة المستخدم والأدوار
+- `NotificationService` - إدارة الإشعارات
+
+#### UI Components:
+- `ButtonComponent` - مكون الزر
+- `CardComponent` - مكونات البطاقة
+- `BadgeComponent` - مكون الشارة
+- `TabsComponent` - مكونات التبويبات
+
+#### الصفحات:
+- ✅ Landing Page - صفحة الهبوط
+- ✅ Login - تسجيل الدخول
+- ✅ Register - التسجيل
+- ✅ Role Selection - اختيار الدور
+- ✅ Citizen Dashboard - لوحة تحكم المواطن
+- ✅ Collector Dashboard - لوحة تحكم الجامع
+- ✅ Admin Dashboard - لوحة تحكم المدير
+- ✅ My Requests - صفحة الطلبات مع التبويبات
+- ✅ Profile - صفحة الملف الشخصي
+- ✅ Notifications - صفحة الإشعارات
+- ✅ Rewards - صفحة المكافآت
+- ✅ Settings - صفحة الإعدادات
+- ✅ 404 - صفحة غير موجود
+
+## 🚀 التشغيل:
+
+### 1. تثبيت الحزم:
 ```bash
-ng serve
+npm install
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
+### 2. تشغيل المشروع:
 ```bash
-ng generate component component-name
+npm start
+```
+أو
+```bash
+ng serve --port 8080
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+### 3. فتح المتصفح:
+افتح المتصفح على العنوان: **http://localhost:8080**
 
-```bash
-ng generate --help
+## 📦 الحزم المستخدمة:
+
+### Dependencies:
+- `@angular/*` - Angular 20
+- `rxjs` - Reactive Extensions
+- `tailwindcss` - CSS Framework
+- `clsx` - Utility for className
+- `date-fns` - Date utilities
+- `recharts` - Charts library
+
+### DevDependencies:
+- `@angular/cli` - Angular CLI
+- `typescript` - TypeScript
+- `tailwindcss` - Tailwind CSS
+- `autoprefixer` - CSS autoprefixer
+- `postcss` - CSS processor
+
+## 🎨 الميزات:
+
+### 1. دعم متعدد اللغات:
+- العربية (RTL)
+- الإنجليزية (LTR)
+- تبديل سلس بين اللغات
+
+### 2. الوضع الفاتح/الداكن:
+- دعم كامل للوضع الفاتح والداكن
+- حفظ التفضيلات في localStorage
+
+### 3. إدارة المستخدمين:
+- نظام أدوار متعدد (Citizen, Collector, Admin)
+- إمكانية إضافة أدوار متعددة
+- تبديل بين الأدوار
+
+### 4. الإشعارات:
+- نظام إشعارات كامل
+- عداد الإشعارات غير المقروءة
+- إشعارات في الوقت الفعلي
+
+## 📁 هيكل المشروع:
+
+```
+src/
+├── app/
+│   ├── components/          # المكونات المشتركة
+│   │   ├── navbar/
+│   │   └── create-collection-modal/
+│   ├── pages/               # الصفحات
+│   │   ├── landing/
+│   │   ├── login/
+│   │   ├── register/
+│   │   └── ...
+│   ├── services/            # الخدمات
+│   │   ├── theme.service.ts
+│   │   ├── language.service.ts
+│   │   ├── user.service.ts
+│   │   └── notification.service.ts
+│   ├── shared/              # المكونات المشتركة
+│   │   └── ui/              # UI Components
+│   ├── app.component.ts
+│   └── app.routes.ts
+├── styles.css
+├── index.html
+└── main.ts
 ```
 
-## Building
+## 🔧 التكوينات:
 
-To build the project run:
+- `angular.json` - تكوين Angular
+- `tsconfig.json` - تكوين TypeScript
+- `tailwind.config.ts` - تكوين Tailwind CSS
+- `package.json` - الحزم والتبعيات
 
-```bash
-ng build
-```
+## ✅ تم إصلاح جميع الأخطاء:
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+- ✅ إصلاح مشاكل CSS في Badge Component
+- ✅ إزالة الاستيرادات غير المستخدمة
+- ✅ إصلاح مشاكل البناء
+- ✅ تحسين الأداء
 
-## Running unit tests
+## 📝 ملاحظات:
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+- المشروع يستخدم Angular 20 مع أحدث الميزات
+- جميع المكونات standalone
+- استخدام Angular Signals للـ state management
+- التصميم متجاوب ويعمل على جميع الأجهزة
 
-```bash
-ng test
-```
+## 🎯 الخطوات التالية (اختيارية):
 
-## Running end-to-end tests
+- إضافة اختبارات (Unit Tests)
+- إضافة E2E Tests
+- تحسين الأداء
+- إضافة PWA Support
+- إضافة Service Worker
 
-For end-to-end (e2e) testing, run:
+---
 
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+**تم التحويل بنجاح من React إلى Angular 20! 🎉**

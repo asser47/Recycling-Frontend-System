@@ -1,11 +1,11 @@
 export interface Reward {
-_restock: any;
-  id?: number;
-  name: string;
-  description?: string;
-  category?: string;
-  requiredPoints: number;     // بدل pointsCost
-  stockQuantity: number;      // بدل stock
+  id: number;
+  title: string;
+  description: string;
+  points: number;
+  icon: string;
+  category: 'popular' | 'special' | 'premium';
+  available: boolean;
   imageUrl?: string;
 }
 
@@ -27,3 +27,4 @@ export interface PointHistory {
   type: 'earned' | 'redeemed';
   relatedId?: number;
 }
+

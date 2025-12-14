@@ -1,15 +1,13 @@
-import { Component, inject, ChangeDetectionStrategy, OnInit, signal, computed, effect } from '@angular/core';
+import { Component, inject, ChangeDetectionStrategy, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { LanguageService } from '../../core/services/language.service';
 import { UserService } from '../../core/services/user.service';
 import { UserDataService } from '../../core/services/user-data.service';
-import { UserProfileService } from '../../core/services/user-profile.service';
 import { ButtonComponent } from '../../shared/ui/button/button.component';
 import { CardComponent, CardHeaderComponent, CardTitleComponent, CardDescriptionComponent, CardContentComponent } from '../../shared/ui/card/card.component';
 import { BadgeComponent } from '../../shared/ui/badge/badge.component';
-import { UpdateUserDto } from '../../core/models/update-user.dto';
 
 @Component({
   selector: 'app-profile',
@@ -47,14 +45,14 @@ import { UpdateUserDto } from '../../core/models/update-user.dto';
                   }
                 </div>
                 @if (isEditMode()) {
-                  <input
-                    type="file"
+                  <input 
+                    type="file" 
                     #fileInput
                     (change)="onAvatarSelected($event)"
                     accept="image/*"
                     class="hidden"
                   />
-                  <button
+                  <button 
                     type="button"
                     (click)="fileInput.click()"
                     class="absolute bottom-0 right-0 h-8 w-8 rounded-full bg-primary hover:bg-primary/90 flex items-center justify-center cursor-pointer transition-colors"
@@ -107,7 +105,7 @@ import { UpdateUserDto } from '../../core/models/update-user.dto';
                     <input id="viewLastName" [value]="profileData()?.lastName || 'Not provided'" readonly class="w-full px-3 py-2 border border-input rounded-md bg-muted" />
                   </div>
                 </div>
-
+                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div class="space-y-2">
                     <label for="viewEmail" class="flex items-center gap-2 text-sm font-medium">
@@ -124,19 +122,19 @@ import { UpdateUserDto } from '../../core/models/update-user.dto';
                     <input id="viewPhone" [value]="profileData()?.phoneNumber || 'Not provided'" readonly class="w-full px-3 py-2 border border-input rounded-md bg-muted" />
                   </div>
                 </div>
-
+                
                 <div class="space-y-2">
                   <label for="viewAddress" class="flex items-center gap-2 text-sm font-medium">
                     <span>🏠</span>
                     Address
                   </label>
                   <input id="viewAddress" [value]="profileData()?.address || 'Not provided'" readonly class="w-full px-3 py-2 border border-input rounded-md bg-muted" />
-
+                  
                   <!-- Leaflet Map Container in View Mode -->
                   <div class="rounded-lg overflow-hidden border border-border shadow-sm h-80 relative mt-4">
                     <div id="view-address-map" class="w-full h-full"></div>
                   </div>
-
+                  
                   <!-- Coordinates Display -->
                   @if (currentCoordinates(); as coords) {
                     <div class="bg-muted p-2 rounded-md text-xs text-muted-foreground text-center mt-2">
@@ -151,12 +149,12 @@ import { UpdateUserDto } from '../../core/models/update-user.dto';
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div class="space-y-2">
                     <label for="editFirstName" class="text-sm font-medium">First Name</label>
-                    <input
-                      id="editFirstName"
+                    <input 
+                      id="editFirstName" 
                       formControlName="firstName"
                       placeholder="Enter your first name"
                       (input)="onFirstNameInput($event)"
-                      class="w-full px-3 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                      class="w-full px-3 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary" 
                     />
                     @if (editForm!.get('firstName')?.errors?.['required'] && editForm!.get('firstName')?.touched) {
                       <p class="text-xs text-destructive">First name is required</p>
@@ -164,30 +162,30 @@ import { UpdateUserDto } from '../../core/models/update-user.dto';
                   </div>
                   <div class="space-y-2">
                     <label for="editLastName" class="text-sm font-medium">Last Name</label>
-                    <input
-                      id="editLastName"
+                    <input 
+                      id="editLastName" 
                       formControlName="lastName"
                       placeholder="Enter your last name"
                       (input)="onLastNameInput($event)"
-                      class="w-full px-3 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                      class="w-full px-3 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary" 
                     />
                     @if (editForm!.get('lastName')?.errors?.['required'] && editForm!.get('lastName')?.touched) {
                       <p class="text-xs text-destructive">Last name is required</p>
                     }
                   </div>
                 </div>
-
+                
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div class="space-y-2">
                     <label for="editEmail" class="flex items-center gap-2 text-sm font-medium">
                       <span>📧</span>
                       Email (Read-only)
                     </label>
-                    <input
-                      id="editEmail"
+                    <input 
+                      id="editEmail" 
                       formControlName="email"
                       readonly
-                      class="w-full px-3 py-2 border border-input rounded-md bg-muted"
+                      class="w-full px-3 py-2 border border-input rounded-md bg-muted" 
                     />
                   </div>
                   <div class="space-y-2">
@@ -195,31 +193,31 @@ import { UpdateUserDto } from '../../core/models/update-user.dto';
                       <span>📞</span>
                       Phone
                     </label>
-                    <input
-                      id="editPhone"
+                    <input 
+                      id="editPhone" 
                       formControlName="phoneNumber"
                       placeholder="Enter your phone number"
-                      class="w-full px-3 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                      class="w-full px-3 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary" 
                     />
                   </div>
                 </div>
-
+                
                 <div class="space-y-2">
                   <label for="editAddress" class="flex items-center gap-2 text-sm font-medium">
                     <span>🏠</span>
                     Address
                   </label>
-                  <input
-                    id="editAddress"
+                  <input 
+                    id="editAddress" 
                     formControlName="address"
                     placeholder="Enter your address or select from map"
                     (input)="onAddressInput($event)"
-                    class="w-full px-3 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary"
+                    class="w-full px-3 py-2 border border-input rounded-md bg-background focus:outline-none focus:ring-2 focus:ring-primary" 
                   />
                   @if (addressSuggestions().length > 0) {
                     <div class="border border-input rounded-md bg-background shadow-md max-h-48 overflow-y-auto">
                       @for (suggestion of addressSuggestions(); track suggestion.osm_id) {
-                        <button
+                        <button 
                           type="button"
                           (click)="selectAddressSuggestion(suggestion)"
                           class="w-full text-left px-3 py-2 hover:bg-muted border-b border-border last:border-b-0 text-sm transition-colors"
@@ -231,7 +229,7 @@ import { UpdateUserDto } from '../../core/models/update-user.dto';
                       }
                     </div>
                   }
-
+                  
                   <!-- Leaflet Map Container -->
                   <div class="rounded-lg overflow-hidden border border-border shadow-sm h-80 relative mt-4">
                     <div id="address-map" class="w-full h-full"></div>
@@ -239,7 +237,7 @@ import { UpdateUserDto } from '../../core/models/update-user.dto';
                       📍 Click map to select location
                     </div>
                   </div>
-
+                  
                   <!-- Coordinates Display -->
                   @if (currentCoordinates(); as coords) {
                     <div class="bg-muted p-2 rounded-md text-xs text-muted-foreground text-center mt-2">
@@ -249,11 +247,11 @@ import { UpdateUserDto } from '../../core/models/update-user.dto';
                 </div>
               </form>
             }
-
+            
             <!-- Save Button (Edit Mode) -->
             @if (isEditMode()) {
               <div class="flex gap-3 pt-4">
-                <app-button
+                <app-button 
                   class="flex-1 gap-2"
                   (click)="saveProfile()"
                   [disabled]="!editForm!.valid || isSaving()"
@@ -309,17 +307,13 @@ export class ProfileComponent implements OnInit {
   languageService = inject(LanguageService);
   userService = inject(UserService);
   userDataService = inject(UserDataService);
-  userProfileService = inject(UserProfileService);
   private fb = inject(FormBuilder);
   private httpClient = inject(HttpClient);
 
   // Signals
-  profileData = computed(() => {
-    return this.userProfileService.userProfile() || this.userDataService.userData();
-  });
+  profileData = this.userDataService.userData;
   isEditMode = signal(false);
-  isSaving = computed(() => this.userProfileService.isSaving());
-  isLoading = computed(() => this.userProfileService.isLoading());
+  isSaving = signal(false);
   previewAvatar = signal<string | null>(null);
   mapAddress = signal<string>('');
   addressSuggestions = signal<any[]>([]);
@@ -327,31 +321,21 @@ export class ProfileComponent implements OnInit {
   currentCoordinates = signal<{ lat: number; lng: number } | null>(null);
   editFirstName = signal<string>('');
   editLastName = signal<string>('');
-
+  
   // Computed full name from firstName and lastName
   computedFullName = computed(() => {
     const first = this.editFirstName();
     const last = this.editLastName();
     return first && last ? `${first} ${last}`.trim() : this.profileData()?.fullName || 'User';
   });
-
+  
   private mapInstance: any = null;
   private mapMarker: any = null;
-
+  
   // Form
   editForm: FormGroup | null = null;
 
   t = (key: string) => this.languageService.t(key);
-
-  constructor() {
-    // Load profile when component initializes
-    effect(() => {
-      const profile = this.userProfileService.userProfile();
-      if (!profile && !this.userProfileService.isLoading()) {
-        this.loadProfile();
-      }
-    });
-  }
 
   ngOnInit(): void {
     // Initialize form
@@ -360,10 +344,6 @@ export class ProfileComponent implements OnInit {
     setTimeout(() => {
       this.initializeViewMap();
     }, 0);
-  }
-
-  private loadProfile(): void {
-    this.userProfileService.loadUserProfile().subscribe();
   }
 
   private initializeForm(): void {
@@ -388,7 +368,7 @@ export class ProfileComponent implements OnInit {
         phoneNumber: currentData.phoneNumber || '',
         address: currentData.address || ''
       });
-
+      
       // Set map address
       if (currentData.address) {
         this.mapAddress.set(currentData.address);
@@ -405,11 +385,11 @@ export class ProfileComponent implements OnInit {
         const nameParts = (currentData.fullName || '').split(' ');
         const firstName = nameParts[0] || '';
         const lastName = nameParts.slice(1).join(' ') || '';
-
+        
         // Update signals
         this.editFirstName.set(firstName);
         this.editLastName.set(lastName);
-
+        
         // Update form controls
         this.editForm?.patchValue({
           firstName: firstName,
@@ -418,13 +398,13 @@ export class ProfileComponent implements OnInit {
           phoneNumber: currentData.phoneNumber || '',
           address: currentData.address || ''
         });
-
+        
         // Update map address
         if (currentData.address) {
           this.mapAddress.set(currentData.address);
         }
       }
-
+      
       // Initialize map after DOM is rendered
       setTimeout(() => {
         this.initializeMap();
@@ -438,7 +418,7 @@ export class ProfileComponent implements OnInit {
       this.mapInstance = null;
       this.mapMarker = null;
       this.initializeForm();
-
+      
       // Re-initialize view mode map
       setTimeout(() => {
         this.initializeViewMap();
@@ -449,7 +429,7 @@ export class ProfileComponent implements OnInit {
   onAddressInput(event: Event): void {
     const input = (event.target as HTMLInputElement).value;
     this.editForm?.get('address')?.setValue(input);
-
+    
     if (input.length > 2) {
       this.searchAddresses(input);
     } else {
@@ -471,10 +451,10 @@ export class ProfileComponent implements OnInit {
 
   private searchAddresses(query: string): void {
     this.isGeocodingLoading.set(true);
-
+    
     // Use Nominatim API (OpenStreetMap)
     const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(query)}&limit=5`;
-
+    
     this.httpClient.get<any[]>(url).subscribe({
       next: (results) => {
         this.addressSuggestions.set(results || []);
@@ -492,7 +472,7 @@ export class ProfileComponent implements OnInit {
     this.editForm?.get('address')?.setValue(displayName);
     this.mapAddress.set(displayName);
     this.addressSuggestions.set([]);
-
+    
     // Update map to show selected location
     const lat = parseFloat(suggestion.lat);
     const lng = parseFloat(suggestion.lon);
@@ -503,7 +483,7 @@ export class ProfileComponent implements OnInit {
     const input = (event.target as HTMLInputElement).value;
     this.mapAddress.set(input);
     this.editForm?.get('address')?.setValue(input);
-
+    
     // Optional: Search for address as user types
     if (input.length > 2) {
       this.searchAddresses(input);
@@ -540,48 +520,32 @@ export class ProfileComponent implements OnInit {
   saveProfile(): void {
     if (!this.editForm || this.editForm.invalid) return;
 
+    this.isSaving.set(true);
+
     const formValue = this.editForm.value;
     const fullName = `${formValue.firstName} ${formValue.lastName}`.trim();
-
-    const updateData: UpdateUserDto = {
+    const updatedData: any = {
+      fullName: fullName,
       firstName: formValue.firstName,
       lastName: formValue.lastName,
+      email: formValue.email,
       phoneNumber: formValue.phoneNumber,
       address: formValue.address || this.mapAddress(),
       avatar: this.previewAvatar() || this.profileData()?.avatar || ''
     };
 
     if (this.currentCoordinates()) {
-      updateData.coordinates = this.currentCoordinates();
+      updatedData.coordinates = this.currentCoordinates();
     }
 
-    // Call API to update profile
-    this.userProfileService.updateUserProfile(updateData).subscribe({
-      next: (response) => {
-        if (response?.success) {
-          // Also update local data service
-          this.userDataService.setUserData({
-            fullName: fullName,
-            firstName: formValue.firstName,
-            lastName: formValue.lastName,
-            email: formValue.email,
-            phoneNumber: formValue.phoneNumber,
-            address: formValue.address || this.mapAddress(),
-            avatar: this.previewAvatar() || this.profileData()?.avatar || '',
-            coordinates: this.currentCoordinates() || { lat: 24.7136, lng: 46.6753 }
-          });
+    this.userDataService.setUserData(updatedData);
 
-          setTimeout(() => {
-            this.isEditMode.set(false);
-            this.previewAvatar.set(null);
-            this.addressSuggestions.set([]);
-          }, 500);
-        }
-      },
-      error: (err) => {
-        console.error('Failed to save profile:', err);
-      }
-    });
+    setTimeout(() => {
+      this.isSaving.set(false);
+      this.isEditMode.set(false);
+      this.previewAvatar.set(null);
+      this.addressSuggestions.set([]);
+    }, 500);
   }
 
   private updateMapMarker(lat: number, lng: number): void {
@@ -604,15 +568,15 @@ export class ProfileComponent implements OnInit {
 
   private reverseGeocode(lat: number, lng: number): void {
     this.isGeocodingLoading.set(true);
-
+    
     const url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
-
+    
     this.httpClient.get<any>(url).subscribe({
       next: (result) => {
-        const address = result.address?.road ?
+        const address = result.address?.road ? 
           `${result.address.road}, ${result.address.city || result.address.town || ''}` :
           result.display_name;
-
+        
         this.mapAddress.set(address);
         this.editForm?.get('address')?.setValue(address);
         this.isGeocodingLoading.set(false);
@@ -665,7 +629,7 @@ export class ProfileComponent implements OnInit {
     import('leaflet').then((L) => {
       const mapElement = document.getElementById('address-map');
       if (!mapElement) return;
-
+      
       // Clear existing map if it exists
       if (this.mapInstance) {
         this.mapInstance.remove();

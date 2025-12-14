@@ -1,4 +1,4 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { LanguageService } from '../../../core/services/language.service';
@@ -9,7 +9,6 @@ import { ButtonComponent } from '../../../shared/ui/button/button.component';
   selector: 'app-role-selection',
   standalone: true,
   imports: [CommonModule, ButtonComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="min-h-screen flex items-center justify-center px-4 py-12">
       <div class="max-w-2xl w-full">

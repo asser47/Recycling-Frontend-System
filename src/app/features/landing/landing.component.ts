@@ -2,6 +2,7 @@ import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { LanguageService } from '../../core/services/language.service';
+import { ButtonComponent } from '../../shared/ui/button/button.component';
 import { LandingFeaturesComponent } from './components/features/features.component';
 
 interface Feature {
@@ -14,13 +15,13 @@ interface Feature {
   selector: 'app-landing',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, RouterLink, LandingFeaturesComponent],
+  imports: [CommonModule, RouterLink, ButtonComponent, LandingFeaturesComponent],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.css'
 })
 export class LandingComponent {
   languageService = inject(LanguageService);
-
+  
   direction = this.languageService.direction;
   t = (key: string) => this.languageService.t(key);
 

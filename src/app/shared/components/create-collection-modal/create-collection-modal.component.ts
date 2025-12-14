@@ -151,8 +151,8 @@ export class CreateCollectionModalComponent implements AfterViewInit, OnChanges 
   }
 
   isFormValid(): boolean {
-    return this.form.valid &&
-           this.selectedMaterials().length > 0 &&
+    return this.form.valid && 
+           this.selectedMaterials().length > 0 && 
            this.selectedLocation() !== null;
   }
 
@@ -206,7 +206,7 @@ export class CreateCollectionModalComponent implements AfterViewInit, OnChanges 
       lng: location[1],
       status: 'pending',
       date: new Date().toISOString().split('T')[0],
-      citizenId: typeof user.id === 'string' ? parseInt(user.id) : user.id,
+      citizenId: user.id,
       citizenName: user.name,
       estimatedQuantity: formValue.quantity,
       preferredTime: formValue.preferredTime,

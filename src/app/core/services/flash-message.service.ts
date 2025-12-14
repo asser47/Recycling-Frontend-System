@@ -1,4 +1,4 @@
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 export interface FlashMessage {
   type: 'success' | 'error' | 'info' | 'warning';
@@ -11,17 +11,6 @@ export interface FlashMessage {
 })
 export class FlashMessageService {
   messages = signal<FlashMessage[]>([]);
-
-  // Add computed properties for backwards compatibility
-  message = computed(() => {
-    const msgs = this.messages();
-    return msgs.length > 0 ? msgs[0].message : '';
-  });
-
-  type = computed(() => {
-    const msgs = this.messages();
-    return msgs.length > 0 ? msgs[0].type : null;
-  });
 
   showSuccess(message: string) {
     this.addMessage(message, 'success');
@@ -42,9 +31,9 @@ export class FlashMessageService {
   private addMessage(message: string, type: FlashMessage['type']) {
     const id = Date.now().toString();
     const newMessage: FlashMessage = { type, message, id };
-
+    
     this.messages.update(msgs => [...msgs, newMessage]);
-
+    
     // Auto-remove after 3 seconds
     setTimeout(() => {
       this.removeMessage(id);
