@@ -56,10 +56,11 @@ export class NavbarComponent {
   });
 
   /**
-   * Should hide navbar completely (on landing, auth pages, role selection)
+   * Should hide navbar completely (on auth pages, role selection)
+   * Navbar will now show on landing page
    */
   shouldHideNavbar = computed(() => {
-    return this.isLandingRoute() || this.isAuthRoute();
+    return this.isAuthRoute();
   });
 
   // Methods

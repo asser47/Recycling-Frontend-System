@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   template: `
     <button
-      [class]="getClasses()"
+      [class]="'btn-component ' + getClasses()"
       [type]="type"
       [disabled]="disabled"
       (click)="onClick.emit($event)"
@@ -16,32 +16,7 @@ import { CommonModule } from '@angular/common';
       <ng-content></ng-content>
     </button>
   `,
-  styles: [`
-    :host {
-      display: inline-block;
-    }
-    button {
-      @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
-    }
-    button.default {
-      @apply bg-primary text-primary-foreground hover:opacity-90;
-    }
-    button.outline {
-      @apply border border-gray-300 bg-white hover:bg-gray-100 hover:text-gray-900;
-    }
-    button.ghost {
-      @apply hover:bg-muted hover:text-foreground;
-    }
-    button.sm {
-      @apply h-9 px-3;
-    }
-    button.lg {
-      @apply h-11 px-8;
-    }
-    button.icon {
-      @apply h-10 w-10;
-    }
-  `]
+  styles: []
 })
 export class ButtonComponent {
   @Input() variant: 'default' | 'outline' | 'ghost' = 'default';

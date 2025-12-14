@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActiveRoute } from './active-route';
+import { CollectorActiveRouteComponent } from './active-route';
 
-describe('ActiveRoute', () => {
-  let component: ActiveRoute;
-  let fixture: ComponentFixture<ActiveRoute>;
+describe('CollectorActiveRouteComponent', () => {
+  let component: CollectorActiveRouteComponent;
+  let fixture: ComponentFixture<CollectorActiveRouteComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ActiveRoute]
+      imports: [CollectorActiveRouteComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ActiveRoute);
+    fixture = TestBed.createComponent(CollectorActiveRouteComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

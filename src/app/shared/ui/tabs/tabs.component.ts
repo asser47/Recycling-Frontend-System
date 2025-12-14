@@ -45,7 +45,7 @@ export class TabsComponent {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
   template: `
-    <div [class]="'flex items-center justify-center rounded-md bg-muted p-1 ' + (className || '')">
+    <div [class]="'tabs-list ' + (className || '')">
       <ng-content></ng-content>
     </div>
   `,
@@ -62,7 +62,7 @@ export class TabsListComponent {
   imports: [CommonModule],
   template: `
     <button
-      [class]="'inline-flex items-center justify-center whitespace-nowrap rounded-sm px-3 py-1.5 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 ' + (isActive ? 'bg-background text-foreground shadow-sm' : 'text-muted-foreground hover:bg-background/50') + ' ' + (className || '')"
+      [class]="'tabs-trigger ' + (isActive ? 'active' : '') + ' ' + (className || '')"
       (click)="select()"
     >
       <ng-content></ng-content>
@@ -90,7 +90,7 @@ export class TabsTriggerComponent {
   imports: [CommonModule],
   template: `
     @if (isActive) {
-      <div [class]="'mt-2 ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ' + (className || '')">
+      <div [class]="'mt-2 ' + (className || '')">
         <ng-content></ng-content>
       </div>
     }

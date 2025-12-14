@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AvailableRequests } from './available-requests';
+import { CollectorAvailableRequestsComponent } from './available-requests';
 
-describe('AvailableRequests', () => {
-  let component: AvailableRequests;
-  let fixture: ComponentFixture<AvailableRequests>;
+describe('CollectorAvailableRequestsComponent', () => {
+  let component: CollectorAvailableRequestsComponent;
+  let fixture: ComponentFixture<CollectorAvailableRequestsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AvailableRequests]
+      imports: [CollectorAvailableRequestsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AvailableRequests);
+    fixture = TestBed.createComponent(CollectorAvailableRequestsComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

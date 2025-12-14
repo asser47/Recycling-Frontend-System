@@ -7,7 +7,7 @@ import { CommonModule } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
   template: `
-    <div [class]="'bg-card rounded-lg border border-border shadow-md ' + (className || '')">
+    <div [class]="'card-component ' + (className || '')">
       <ng-content></ng-content>
     </div>
   `,
@@ -23,7 +23,7 @@ export class CardComponent {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
   template: `
-    <div [class]="'p-6 pb-4 ' + (className || '')">
+    <div [class]="'card-header ' + (className || '')">
       <ng-content></ng-content>
     </div>
   `,
@@ -39,7 +39,7 @@ export class CardHeaderComponent {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
   template: `
-    <h3 [class]="'text-lg font-semibold text-card-foreground ' + (className || '')">
+    <h3 [class]="'card-title ' + (className || '')">
       <ng-content></ng-content>
     </h3>
   `,
@@ -55,7 +55,7 @@ export class CardTitleComponent {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
   template: `
-    <p [class]="'text-sm text-muted-foreground ' + (className || '')">
+    <p [class]="'card-description ' + (className || '')">
       <ng-content></ng-content>
     </p>
   `,
@@ -71,7 +71,7 @@ export class CardDescriptionComponent {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule],
   template: `
-    <div [class]="'p-6 pt-0 ' + (className || '')">
+    <div [class]="'card-content ' + (className || '')">
       <ng-content></ng-content>
     </div>
   `,

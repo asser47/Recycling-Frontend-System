@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegisterSuccess } from './register-success';
+import { RegisterSuccessComponent } from './register-success';
 
-describe('RegisterSuccess', () => {
-  let component: RegisterSuccess;
-  let fixture: ComponentFixture<RegisterSuccess>;
+describe('RegisterSuccessComponent', () => {
+  let component: RegisterSuccessComponent;
+  let fixture: ComponentFixture<RegisterSuccessComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RegisterSuccess]
+      imports: [RegisterSuccessComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RegisterSuccess);
+    fixture = TestBed.createComponent(RegisterSuccessComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

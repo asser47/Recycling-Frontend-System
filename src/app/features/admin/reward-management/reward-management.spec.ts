@@ -5,10 +5,7 @@ import { RewardManagementComponent } from './reward-management';
 describe('RewardManagement', () => {
   let component: RewardManagementComponent;
   let fixture: ComponentFixture<RewardManagementComponent>;
-<<<<<<< HEAD
-=======
 
->>>>>>> login-register
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RewardManagementComponent]

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RequestsMap } from './requests-map';
+import { CollectorRequestsMapComponent } from './requests-map';
 
-describe('RequestsMap', () => {
-  let component: RequestsMap;
-  let fixture: ComponentFixture<RequestsMap>;
+describe('CollectorRequestsMapComponent', () => {
+  let component: CollectorRequestsMapComponent;
+  let fixture: ComponentFixture<CollectorRequestsMapComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RequestsMap]
+      imports: [CollectorRequestsMapComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(RequestsMap);
+    fixture = TestBed.createComponent(CollectorRequestsMapComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
