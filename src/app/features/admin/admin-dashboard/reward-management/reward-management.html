@@ -1,0 +1,175 @@
+<div class="container-fluid mt-4">
+  <!-- Header -->
+  <div class="row mb-4">
+    <div class="col">
+      <h1>🎁 Reward Management</h1>
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-primary" (click)="showCreateForm()">
+        + New Reward
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="isLoading()" class="text-center py-5">
+    <div class="spinner-border" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error()" class="alert alert-danger alert-dismissible fade show">
+    {{ error() }}
+    <button type="button" class="btn-close" (click)="error.set(null)"></button>
+  </div>
+
+  <!-- Create/Edit Form Modal -->
+  <div class="modal fade" id="rewardModal" [class.show]="showForm()"
+    [style.display]="showForm() ? 'block' : 'none'" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            {{ editingReward() ? 'Edit Reward' : 'Create New Reward' }}
+          </h5>
+          <button type="button" class="btn-close" (click)="closeForm()"></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="rewardForm">
+            <!-- Name -->
+            <div class="mb-3">
+              <label class="form-label fw-bold">Reward Name</label>
+              <input type="text" class="form-control" formControlName="name" placeholder="e.g., Free Voucher">
+              <small class="text-danger" *ngIf="rewardForm.get('name')?.invalid && rewardForm.get('name')?.touched">
+                Name must be at least 3 characters
+              </small>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-3">
+              <label class="form-label fw-bold">Description</label>
+              <textarea class="form-control" formControlName="description" rows="3" placeholder="Enter reward description..."></textarea>
+            </div>
+
+            <!-- Points Required -->
+            <div class="mb-3">
+              <label class="form-label fw-bold">Points Required</label>
+              <input type="number" class="form-control" formControlName="pointsRequired" min="1" placeholder="Enter required points...">
+            </div>
+
+            <!-- Stock -->
+            <div class="mb-3">
+              <label class="form-label fw-bold">Stock Quantity</label>
+              <input type="number" class="form-control" formControlName="stock" min="0" placeholder="Enter stock quantity...">
+            </div>
+
+            <!-- Category -->
+            <div class="mb-3">
+              <label class="form-label fw-bold">Category</label>
+              <select class="form-select" formControlName="category">
+                <option value="">Select category...</option>
+                <option value="electronics">Electronics</option>
+                <option value="vouchers">Vouchers</option>
+                <option value="gifts">Gifts</option>
+                <option value="eco">Eco Products</option>
+              </select>
+            </div>
+
+            <!-- Image Upload -->
+            <div class="mb-3">
+              <label class="form-label fw-bold">Image</label>
+              <input type="file" class="form-control" accept="image/*" (change)="onImageSelected($event)">
+              <div *ngIf="imagePreview()" class="mt-2">
+                <img [src]="imagePreview()" style="max-width: 200px; max-height: 200px; border-radius: 8px;">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="closeForm()">Cancel</button>
+          <button type="button" class="btn btn-primary"
+            (click)="submitRewardForm()"
+            [disabled]="rewardForm.invalid || isSubmitting()">
+            {{ isSubmitting() ? 'Saving...' : 'Save Reward' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rewards Grid -->
+  <div class="row" *ngIf="!isLoading() && rewards().length > 0">
+    <div class="col-md-6 mb-4" *ngFor="let reward of rewards()">
+      <div class="card h-100 shadow-sm">
+        <!-- Image -->
+        <div class="card-img-top bg-light d-flex align-items-center justify-content-center" style="height: 200px;">
+          <div *ngIf="reward.imageUrl; else noImage">
+            <img [src]="reward.imageUrl" alt="{{ reward.name }}" style="max-height: 100%; max-width: 100%; object-fit: contain;">
+          </div>
+          <ng-template #noImage>
+            <span class="text-muted fs-1">🎁</span>
+          </ng-template>
+        </div>
+
+        <div class="card-body">
+          <h5 class="card-title">{{ reward.name }}</h5>
+          <p class="card-text text-muted">{{ reward.description }}</p>
+
+          <!-- Stats Row -->
+          <div class="row mb-3">
+            <div class="col">
+              <small class="text-muted">Points</small><br>
+              <strong class="text-primary">{{ reward.pointsRequired || reward.requiredPoints || 0 }}</strong>
+            </div>
+            <div class="col">
+              <small class="text-muted">Stock</small><br>
+              <strong [class]="(reward.stock || reward.stockQuantity || 0) > 0 ? 'text-success' : 'text-danger'">
+                {{ reward.stock || reward.stockQuantity || 0 }}
+              </strong>
+            </div>
+            <div class="col">
+              <small class="text-muted">Category</small><br>
+              <strong>{{ reward.category }}</strong>
+            </div>
+          </div>
+
+          <!-- Stock Control -->
+          <div class="mb-3">
+            <label class="form-label small">Update Stock</label>
+            <div class="input-group input-group-sm">
+              <input type="number" class="form-control"
+                [(ngModel)]="stockUpdate[reward.id]" min="0" placeholder="New stock...">
+              <button class="btn btn-outline-secondary" type="button"
+                (click)="updateStock(reward)">
+                Update
+              </button>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="btn-group w-100" role="group">
+            <button type="button" class="btn btn-sm btn-info" (click)="editReward(reward)">
+              ✏️ Edit
+            </button>
+            <button type="button" class="btn btn-sm btn-danger" (click)="deleteReward(reward)">
+              🗑️ Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Empty State -->
+  <div *ngIf="!isLoading() && rewards().length === 0" class="alert alert-info text-center py-5">
+    <h4>No rewards yet</h4>
+    <p class="text-muted">Create your first reward to get started</p>
+    <button class="btn btn-primary" (click)="showCreateForm()">
+      Create Reward
+    </button>
+  </div>
+
+  <!-- Modal Backdrop -->
+  <div class="modal-backdrop fade" *ngIf="showForm()" [class.show]="showForm()"></div>
+</div>

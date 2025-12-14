@@ -1,4 +1,4 @@
-import { Injectable, inject, signal, computed } from '@angular/core';
+import { Injectable, inject, signal, computed, effect } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
@@ -55,13 +55,33 @@ export class AuthService {
   private _role = signal<string | null>(this.getRole());
   private _user = signal<ApplicationUser | null>(null);
   private _isLoading = signal(false);
+  private _isTokenValid = signal<boolean>(this.validateToken());
 
   // Computed properties
   token = computed(() => this._token());
   role = computed(() => this._role());
   user = computed(() => this._user());
-  isLogged = computed(() => !!this._token());
+  isLogged = computed(() => !!this._token() && this._isTokenValid());
   isLoading = computed(() => this._isLoading());
+  tokenValid = computed(() => this._isTokenValid());
+
+  constructor() {
+    // Auto-refresh token validation every 5 minutes
+    effect(() => {
+      if (this.getToken()) {
+        const interval = setInterval(() => {
+          this._isTokenValid.set(this.validateToken());
+          if (!this._isTokenValid()) {
+            this.logout();
+          }
+        }, 5 * 60 * 1000);
+
+        // Cleanup function for effect
+        return () => clearInterval(interval);
+      }
+      return undefined;
+    });
+  }
 
   // ===========================
   // AUTH API CALLS
@@ -149,6 +169,7 @@ export class AuthService {
 
     localStorage.setItem(this.TOKEN_KEY, token);
     this._token.set(token);
+    this._isTokenValid.set(true);
 
     // Extract role from token or set default
     const role = this.extractRoleFromToken(token) || 'Citizen';
@@ -179,9 +200,9 @@ export class AuthService {
   }
 
   /**
-   * Check if token is valid (basic check)
+   * Validate token expiration (core validation logic)
    */
-  isTokenValid(): boolean {
+  private validateToken(): boolean {
     const token = this.getToken();
     if (!token) return false;
 
@@ -198,6 +219,13 @@ export class AuthService {
   }
 
   /**
+   * Check if token is valid (with public access)
+   */
+  isTokenValid(): boolean {
+    return this.validateToken();
+  }
+
+  /**
    * Logout and clear authentication state
    */
   logout(): void {
@@ -207,6 +235,7 @@ export class AuthService {
     this._role.set(null);
     this._user.set(null);
     this._isLoading.set(false);
+    this._isTokenValid.set(false);
     this.router.navigate(['/login']);
   }
 
@@ -312,4 +341,21 @@ export class AuthService {
 
     return throwError(() => authError);
   }
+
+  // ===========================
+  // COLLECTOR HIRING (ADMIN)
+  // ===========================
+
+  /**
+   * Admin: Hire a new collector
+   */
+  hireCollector(data: { fullName: string; email: string; password: string; phoneNumber?: string }): Observable<any> {
+    this._isLoading.set(true);
+    return this.http.post(`${API_CONFIG.baseUrl}/api/Collector/hire`, data).pipe(
+      catchError((error) => this.handleAuthError(error)),
+      finalize(() => this._isLoading.set(false))
+    );
+  }
 }
+
+

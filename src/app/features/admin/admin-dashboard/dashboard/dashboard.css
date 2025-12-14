@@ -1,0 +1,129 @@
+/* Dashboard Wrapper */
+.dashboard-container {
+  padding: 24px;
+  background: linear-gradient(180deg, #eef8f3 0%, #ffffff 100%);
+  min-height: 100%;
+  box-sizing: border-box;
+  animation: fadeIn .4s ease;
+}
+
+/* Headers */
+.head-title {
+  font-size: 32px;
+  font-weight: 800;
+  margin: 0;
+  color: #0b6f54;
+  letter-spacing: .3px;
+}
+
+.sub {
+  color: #6a7b74;
+  margin-bottom: 22px;
+  font-size: 15px;
+}
+
+/* Stats Cards Grid */
+.cards-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-bottom: 26px;
+}
+
+/* Stat Card */
+.stat-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0px 6px 20px rgba(0,0,0,.05);
+  transition: .3s ease;
+  cursor: pointer;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0px 10px 26px rgba(15, 47, 26, .09);
+}
+
+/* Texts */
+.stat-title { color: #6b7074; font-size: 14px; font-weight: 600; }
+.stat-value { font-size: 30px; font-weight: 800; color: #074b35; }
+.stat-sub { color: #7e8b87; font-size: 13px; }
+
+/* Change percent colors */
+.stat-change { font-size: 12px; margin-top: 6px; }
+.stat-change .up { color: #22b377; font-weight: 700; }
+.stat-change .down { color: #d34d4d; font-weight: 700; }
+
+/* ICON */
+.stat-icon {
+  font-size: 34px;
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(145deg, #ffffff, #d6efe4);
+  border-radius: 50%;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color: #0b6f54;
+  box-shadow: 0 4px 10px rgba(0,0,0,.09);
+}
+
+/* Analytics Box */
+.analytics-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0px 8px 22px rgba(0,0,0,.05);
+  animation: fadeUp .5s ease;
+}
+
+.analytics-card h3 {
+  font-weight: 700;
+  color: #074b35;
+  margin-bottom: 4px;
+}
+
+.muted {
+  color: #7e8b87;
+  font-size: 14px;
+}
+
+/* Chart Placeholder */
+.chart-area {
+  margin-top: 14px;
+  padding: 20px;
+  background: linear-gradient(145deg, #eefbf6, #ffffff);
+  border-radius: 12px;
+  min-height: 220px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#8da49b;
+  border: 1px dashed #b9d5c8;
+  transition: .3s ease;
+}
+
+.chart-area:hover {
+  transform: translateY(-3px);
+  box-shadow: 0px 10px 25px rgba(0,0,0,.06);
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px);}
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px);}
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.chart-area canvas {
+  width: 100% !important;
+  height: 260px !important;
+}

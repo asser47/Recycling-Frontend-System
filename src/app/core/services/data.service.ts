@@ -1,8 +1,60 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { CollectionRequest, RequestStatus } from '../models/collection-request.model';
-import { Stat } from '../models/stat.model';
-import { Reward, Badge, PointHistory } from '../models/reward.model';
-import { User } from '../models/user.model';
+import { CollectionRequest } from '../models/collection-request.model';
+import type { RequestStatus } from '../models/collection-request.model';
+
+export interface User {
+  id: string | number;
+  name: string;
+  email: string;
+  phone?: string;
+  address?: string;
+  roles?: string[];
+  currentRole?: string;
+  points: number;
+  level?: string;
+  totalCollections?: number;
+  totalEarnings?: number;
+  rating?: number;
+  avatar?: string;
+}
+
+export interface Stat {
+  id: string;
+  icon: string;
+  label: string;
+  value: string;
+  change: string;
+  color: string;
+}
+
+export interface Reward {
+  id: number;
+  title: string;
+  description: string;
+  points: number;
+  icon: string;
+  category: string;
+  available: boolean;
+}
+
+export interface Badge {
+  id: number;
+  name: string;
+  description: string;
+  icon: string;
+  earned: boolean;
+  earnedDate?: string;
+  requirements: string;
+}
+
+export interface PointHistory {
+  id: number;
+  action: string;
+  points: number;
+  date: string;
+  type: 'earned' | 'redeemed' | 'refunded';
+  relatedId?: number;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -33,42 +85,55 @@ export class DataService {
   currentUser = this._currentUser.asReadonly();
 
   // Computed values
-  pendingRequests = computed(() => 
+  pendingRequests = computed(() =>
     this._collectionRequests().filter(r => r.status === 'pending')
   );
 
-  inProgressRequests = computed(() => 
+  inProgressRequests = computed(() =>
     this._collectionRequests().filter(r => r.status === 'in-progress')
   );
 
-  completedRequests = computed(() => 
+  completedRequests = computed(() =>
     this._collectionRequests().filter(r => r.status === 'completed')
   );
 
-  earnedBadges = computed(() => 
+  earnedBadges = computed(() =>
     this._badges().filter(b => b.earned)
   );
 
-  // Methods for Collection Requests
+  totalEarnedPoints = computed(() =>
+    this._pointHistory().filter(h => h.type === 'earned').reduce((sum, h) => sum + h.points, 0)
+  );
+
+  // ===========================
+  // Collection Request Methods
+  // ===========================
+
   getRequestsByStatus(status: RequestStatus): CollectionRequest[] {
     return this._collectionRequests().filter(r => r.status === status);
   }
 
-  getRequestsByCitizenId(citizenId: number): CollectionRequest[] {
+  getRequestsByCitizenId(citizenId: string | number): CollectionRequest[] {
     return this._collectionRequests().filter(r => r.citizenId === citizenId);
   }
 
-  getRequestsByCollectorId(collectorId: number): CollectionRequest[] {
+  getRequestsByCollectorId(collectorId: string | number): CollectionRequest[] {
     return this._collectionRequests().filter(r => r.collectorId === collectorId);
   }
 
-  updateRequestStatus(requestId: number, status: RequestStatus, collectorId?: number, estimatedArrivalTime?: string, routeOrder?: number): void {
+  updateRequestStatus(
+    requestId: string | number,
+    status: RequestStatus,
+    collectorId?: string | number,
+    estimatedArrivalTime?: string,
+    routeOrder?: number
+  ): void {
     const requests = this._collectionRequests().map(r => {
       if (r.id === requestId) {
         return {
           ...r,
           status,
-          ...(collectorId !== undefined && { collectorId }),
+          ...(collectorId !== undefined && { collectorId: collectorId as number }),
           ...(estimatedArrivalTime !== undefined && { estimatedArrivalTime }),
           ...(routeOrder !== undefined && { routeOrder })
         };
@@ -78,7 +143,12 @@ export class DataService {
     this._collectionRequests.set(requests);
   }
 
-  acceptRequestForRoute(requestId: number, collectorId: number, estimatedArrivalTime: string, routeOrder: number): void {
+  acceptRequestForRoute(
+    requestId: string | number,
+    collectorId: string | number,
+    estimatedArrivalTime: string,
+    routeOrder: number
+  ): void {
     this.updateRequestStatus(requestId, 'in-progress', collectorId, estimatedArrivalTime, routeOrder);
   }
 
@@ -87,11 +157,19 @@ export class DataService {
     this._collectionRequests.set(requests);
   }
 
-  // Methods for Rewards
+  deleteRequest(requestId: string | number): void {
+    const requests = this._collectionRequests().filter(r => r.id !== requestId);
+    this._collectionRequests.set(requests);
+  }
+
+  // ===========================
+  // Reward Methods
+  // ===========================
+
   redeemReward(rewardId: number): boolean {
     const reward = this._rewards().find(r => r.id === rewardId);
     const user = this._currentUser();
-    
+
     if (!reward || !reward.available || user.points < reward.points) {
       return false;
     }
@@ -116,6 +194,10 @@ export class DataService {
     return true;
   }
 
+  // ===========================
+  // Points Methods
+  // ===========================
+
   addPoints(points: number, reason: string, relatedId?: number): void {
     this._currentUser.update(u => ({
       ...u,
@@ -127,22 +209,43 @@ export class DataService {
       action: reason,
       points,
       date: new Date().toISOString().split('T')[0],
-      type: 'earned' as const,
+      type: 'earned',
       ...(relatedId !== undefined && { relatedId })
     };
     this._pointHistory.update(h => [historyEntry, ...h]);
   }
 
+  refundPoints(points: number, reason: string, relatedId?: number): void {
+    this._currentUser.update(u => ({
+      ...u,
+      points: Math.max(0, u.points - points)
+    }));
+
+    const historyEntry: PointHistory = {
+      id: Date.now(),
+      action: reason,
+      points,
+      date: new Date().toISOString().split('T')[0],
+      type: 'refunded',
+      ...(relatedId !== undefined && { relatedId })
+    };
+    this._pointHistory.update(h => [historyEntry, ...h]);
+  }
+
+  // ===========================
+  // User Stats Methods
+  // ===========================
+
   updateUserStats(statType: 'collections' | 'co2' | 'points', value: number): void {
     const user = this._currentUser();
-    
+
     if (statType === 'collections') {
       this._currentUser.update(u => ({
         ...u,
         totalCollections: (u.totalCollections || 0) + value
       }));
     }
-    
+
     // Update stats array
     const stats = this._userStats().map(stat => {
       if (stat.id === 'total-collections' && statType === 'collections') {
@@ -156,12 +259,26 @@ export class DataService {
     this._userStats.set(stats);
   }
 
-  // Methods for Stats
   updateStats(stats: Stat[]): void {
     this._userStats.set(stats);
   }
 
+  // ===========================
+  // User Methods
+  // ===========================
+
+  setCurrentUser(user: User): void {
+    this._currentUser.set(user);
+  }
+
+  updateCurrentUser(updates: Partial<User>): void {
+    this._currentUser.update(u => ({ ...u, ...updates }));
+  }
+
+  // ===========================
   // Initial Data
+  // ===========================
+
   private getInitialRequests(): CollectionRequest[] {
     return [
       {
@@ -192,64 +309,6 @@ export class DataService {
         citizenId: 2,
         collectorId: 1,
         materials: ['paper']
-      },
-      {
-        id: 3,
-        material: 'Glass Containers',
-        weight: '12 kg',
-        location: 'Maadi',
-        lat: 29.9608,
-        lng: 31.2750,
-        status: 'pending',
-        date: '2025-11-30',
-        distance: '8.7 km',
-        citizenName: 'Mohamed Salah',
-        citizenId: 3,
-        materials: ['glass']
-      },
-      {
-        id: 4,
-        material: 'Metal Cans',
-        weight: '8 kg',
-        location: 'Zamalek',
-        lat: 30.0633,
-        lng: 31.2189,
-        status: 'pending',
-        date: '2025-12-01',
-        distance: '3.5 km',
-        citizenName: 'Sara Ahmed',
-        citizenId: 4,
-        materials: ['metal']
-      },
-      {
-        id: 5,
-        material: 'Mixed Recyclables',
-        weight: '20 kg',
-        location: 'Heliopolis',
-        lat: 30.0875,
-        lng: 31.3244,
-        status: 'completed',
-        date: '2025-11-27',
-        distance: '4.2 km',
-        citizenName: 'Omar Khaled',
-        citizenId: 5,
-        collectorId: 1,
-        materials: ['plastic', 'paper']
-      },
-      {
-        id: 6,
-        material: 'Plastic Bottles',
-        weight: '18 kg',
-        location: 'New Cairo',
-        lat: 30.0131,
-        lng: 31.5000,
-        status: 'completed',
-        date: '2025-11-26',
-        distance: '12.1 km',
-        citizenName: 'Nour Ibrahim',
-        citizenId: 6,
-        collectorId: 1,
-        materials: ['plastic']
       }
     ];
   }
@@ -265,28 +324,12 @@ export class DataService {
         color: 'text-primary'
       },
       {
-        id: 'earnings',
-        icon: '💰',
-        label: 'Earnings',
-        value: '$1,240',
-        change: '+$180 today',
-        color: 'text-green-500'
-      },
-      {
-        id: 'rating',
+        id: 'total-points',
         icon: '⭐',
-        label: 'Rating',
-        value: '4.8',
-        change: 'From 120 reviews',
+        label: 'Total Points',
+        value: '1250',
+        change: '+250 this month',
         color: 'text-accent'
-      },
-      {
-        id: 'active-routes',
-        icon: '🚛',
-        label: 'Active Routes',
-        value: '3',
-        change: 'In progress',
-        color: 'text-primary'
       }
     ];
   }
@@ -310,42 +353,6 @@ export class DataService {
         icon: '💳',
         category: 'popular',
         available: true
-      },
-      {
-        id: 3,
-        title: 'Eco Kit',
-        description: 'Reusable shopping bag set',
-        points: 750,
-        icon: '🛍️',
-        category: 'special',
-        available: true
-      },
-      {
-        id: 4,
-        title: 'Tree Planting',
-        description: 'Plant a tree in your name',
-        points: 800,
-        icon: '🌳',
-        category: 'special',
-        available: true
-      },
-      {
-        id: 5,
-        title: 'Premium Subscription',
-        description: '1 month premium features',
-        points: 1500,
-        icon: '👑',
-        category: 'premium',
-        available: true
-      },
-      {
-        id: 6,
-        title: 'Charity Donation',
-        description: 'Donate to environmental charity',
-        points: 600,
-        icon: '❤️',
-        category: 'special',
-        available: true
       }
     ];
   }
@@ -366,25 +373,8 @@ export class DataService {
         name: 'Top Recycler',
         description: 'Recycle 100kg',
         icon: '🏆',
-        earned: true,
-        earnedDate: '2025-11-20',
+        earned: false,
         requirements: 'Recycle 100kg total'
-      },
-      {
-        id: 3,
-        name: 'Weekly Eco Hero',
-        description: 'Top recycler this week',
-        icon: '⭐',
-        earned: false,
-        requirements: 'Be top recycler in a week'
-      },
-      {
-        id: 4,
-        name: 'Plastic Master',
-        description: 'Recycle 50kg plastic',
-        icon: '♻️',
-        earned: false,
-        requirements: 'Recycle 50kg of plastic'
       }
     ];
   }
@@ -406,30 +396,6 @@ export class DataService {
         date: '2025-11-27',
         type: 'earned',
         relatedId: 2
-      },
-      {
-        id: 3,
-        action: 'Redeemed: Discount Voucher',
-        points: 500,
-        date: '2025-11-25',
-        type: 'redeemed',
-        relatedId: 1
-      },
-      {
-        id: 4,
-        action: 'Glass collection completed',
-        points: 40,
-        date: '2025-11-24',
-        type: 'earned',
-        relatedId: 3
-      },
-      {
-        id: 5,
-        action: 'Metal collection completed',
-        points: 60,
-        date: '2025-11-23',
-        type: 'earned',
-        relatedId: 4
       }
     ];
   }
@@ -451,10 +417,8 @@ export class DataService {
     };
   }
 
-  // TODO: Methods to be replaced with API calls
+  // TODO: Replace with API calls
   // async getRequests(): Promise<CollectionRequest[]>
   // async createRequest(request: CollectionRequest): Promise<CollectionRequest>
   // async updateRequest(id: number, updates: Partial<CollectionRequest>): Promise<CollectionRequest>
-  // async redeemReward(rewardId: number): Promise<boolean>
 }
-

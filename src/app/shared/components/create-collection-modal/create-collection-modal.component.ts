@@ -151,8 +151,8 @@ export class CreateCollectionModalComponent implements AfterViewInit, OnChanges 
   }
 
   isFormValid(): boolean {
-    return this.form.valid && 
-           this.selectedMaterials().length > 0 && 
+    return this.form.valid &&
+           this.selectedMaterials().length > 0 &&
            this.selectedLocation() !== null;
   }
 
@@ -184,6 +184,11 @@ export class CreateCollectionModalComponent implements AfterViewInit, OnChanges 
     }
 
     const user = this.dataService.currentUser();
+    if (!user || !user.id) {
+      console.error('User not found or user ID is missing');
+      return;
+    }
+
     const formValue = this.form.value;
     const materials = this.selectedMaterials();
 
@@ -206,7 +211,7 @@ export class CreateCollectionModalComponent implements AfterViewInit, OnChanges 
       lng: location[1],
       status: 'pending',
       date: new Date().toISOString().split('T')[0],
-      citizenId: user.id,
+      citizenId: typeof user.id === 'string' ? parseInt(user.id, 10) : user.id,
       citizenName: user.name,
       estimatedQuantity: formValue.quantity,
       preferredTime: formValue.preferredTime,

@@ -28,12 +28,12 @@ export const translations: Translations = {
   register: { en: "Register", ar: "التسجيل" },
   getStarted: { en: "Get Started", ar: "ابدأ الآن" },
   home: { en: "Home", ar: "الرئيسية" },
-  
+
   // Landing
   heroTitle: { en: "Recycle Smart, Live Green", ar: "أعد التدوير بذكاء، عش بخضرة" },
   heroSubtitle: { en: "Connect with local collectors and turn your recyclables into rewards", ar: "تواصل مع الجامعين المحليين وحوّل مخلفاتك القابلة للتدوير إلى مكافآت" },
   learnMore: { en: "Learn More", ar: "اعرف المزيد" },
-  
+
   // Dashboard
   citizenDashboard: { en: "Citizen Dashboard", ar: "لوحة تحكم المواطن" },
   collectorDashboard: { en: "Collector Dashboard", ar: "لوحة تحكم الجامع" },
@@ -43,13 +43,13 @@ export const translations: Translations = {
   co2Saved: { en: "CO₂ Saved", ar: "ثاني أكسيد الكربون الموفر" },
   rewardPoints: { en: "Reward Points", ar: "نقاط المكافآت" },
   recentRequests: { en: "Recent Collection Requests", ar: "طلبات الجمع الأخيرة" },
-  
+
   // Status
   completed: { en: "Completed", ar: "مكتمل" },
   pending: { en: "Pending", ar: "قيد الانتظار" },
   inProgress: { en: "In Progress", ar: "قيد التنفيذ" },
   cancelled: { en: "Cancelled", ar: "ملغى" },
-  
+
   // Modal
   pickupLocation: { en: "Pickup Location", ar: "موقع الاستلام" },
   clickToSelect: { en: "Click to select your location", ar: "انقر لتحديد موقعك" },
@@ -62,14 +62,14 @@ export const translations: Translations = {
   preferredTime: { en: "Preferred Time", ar: "الوقت المفضل" },
   cancel: { en: "Cancel", ar: "إلغاء" },
   submitRequest: { en: "Submit Request", ar: "إرسال الطلب" },
-  
+
   // Role Selection
   selectRole: { en: "Select Your Role", ar: "اختر دورك" },
   citizen: { en: "Citizen", ar: "مواطن" },
   collector: { en: "Collector", ar: "جامع" },
   citizenDesc: { en: "Request waste collection and earn rewards", ar: "اطلب جمع النفايات واكسب المكافآت" },
   collectorDesc: { en: "Collect recyclables and earn money", ar: "اجمع المواد القابلة للتدوير واكسب المال" },
-  
+
   // Form Fields
   firstName: { en: "First Name", ar: "الاسم الأول" },
   lastName: { en: "Last Name", ar: "الاسم الأخير" },
@@ -82,17 +82,17 @@ export const translations: Translations = {
   serviceArea: { en: "Service Area", ar: "منطقة الخدمة" },
   nationalId: { en: "National ID", ar: "رقم الهوية" },
   availability: { en: "Availability", ar: "التوفر" },
-  
+
   // Rewards
   totalPoints: { en: "Total Points", ar: "إجمالي النقاط" },
   redeemRewards: { en: "Redeem Rewards", ar: "استبدال المكافآت" },
   pointHistory: { en: "Point History", ar: "سجل النقاط" },
-  
+
   // Badges
   greenWarrior: { en: "Green Warrior", ar: "المحارب الأخضر" },
   topRecycler: { en: "Top Recycler", ar: "أفضل معيد تدوير" },
   weeklyEcoHero: { en: "Weekly Eco Hero", ar: "بطل البيئة الأسبوعي" },
-  
+
   // Profile
   editProfile: { en: "Edit Profile", ar: "تعديل الملف" },
   saveChanges: { en: "Save Changes", ar: "حفظ التغييرات" },
@@ -101,7 +101,7 @@ export const translations: Translations = {
   notProvided: { en: "Not provided", ar: "لم يتم تحديده" },
   mapLocation: { en: "Your Location", ar: "موقعك" },
   coordinates: { en: "Coordinates", ar: "الإحداثيات" },
-  
+
   // Auth
   confirmEmail: { en: "Confirm Email", ar: "تأكيد البريد الإلكتروني" },
   forgotPassword: { en: "Forgot Password?", ar: "هل نسيت كلمة المرور؟" },
@@ -112,7 +112,7 @@ export const translations: Translations = {
   noAccount: { en: "Don't have an account?", ar: "ليس لديك حساب؟" },
   haveAccount: { en: "Already have an account?", ar: "هل لديك حساب بالفعل؟" },
   rememberMe: { en: "Remember me", ar: "تذكرني" },
-  
+
   // Common UI
   loading: { en: "Loading...", ar: "جاري التحميل..." },
   saving: { en: "Saving...", ar: "جاري الحفظ..." },
@@ -146,7 +146,7 @@ export class LanguageService {
   private readonly languageKey = 'language';
   private translationCache = new Map<string, string>();
   private lastLanguage: Language = 'en';
-  
+
   language = signal<Language>(this.getInitialLanguage());
   direction = signal<Direction>('ltr');
 
@@ -155,13 +155,13 @@ export class LanguageService {
       const lang = this.language();
       const dir: Direction = lang === 'ar' ? 'rtl' : 'ltr';
       this.direction.set(dir);
-      
+
       // Clear cache when language changes
       if (lang !== this.lastLanguage) {
         this.translationCache.clear();
         this.lastLanguage = lang;
       }
-      
+
       if (typeof document !== 'undefined') {
         document.documentElement.dir = dir;
         document.documentElement.lang = lang;
@@ -185,17 +185,17 @@ export class LanguageService {
   toggleLanguage(): void {
     this.language.update(prev => prev === 'en' ? 'ar' : 'en');
   }
-  
+
   setLanguage(lang: Language): void {
     if (lang !== this.language()) {
       this.language.set(lang);
     }
   }
-  
+
   getLanguage(): Language {
     return this.language();
   }
-  
+
   getDirection(): Direction {
     return this.direction();
   }
@@ -212,18 +212,18 @@ export class LanguageService {
 
     const translation = translations[key];
     let result: string;
-    
+
     if (!translation) {
       result = key;
     } else {
       result = translation[this.language()] || translation['en'] || key;
     }
-    
+
     // Store in cache
     this.translationCache.set(key, result);
     return result;
   }
-  
+
   /**
    * Get all available translations for a key
    */
@@ -231,7 +231,7 @@ export class LanguageService {
     const translation = translations[key];
     return translation || null;
   }
-  
+
   /**
    * Check if a key exists in translations
    */

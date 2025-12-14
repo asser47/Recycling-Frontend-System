@@ -9,7 +9,7 @@ export class ThemeService {
   private readonly themeKey = 'theme';
   private root: HTMLElement | null = null;
   private lastAppliedTheme: Theme | null = null;
-  
+
   theme = signal<Theme>(this.getInitialTheme());
 
   constructor() {
@@ -17,14 +17,14 @@ export class ThemeService {
     if (typeof document !== 'undefined') {
       this.root = document.documentElement;
     }
-    
+
     // Optimized effect: only update when theme actually changes
     effect(() => {
       const theme = this.theme();
-      
+
       // Skip if theme hasn't actually changed
       if (theme === this.lastAppliedTheme) return;
-      
+
       this.lastAppliedTheme = theme;
       this.applyTheme(theme);
     });
@@ -44,11 +44,11 @@ export class ThemeService {
 
   private applyTheme(theme: Theme): void {
     if (!this.root) return;
-    
+
     // Use classList.toggle for better performance
     this.root.classList.toggle('dark', theme === 'dark');
     this.root.classList.toggle('light', theme === 'light');
-    
+
     // Batch DOM updates with localStorage
     if (typeof window !== 'undefined') {
       localStorage.setItem(this.themeKey, theme);
@@ -58,13 +58,13 @@ export class ThemeService {
   toggleTheme(): void {
     this.theme.update(prev => prev === 'light' ? 'dark' : 'light');
   }
-  
+
   setTheme(theme: Theme): void {
     if (theme !== this.lastAppliedTheme) {
       this.theme.set(theme);
     }
   }
-  
+
   getTheme(): Theme {
     return this.theme();
   }

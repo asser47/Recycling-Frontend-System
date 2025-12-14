@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import { AuthGuard } from './core/guards/auth.guard';
+import { AuthGuard } from './core/guards/auth/auth-guard';
+import { adminGuard } from './core/guards/admin/admin-guard';
 
 export const routes: Routes = [
   {
@@ -37,18 +38,48 @@ export const routes: Routes = [
   },
   {
     path: 'citizen-dashboard',
-    loadComponent: () => import('./features/citizen-dashboard/citizen-dashboard.component').then(m => m.CitizenDashboardComponent),
+    loadComponent: () => import('./features/citizen/citizen-dashboard/citizen-dashboard.component').then(m => m.CitizenDashboardComponent),
     canActivate: [AuthGuard]
   },
   {
     path: 'collector-dashboard',
-    loadComponent: () => import('./features/collector-dashboard/collector-dashboard.component').then(m => m.CollectorDashboardComponent),
+    loadComponent: () => import('./features/collector/collector-dashboard/collector-dashboard.component').then(m => m.CollectorDashboardComponent),
     canActivate: [AuthGuard]
   },
   {
-    path: 'admin/dashboard',
-    loadComponent: () => import('./features/admin-dashboard/admin-dashboard.component').then(m => m.AdminDashboardComponent),
-    canActivate: [AuthGuard]
+    path: 'admin',
+    loadComponent: () => import('./features/admin/admin-layout/admin-layout.component').then(m => m.AdminLayoutComponent),
+    canActivate: [AuthGuard, adminGuard],
+    children: [
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./features/admin/admin-dashboard/dashboard/dashboard').then(m => m.AdminDashboardComponent)
+      },
+      {
+        path: 'reward-management',
+        loadComponent: () => import('./features/admin/admin-dashboard/reward-management/reward-management.component').then(m => m.RewardManagementComponent)
+      },
+      {
+        path: 'manage-users',
+        loadComponent: () => import('./features/admin/admin-dashboard/manage-users/manage-users').then(m => m.ManageUsersComponent)
+      },
+      {
+        path: 'manage-orders',
+        loadComponent: () => import('./features/admin/admin-dashboard/manage-orders/manage-orders.component').then(m => m.OrderManagementComponent)
+      },
+      {
+        path: 'manage-materials',
+        loadComponent: () => import('./features/admin/admin-dashboard/manage-materials/manage-materials').then(m => m.ManageMaterialsComponent)
+      },
+      {
+        path: 'manage-factories',
+        loadComponent: () => import('./features/admin/admin-dashboard/manage-factories/manage-factories').then(m => m.ManageFactoriesComponent)
+      },
+      {
+        path: 'edit-reward/:id',
+        loadComponent: () => import('./features/admin/admin-dashboard/edit-reward/edit-reward').then(m => m.EditRewardComponent)
+      }
+    ]
   },
   {
     path: 'rewards',

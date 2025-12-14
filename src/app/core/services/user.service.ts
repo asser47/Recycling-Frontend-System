@@ -9,10 +9,10 @@ export type Role = 'citizen' | 'collector' | 'admin';
 export class UserService {
   private readonly rolesKey = 'userRoles';
   private readonly currentRoleKey = 'currentRole';
-  
+
   roles = signal<Role[]>(this.getInitialRoles());
   currentRole = signal<Role | null>(this.getInitialCurrentRole());
-  
+
   isLoggedIn = computed(() => this.roles().length > 0);
 
   constructor(private router: Router) {}

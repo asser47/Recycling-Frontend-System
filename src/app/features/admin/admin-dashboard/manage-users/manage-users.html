@@ -1,0 +1,109 @@
+<div class="flex flex-col h-full bg-background">
+  <!-- Header -->
+  <div class="border-b border-border p-6">
+    <h1 class="text-3xl font-bold text-foreground">👥 Manage Users</h1>
+    <p class="text-muted-foreground mt-1">View and manage all system users</p>
+  </div>
+
+  <!-- Content -->
+  <div class="flex-1 overflow-auto p-6">
+    <!-- Search & Filter -->
+    <div class="mb-6 flex flex-col sm:flex-row gap-4">
+      <div class="flex-1">
+        <input
+          type="text"
+          placeholder="Search by name or email..."
+          (input)="onSearchChange($event.target.value)"
+          class="w-full px-4 py-2 border border-border rounded-lg bg-card text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+        />
+      </div>
+      <button
+        (click)="loadUsers()"
+        class="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-colors"
+      >
+        🔄 Refresh
+      </button>
+    </div>
+
+    <!-- Error Message -->
+    @if (error()) {
+      <div class="mb-4 p-4 bg-red-100 border border-red-300 rounded-lg text-red-800">
+        ⚠️ {{ error() }}
+      </div>
+    }
+
+    <!-- Loading State -->
+    @if (isLoading()) {
+      <div class="flex items-center justify-center h-96">
+        <div class="text-center">
+          <div class="inline-block animate-spin">⏳</div>
+          <p class="mt-2 text-muted-foreground">Loading users...</p>
+        </div>
+      </div>
+    } @else if (filteredUsers().length === 0) {
+      <!-- Empty State -->
+      <div class="flex items-center justify-center h-96">
+        <div class="text-center">
+          <p class="text-2xl">👤</p>
+          <p class="text-muted-foreground mt-2">No users found</p>
+        </div>
+      </div>
+    } @else {
+      <!-- Users Table -->
+      <div class="overflow-x-auto border border-border rounded-lg">
+        <table class="w-full">
+          <thead>
+            <tr class="border-b border-border bg-muted">
+              <th class="px-6 py-3 text-left text-sm font-semibold text-foreground">Name</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-foreground">Email</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-foreground">Phone</th>
+              <th class="px-6 py-3 text-left text-sm font-semibold text-foreground">Points</th>
+              <th class="px-6 py-3 text-right text-sm font-semibold text-foreground">Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (user of filteredUsers(); track user.id) {
+              <tr class="border-b border-border hover:bg-muted/50 transition-colors">
+                <td class="px-6 py-4 text-sm text-foreground">
+                  <div class="font-medium">{{ user.fullName || user.firstName + ' ' + user.lastName }}</div>
+                  <div class="text-xs text-muted-foreground">{{ user.id }}</div>
+                </td>
+                <td class="px-6 py-4 text-sm text-foreground">{{ user.email }}</td>
+                <td class="px-6 py-4 text-sm text-foreground">{{ user.phoneNumber || '-' }}</td>
+                <td class="px-6 py-4 text-sm">
+                  <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                    ⭐ {{ user.points || 0 }}
+                  </span>
+                </td>
+                <td class="px-6 py-4 text-sm text-right">
+                  <button
+                    (click)="deleteUser(user.id)"
+                    class="px-3 py-1 rounded bg-red-100 text-red-700 hover:bg-red-200 transition-colors text-xs font-medium"
+                  >
+                    🗑️ Delete
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Stats -->
+      <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="p-4 bg-card border border-border rounded-lg">
+          <div class="text-sm text-muted-foreground">Total Users</div>
+          <div class="text-2xl font-bold text-foreground mt-2">{{ users().length }}</div>
+        </div>
+        <div class="p-4 bg-card border border-border rounded-lg">
+          <div class="text-sm text-muted-foreground">Displayed</div>
+          <div class="text-2xl font-bold text-foreground mt-2">{{ filteredUsers().length }}</div>
+        </div>
+        <div class="p-4 bg-card border border-border rounded-lg">
+          <div class="text-sm text-muted-foreground">Search Active</div>
+          <div class="text-2xl font-bold text-primary mt-2">{{ searchTerm() ? '✓' : '✗' }}</div>
+        </div>
+      </div>
+    }
+  </div>
+</div>

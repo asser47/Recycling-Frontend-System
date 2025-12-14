@@ -5,7 +5,7 @@ import { provideHttpClient, HTTP_INTERCEPTORS, withXsrfConfiguration } from '@an
 import { provideZoneChangeDetection } from '@angular/core';
 import { AppComponent } from './app/app.component';
 import { routes } from './app/app.routes';
-import { AuthInterceptor } from './app/core/interceptors/auth.interceptor';
+import { AuthInterceptor } from './app/core/interceptors/auth-interceptor';
 
 bootstrapApplication(AppComponent, {
   providers: [

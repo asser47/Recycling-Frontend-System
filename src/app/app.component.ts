@@ -7,18 +7,10 @@ import { FlashMessagesComponent } from './shared/components/flash-messages/flash
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, NavbarComponent, FlashMessagesComponent],
-  template: `
-    <div class="min-h-screen flex flex-col transition-colors duration-300">
-      <app-navbar></app-navbar>
-      <app-flash-messages></app-flash-messages>
-      <main class="flex-1">
-        <router-outlet></router-outlet>
-      </main>
-    </div>
-  `,
-  styles: []
+    templateUrl: './app.html',
+  styleUrls: ['./app.css']
 })
 export class AppComponent {
-  title = 'lovable-eco';
+  title = 'GreenZone';
 }
 

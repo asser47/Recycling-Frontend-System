@@ -63,8 +63,8 @@ const initialNotifications: Notification[] = [
 })
 export class NotificationService {
   notifications = signal<Notification[]>(initialNotifications);
-  
-  unreadCount = computed(() => 
+
+  unreadCount = computed(() =>
     this.notifications().filter(n => !n.read).length
   );
 
@@ -107,7 +107,7 @@ export class NotificationService {
       time: 'Just now',
       read: false,
     };
-    
+
     this.notifications.update(prev => [newNotification, ...prev]);
   }
 
