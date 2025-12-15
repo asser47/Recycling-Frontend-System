@@ -2,6 +2,7 @@ import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { LanguageService } from '../../core/services/language.service';
+import { AuthService } from '../../core/services/auth.service';
 import { LandingFeaturesComponent } from './components/features/features.component';
 
 interface Feature {
@@ -20,9 +21,11 @@ interface Feature {
 })
 export class LandingComponent {
   languageService = inject(LanguageService);
+  authService = inject(AuthService);
   router = inject(Router);
 
   direction = this.languageService.direction;
+  isLogged = this.authService.isLogged;
   t = (key: string) => this.languageService.t(key);
 
   scrollToFeatures() {

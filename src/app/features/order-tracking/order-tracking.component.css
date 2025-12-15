@@ -1,0 +1,105 @@
+/* Order Tracking Component Styles */
+
+/* Scrollbar styling for better UX */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--muted);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+/* Button hover effects */
+button {
+  transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);
+}
+
+.btn-outline:hover {
+  transform: translateY(-2px);
+}
+
+/* Card animations */
+.card-lg {
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Status badge animations */
+[class*='bg-yellow-']:not(:hover),
+[class*='bg-blue-']:not(:hover),
+[class*='bg-green-']:not(:hover),
+[class*='bg-red-']:not(:hover),
+[class*='bg-purple-']:not(:hover) {
+  transition: all 0.2s ease-in-out;
+}
+
+/* Timeline indicator */
+.w-3.h-3 {
+  box-shadow: 0 0 0 3px rgba(var(--primary), 0.1);
+}
+
+/* Loading state */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .max-h-\[calc\(100vh-300px\)\] {
+    max-height: 500px;
+  }
+}
+
+/* Focus states for accessibility */
+button:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  .flex.gap-3 {
+    display: none;
+  }
+
+  .lg\:col-span-1 {
+    display: none;
+  }
+
+  .lg\:col-span-2 {
+    grid-column: 1 / -1;
+  }
+}

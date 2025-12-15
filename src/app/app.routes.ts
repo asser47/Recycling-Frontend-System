@@ -107,6 +107,16 @@ export const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
+    path: 'order-tracking',
+    loadComponent: () => import('./features/order-tracking/order-tracking.component').then(m => m.OrderTrackingComponent),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'order-tracking/:id',
+    loadComponent: () => import('./features/order-tracking/order-tracking.component').then(m => m.OrderTrackingComponent),
+    canActivate: [AuthGuard]
+  },
+  {
     path: '**',
     loadComponent: () => import('./features/errors/not-found/not-found.component').then(m => m.NotFoundComponent)
   }
