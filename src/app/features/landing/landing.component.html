@@ -10,23 +10,25 @@
           <p class="text-lg md:text-xl text-muted-foreground">{{ t('heroSubtitle') }}</p>
 
           <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-  <a routerLink="/register">
-    <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap
-    font-medium ring-offset-background transition-colors focus-visible:outline-none
-    focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
-    disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none
-    [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground
-    hover:bg-primary/90 h-11 rounded-md text-lg px-8">Get Started</button>
-  </a>
-  <button (click)="scrollToFeatures()" class="inline-flex items-center justify-center gap-2 whitespace-nowrap
-    font-medium ring-offset-background transition-colors focus-visible:outline-none
-    focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
-    disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none
-    [&_svg]:size-4 [&_svg]:shrink-0 border-2 border-green-500 bg-background
-    hover:bg-accent hover:text-accent-foreground h-11 rounded-md
-    text-lg px-8 text-green-500">
-    Learn More
-</button>
+  @if (!isLogged()) {
+    <a routerLink="/register">
+      <button class="inline-flex items-center justify-center gap-2 whitespace-nowrap
+      font-medium ring-offset-background transition-colors focus-visible:outline-none
+      focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
+      disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none
+      [&amp;_svg]:size-4 [&amp;_svg]:shrink-0 bg-primary text-primary-foreground
+      hover:bg-primary/90 h-11 rounded-md text-lg px-8">Get Started</button>
+    </a>
+    <button (click)="scrollToFeatures()" class="inline-flex items-center justify-center gap-2 whitespace-nowrap
+      font-medium ring-offset-background transition-colors focus-visible:outline-none
+      focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2
+      disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none
+      [&_svg]:size-4 [&_svg]:shrink-0 border-2 border-green-500 bg-background
+      hover:bg-accent hover:text-accent-foreground h-11 rounded-md
+      text-lg px-8 text-green-500">
+      Learn More
+    </button>
+  }
 </div>
 
           <!-- <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
