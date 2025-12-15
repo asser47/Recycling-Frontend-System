@@ -58,7 +58,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     // Redirect if already logged in
     if (this.authService.isLogged()) {
-      this.router.navigate(['/citizen/dashboard']);
+      this.router.navigate(['/role-selection']);
     }
   }
 
@@ -165,7 +165,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
           // Navigate after a short delay for UX
           setTimeout(() => {
-            this.router.navigate(['/citizen/dashboard']);
+            this.router.navigate(['/role-selection']);
           }, 500);
         } catch (error) {
           this.globalError = 'Failed to save authentication token';

@@ -13,44 +13,47 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil, debounceTime } from 'rxjs/operators';
 
 import { AuthService } from '../../../core/services/auth.service';
 import { FlashMessageService } from '../../../core/services/flash-message.service';
 import { AuthValidators } from '../../../core/utils/validators.util';
-import { UserDataService } from '../../../core/services/user-data.service';
 
 /**
- * Register Component
- * Handles new user registration with comprehensive validation
- * Includes password strength indicator and real-time validation feedback
+ * Reset Password Component
+ * Handles password reset with token validation
+ * Displays confirmation after successful password change
  */
 
 @Component({
-  selector: 'app-register',
+  selector: 'app-reset-password',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule],
-  templateUrl: './register.html',
-  styleUrls: ['./register.css'],
+  templateUrl: './reset-password.html',
+  styleUrls: ['./reset-password.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RegisterComponent implements OnInit, OnDestroy {
+export class ResetPasswordComponent implements OnInit, OnDestroy {
   // Services
+  private readonly route = inject(ActivatedRoute);
   private readonly authService = inject(AuthService);
-  private readonly router = inject(Router);
   private readonly flash = inject(FlashMessageService);
+  private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
   private readonly cdr = inject(ChangeDetectorRef);
-  private readonly userDataService = inject(UserDataService);
 
   // Form and state
-  registerForm!: FormGroup;
+  resetForm!: FormGroup;
+  email: string | null = null;
+  token: string | null = null;
   globalError: string | null = null;
+  invalidLink = false;
+  isSubmitting = false;
+  isSubmitted = false;
   showPassword = false;
   showConfirmPassword = false;
-  isSubmitting = false;
   passwordStrength = 0;
   passwordStrengthLabel = 'Weak';
 
@@ -58,39 +61,40 @@ export class RegisterComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>();
 
   ngOnInit(): void {
+    this.extractParams();
+
+    if (this.invalidLink) {
+      this.cdr.markForCheck();
+      return;
+    }
+
     this.initializeForm();
     this.setupFormValueChangeListener();
+  }
 
-    // Redirect if already logged in
-    if (this.authService.isLogged()) {
-      this.router.navigate(['/citizen/dashboard']);
+  /**
+   * Extract email and token from query parameters
+   */
+  private extractParams(): void {
+    this.email = this.route.snapshot.queryParamMap.get('email');
+    const rawToken = this.route.snapshot.queryParamMap.get('token');
+
+    if (!this.email || !rawToken) {
+      this.invalidLink = true;
+      this.globalError = 'Invalid or expired reset link. Please request a new one.';
+      return;
     }
+
+    this.token = encodeURIComponent(rawToken);
   }
 
   /**
    * Initialize reactive form with validation
    */
   private initializeForm(): void {
-    this.registerForm = this.fb.group(
+    this.resetForm = this.fb.group(
       {
-        fullName: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(2),
-            Validators.maxLength(50),
-            AuthValidators.name
-          ]
-        ],
-        email: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(3),
-            AuthValidators.email
-          ]
-        ],
-        password: [
+        newPassword: [
           '',
           [
             Validators.required,
@@ -103,32 +107,20 @@ export class RegisterComponent implements OnInit, OnDestroy {
           [
             Validators.required
           ]
-        ],
-        phoneNumber: [
-          '',
-          [
-            Validators.required,
-            Validators.minLength(10),
-            AuthValidators.phoneNumber
-          ]
-        ],
-        agreeTerms: [
-          false,
-          [Validators.requiredTrue]
         ]
       },
       {
-        validators: AuthValidators.matchFields('password', 'confirmPassword')
+        validators: AuthValidators.matchFields('newPassword', 'confirmPassword')
       }
     );
   }
 
   /**
-   * Setup form value change listener for real-time validation feedback
+   * Setup form value change listener
    */
   private setupFormValueChangeListener(): void {
-    // Listen to password changes to calculate strength
-    this.registerForm.get('password')?.valueChanges
+    // Listen to password changes
+    this.resetForm.get('newPassword')?.valueChanges
       .pipe(
         debounceTime(300),
         takeUntil(this.destroy$)
@@ -139,7 +131,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
       });
 
     // Listen to form status changes
-    this.registerForm.statusChanges
+    this.resetForm.statusChanges
       .pipe(
         debounceTime(300),
         takeUntil(this.destroy$)
@@ -161,20 +153,16 @@ export class RegisterComponent implements OnInit, OnDestroy {
 
     let strength = 0;
 
-    // Check length
     if (password.length >= 6) strength++;
     if (password.length >= 10) strength++;
     if (password.length >= 14) strength++;
-
-    // Check character types
     if (/[a-z]/.test(password)) strength++;
     if (/[A-Z]/.test(password)) strength++;
     if (/\d/.test(password)) strength++;
     if (/[@$!%*?&]/.test(password)) strength++;
 
-    this.passwordStrength = Math.min(strength, 4); // Max 4 levels
+    this.passwordStrength = Math.min(strength, 4);
 
-    // Set label
     switch (this.passwordStrength) {
       case 0:
       case 1:
@@ -215,7 +203,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
    * Get field error message
    */
   getErrorMessage(fieldName: string): string {
-    const control = this.registerForm.get(fieldName);
+    const control = this.resetForm.get(fieldName);
     if (!control || !control.errors || !control.touched) {
       return '';
     }
@@ -227,7 +215,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
    * Check if field has error and is touched
    */
   hasError(fieldName: string): boolean {
-    const control = this.registerForm.get(fieldName);
+    const control = this.resetForm.get(fieldName);
     return !!(control && control.invalid && (control.dirty || control.touched));
   }
 
@@ -235,7 +223,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
    * Check if field is valid
    */
   isFieldValid(fieldName: string): boolean {
-    const control = this.registerForm.get(fieldName);
+    const control = this.resetForm.get(fieldName);
     return !!(control && control.valid && control.touched);
   }
 
@@ -243,9 +231,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
    * Check if passwords match
    */
   doPasswordsMatch(): boolean {
-    if (!this.registerForm) return false;
-    const password = this.registerForm.get('password')?.value;
-    const confirmPassword = this.registerForm.get('confirmPassword')?.value;
+    if (!this.resetForm) return false;
+    const password = this.resetForm.get('newPassword')?.value;
+    const confirmPassword = this.resetForm.get('confirmPassword')?.value;
     return password && confirmPassword && password === confirmPassword;
   }
 
@@ -267,10 +255,9 @@ export class RegisterComponent implements OnInit, OnDestroy {
    * Handle form submission
    */
   onSubmit(): void {
-    // Mark all fields as touched to show validation errors
-    if (this.registerForm.invalid) {
-      Object.keys(this.registerForm.controls).forEach(key => {
-        this.registerForm.get(key)?.markAsTouched();
+    if (this.resetForm.invalid) {
+      Object.keys(this.resetForm.controls).forEach(key => {
+        this.resetForm.get(key)?.markAsTouched();
       });
       this.globalError = 'Please fix the errors in the form';
       this.cdr.markForCheck();
@@ -281,30 +268,25 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.isSubmitting = true;
     this.cdr.markForCheck();
 
-    const { fullName, email, password, confirmPassword, phoneNumber } = this.registerForm.value;
+    const data = {
+      email: this.email!,
+      token: this.token!,
+      newPassword: this.resetForm.get('newPassword')?.value,
+      confirmPassword: this.resetForm.get('confirmPassword')?.value
+    };
 
-    this.authService.register({ fullName, email, password, confirmPassword, phoneNumber }).pipe(
+    this.authService.resetPassword(data).pipe(
       takeUntil(this.destroy$)
     ).subscribe({
       next: () => {
-        // Store registration data in UserDataService for profile page
-        this.userDataService.setUserData({
-          fullName,
-          email,
-          phoneNumber,
-          avatar: '',
-          bio: '',
-          address: '',
-          city: '',
-          country: ''
-        });
+        this.isSubmitted = true;
+        this.flash.showSuccess('Password changed successfully! ✔');
+        this.cdr.markForCheck();
 
-        this.flash.showSuccess('Account created successfully! ✔');
-
-        // Navigate after a short delay for UX
+        // Redirect after 3 seconds
         setTimeout(() => {
-          this.router.navigate(['/register-success']);
-        }, 500);
+          this.router.navigate(['/login']);
+        }, 3000);
       },
       error: (error) => {
         this.isSubmitting = false;
@@ -313,8 +295,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
           this.globalError = error.message;
           this.flash.showError(error.message);
         } else {
-          this.globalError = 'An unexpected error occurred. Please try again.';
-          this.flash.showError('Registration failed. Please try again.');
+          this.globalError = 'Failed to reset password. Please try again.';
+          this.flash.showError('Password reset failed.');
         }
 
         this.cdr.markForCheck();
@@ -323,14 +305,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Navigate to login page
+   * Navigate to login
    */
   goToLogin(): void {
     this.router.navigate(['/login']);
   }
 
   /**
-   * Clear global error message
+   * Clear global error
    */
   clearError(): void {
     this.globalError = null;
@@ -342,4 +324,3 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 }
-
