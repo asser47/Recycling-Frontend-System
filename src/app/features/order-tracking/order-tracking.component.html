@@ -1,0 +1,335 @@
+<div class="min-h-screen bg-background">
+  <!-- Header -->
+  <div class="bg-card border-b border-border p-6 sticky top-0 z-10">
+    <div class="max-w-6xl mx-auto">
+      <h1 class="text-3xl font-bold text-foreground mb-2">Order Tracking</h1>
+      <p class="text-muted-foreground">Track your collection requests and deliveries</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="max-w-6xl mx-auto p-6">
+    @if (error()) {
+      <div class="bg-destructive/10 border border-destructive/30 rounded-lg p-4 mb-6 text-destructive">
+        <p class="font-medium">{{ error() }}</p>
+        <button
+          (click)="clearError()"
+          class="text-xs mt-2 underline hover:no-underline"
+        >
+          Dismiss
+        </button>
+      </div>
+    }
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <!-- Sidebar: Orders List -->
+      <div class="lg:col-span-1">
+        <!-- Tabs -->
+        <div class="flex gap-2 mb-4 overflow-x-auto pb-2">
+          <button
+            (click)="selectedTab = 'all'"
+            [class.bg-primary]="selectedTab === 'all'"
+            [class.text-primary-foreground]="selectedTab === 'all'"
+            [class.bg-muted]="selectedTab !== 'all'"
+            [class.text-muted-foreground]="selectedTab !== 'all'"
+            class="px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap"
+          >
+            All ({{ myOrders().length }})
+          </button>
+          <button
+            (click)="selectedTab = 'pending'"
+            [class.bg-yellow-500]="selectedTab === 'pending'"
+            [class.text-white]="selectedTab === 'pending'"
+            [class.bg-muted]="selectedTab !== 'pending'"
+            [class.text-muted-foreground]="selectedTab !== 'pending'"
+            class="px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap"
+          >
+            Pending ({{ pendingOrders().length }})
+          </button>
+          <button
+            (click)="selectedTab = 'accepted'"
+            [class.bg-blue-500]="selectedTab === 'accepted'"
+            [class.text-white]="selectedTab === 'accepted'"
+            [class.bg-muted]="selectedTab !== 'accepted'"
+            [class.text-muted-foreground]="selectedTab !== 'accepted'"
+            class="px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap"
+          >
+            Accepted ({{ acceptedOrders().length }})
+          </button>
+          <button
+            (click)="selectedTab = 'completed'"
+            [class.bg-green-600]="selectedTab === 'completed'"
+            [class.text-white]="selectedTab === 'completed'"
+            [class.bg-muted]="selectedTab !== 'completed'"
+            [class.text-muted-foreground]="selectedTab !== 'completed'"
+            class="px-4 py-2 rounded-lg font-medium transition-colors whitespace-nowrap"
+          >
+            Completed ({{ completedOrders().length }})
+          </button>
+        </div>
+
+        <!-- Orders List -->
+        <div class="space-y-3 max-h-[calc(100vh-300px)] overflow-y-auto">
+          @if (isLoading() && myOrders().length === 0) {
+            <div class="card-lg p-4 text-center text-muted-foreground">
+              <p>Loading orders...</p>
+            </div>
+          } @else if (getFilteredOrders().length === 0) {
+            <div class="card-lg p-4 text-center text-muted-foreground">
+              <p>No orders found</p>
+            </div>
+          } @else {
+            @for (order of getFilteredOrders(); track order.id) {
+              <button
+                (click)="selectOrder(order.id)"
+                [class.ring-2]="selectedOrder?.id === order.id"
+                [class.ring-primary]="selectedOrder?.id === order.id"
+                class="card-lg p-4 w-full text-left hover:bg-muted transition-colors"
+              >
+                <div class="flex justify-between items-start mb-2">
+                  <div>
+                    <p class="font-medium text-foreground">Order #{{ order.id.slice(0, 8) }}</p>
+                    <p class="text-xs text-muted-foreground">{{ order.createdAt | date:'short' }}</p>
+                  </div>
+                  <span
+                    [class]="'text-xs font-bold px-3 py-1 rounded-full text-white ' + getStatusColor(order.status)"
+                  >
+                    {{ getStatusLabel(order.status) }}
+                  </span>
+                </div>
+                <p class="text-sm text-muted-foreground">
+                  {{ order.totalQuantity }} items
+                </p>
+              </button>
+            }
+          }
+        </div>
+      </div>
+
+      <!-- Main: Order Details -->
+      <div class="lg:col-span-2">
+        @if (selectedOrder) {
+          <div class="card-lg p-6">
+            <!-- Order Header -->
+            <div class="flex justify-between items-start mb-6 pb-4 border-b border-border">
+              <div>
+                <h2 class="text-2xl font-bold text-foreground mb-2">
+                  Order #{{ selectedOrder.id.slice(0, 8).toUpperCase() }}
+                </h2>
+                <p class="text-sm text-muted-foreground">
+                  Created: {{ selectedOrder.createdAt | date:'medium' }}
+                </p>
+              </div>
+              <div class="text-right">
+                <span
+                  [class]="'text-sm font-bold px-4 py-2 rounded-lg text-white ' + getStatusColor(selectedOrder.status)"
+                >
+                  {{ getStatusLabel(selectedOrder.status) }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Status Timeline -->
+            <div class="mb-6 pb-6 border-b border-border">
+              <h3 class="font-bold text-foreground mb-4">Status Timeline</h3>
+              <div class="space-y-3">
+                @for (history of selectedOrder.statusHistory; track history.changedAt) {
+                  <div class="flex gap-4">
+                    <div class="relative pt-1">
+                      <div
+                        [class]="'w-3 h-3 rounded-full ' + getStatusColor(history.status)"
+                      ></div>
+                    </div>
+                    <div>
+                      <p class="font-medium text-foreground">
+                        {{ getStatusLabel(history.status) }}
+                      </p>
+                      <p class="text-xs text-muted-foreground">
+                        {{ history.changedAt | date:'short' }} by {{ history.changedBy }}
+                      </p>
+                      @if (history.remarks) {
+                        <p class="text-sm text-muted-foreground mt-1">{{ history.remarks }}</p>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+            </div>
+
+            <!-- Citizen Information -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6 pb-6 border-b border-border">
+              <div>
+                <h4 class="font-bold text-foreground mb-3">Citizen Information</h4>
+                <div class="space-y-2 text-sm">
+                  <div>
+                    <p class="text-muted-foreground">Name</p>
+                    <p class="text-foreground">{{ selectedOrder.citizenName }}</p>
+                  </div>
+                  <div>
+                    <p class="text-muted-foreground">Phone</p>
+                    <p class="text-foreground">{{ selectedOrder.citizenPhone }}</p>
+                  </div>
+                  <div>
+                    <p class="text-muted-foreground">Address</p>
+                    <p class="text-foreground">{{ selectedOrder.citizenAddress }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Collector Information -->
+              @if (selectedOrder.collectorId) {
+                <div>
+                  <h4 class="font-bold text-foreground mb-3">Collector Information</h4>
+                  <div class="space-y-2 text-sm">
+                    <div>
+                      <p class="text-muted-foreground">Name</p>
+                      <p class="text-foreground">{{ selectedOrder.collectorName }}</p>
+                    </div>
+                    <div>
+                      <p class="text-muted-foreground">Phone</p>
+                      <p class="text-foreground">{{ selectedOrder.collectorPhone }}</p>
+                    </div>
+                  </div>
+                </div>
+              }
+
+              <!-- Admin Information -->
+              @if (selectedOrder.adminId) {
+                <div>
+                  <h4 class="font-bold text-foreground mb-3">Admin Information</h4>
+                  <div class="space-y-2 text-sm">
+                    <div>
+                      <p class="text-muted-foreground">Name</p>
+                      <p class="text-foreground">{{ selectedOrder.adminName }}</p>
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+
+            <!-- Materials -->
+            <div class="mb-6 pb-6 border-b border-border">
+              <h4 class="font-bold text-foreground mb-3">Materials</h4>
+              <div class="space-y-2">
+                @for (material of selectedOrder.materials; track material.materialId) {
+                  <div class="flex justify-between items-center p-3 bg-muted rounded-lg">
+                    <div>
+                      <p class="font-medium text-foreground">{{ material.materialName }}</p>
+                      <p class="text-xs text-muted-foreground">{{ material.materialType }}</p>
+                    </div>
+                    <div class="text-right">
+                      <p class="font-bold text-foreground">{{ material.quantity }} {{ material.unit }}</p>
+                      @if (material.estimatedWeight) {
+                        <p class="text-xs text-muted-foreground">~{{ material.estimatedWeight }}kg</p>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+              <div class="mt-3 p-3 bg-primary/10 rounded-lg border border-primary/20">
+                <p class="text-sm text-foreground">
+                  <span class="font-medium">Total Quantity:</span> {{ selectedOrder.totalQuantity }}
+                </p>
+                @if (selectedOrder.estimatedWeight) {
+                  <p class="text-sm text-foreground">
+                    <span class="font-medium">Estimated Weight:</span> ~{{ selectedOrder.estimatedWeight }}kg
+                  </p>
+                }
+              </div>
+            </div>
+
+            <!-- Notes -->
+            @if (selectedOrder.notes || selectedOrder.collectorNotes || selectedOrder.adminNotes) {
+              <div class="mb-6 pb-6 border-b border-border">
+                <h4 class="font-bold text-foreground mb-3">Notes</h4>
+                <div class="space-y-3">
+                  @if (selectedOrder.notes) {
+                    <div class="p-3 bg-muted rounded-lg">
+                      <p class="text-xs font-medium text-muted-foreground mb-1">Citizen Notes</p>
+                      <p class="text-foreground">{{ selectedOrder.notes }}</p>
+                    </div>
+                  }
+                  @if (selectedOrder.collectorNotes) {
+                    <div class="p-3 bg-muted rounded-lg">
+                      <p class="text-xs font-medium text-muted-foreground mb-1">Collector Notes</p>
+                      <p class="text-foreground">{{ selectedOrder.collectorNotes }}</p>
+                    </div>
+                  }
+                  @if (selectedOrder.adminNotes) {
+                    <div class="p-3 bg-muted rounded-lg">
+                      <p class="text-xs font-medium text-muted-foreground mb-1">Admin Notes</p>
+                      <p class="text-foreground">{{ selectedOrder.adminNotes }}</p>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+
+            <!-- Action Buttons -->
+            <div class="flex gap-3">
+              @switch(getUserRole()) {
+                @case('Citizen') {
+                  @if (selectedOrder.status === OrderStatus.PENDING || selectedOrder.status === OrderStatus.ACCEPTED) {
+                    <button
+                      (click)="cancelOrder(selectedOrder!.id)"
+                      class="flex-1 btn-outline hover:bg-destructive/10 text-destructive hover:text-destructive"
+                    >
+                      Cancel Order
+                    </button>
+                  }
+                }
+                @case('Collector') {
+                  @if (selectedOrder.status === OrderStatus.PENDING) {
+                    <button
+                      (click)="acceptOrder(selectedOrder!.id)"
+                      class="flex-1 btn-primary"
+                    >
+                      Accept Order
+                    </button>
+                  }
+                  @if (selectedOrder.status === OrderStatus.ACCEPTED) {
+                    <button
+                      (click)="markAsCollected(selectedOrder!.id)"
+                      class="flex-1 btn-primary"
+                    >
+                      Mark as Collected
+                    </button>
+                  }
+                  @if (selectedOrder.status === OrderStatus.COLLECTED) {
+                    <button
+                      (click)="transferToAdmin(selectedOrder!.id)"
+                      class="flex-1 btn-primary"
+                    >
+                      Transfer to Admin
+                    </button>
+                  }
+                }
+                @case('Admin') {
+                  @if (selectedOrder.status === OrderStatus.TRANSFERRED) {
+                    <button
+                      (click)="completeOrder(selectedOrder!.id)"
+                      class="flex-1 btn-primary"
+                    >
+                      Complete Order
+                    </button>
+                  }
+                }
+              }
+
+              <button
+                (click)="closeOrderDetails()"
+                class="flex-1 btn-outline"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        } @else {
+          <div class="card-lg p-12 text-center">
+            <p class="text-muted-foreground text-lg">Select an order to view details</p>
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</div>

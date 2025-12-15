@@ -60,7 +60,7 @@
 .logo-text {
   font-size: 1.25rem;
   font-weight: 700;
-  color: hsl(var(--foreground));
+  color: hsl(rgb(44, 213, 44));
 }
 
 /* Navigation Links */
