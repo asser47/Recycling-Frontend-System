@@ -1,6 +1,6 @@
 import { Component, computed, inject, output } from '@angular/core';
 import { DataService } from '../../../../core/services/data.service';
-import { CollectionRequest } from '../../../../core/models/collection-request.model';
+import { OrderDto } from '@core/models/order.model';
 import { MapContainerComponent } from '../../../../shared/components/map-container/map-container.component';
 import { CardComponent, CardHeaderComponent, CardTitleComponent, CardDescriptionComponent, CardContentComponent } from '../../../../shared/ui/card/card.component';
 
@@ -23,9 +23,9 @@ export class CollectorMapRequestsComponent {
 
   allRequests = computed(() => this.dataService.collectionRequests());
 
-  selectRequest = output<CollectionRequest>();
+  selectRequest = output<OrderDto>();
 
-  onMarkerClick(request: CollectionRequest): void {
+  onMarkerClick(request: OrderDto): void {
     this.selectRequest.emit(request);
   }
 }

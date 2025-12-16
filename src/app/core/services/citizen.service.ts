@@ -2,12 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ApplicationUserDto, UpdateUserDto } from '../models/dtos.model';
+import { API_CONFIG } from '@core/config/api.config';
 
 @Injectable({ providedIn: 'root' })
 export class CitizenService {
 
   private http = inject(HttpClient);
-  private apiUrl = 'https://localhost:4375/api';
+  private apiUrl = `${API_CONFIG.baseUrl}/api`;
+
 
   // ===== CITIZEN: Profile Management =====
 

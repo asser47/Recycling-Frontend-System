@@ -1,8 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CollectionRequest } from '../../../core/models/collection-request.model';
-import { CardComponent, CardHeaderComponent, CardTitleComponent, CardDescriptionComponent, CardContentComponent } from '../../../shared/ui/card/card.component';
-import { MapContainerComponent } from '../../../shared/components/map-container/map-container.component';
+import { OrderDto } from '@core/models/order.model';
+import { CardComponent, CardHeaderComponent, CardTitleComponent, CardDescriptionComponent, CardContentComponent } from '../../../../shared/ui/card/card.component';
+import { MapContainerComponent } from '../../../../shared/components/map-container/map-container.component';
 
 @Component({
   selector: 'app-collector-requests-map',
@@ -20,10 +20,10 @@ import { MapContainerComponent } from '../../../shared/components/map-container/
   styleUrl: './requests-map.component.css'
 })
 export class CollectorRequestsMapComponent {
-  @Input() requests: CollectionRequest[] = [];
-  @Output() requestSelected = new EventEmitter<CollectionRequest>();
+  @Input() requests: OrderDto[] = [];
+  @Output() requestSelected = new EventEmitter<OrderDto>();
 
-  onRequestSelected(request: CollectionRequest): void {
+  onRequestSelected(request: OrderDto): void {
     this.requestSelected.emit(request);
   }
 }

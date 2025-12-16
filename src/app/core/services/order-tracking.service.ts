@@ -1,6 +1,5 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ApiConfigService } from '../config/api.config.service';
 import {
   Order,
   OrderStatus,
@@ -8,6 +7,7 @@ import {
 } from '../models/order-tracking.model';
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { ApiConfigService } from '@core/config/api.config.service';
 
 @Injectable({
   providedIn: 'root'

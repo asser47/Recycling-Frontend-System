@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { CreateOrderDto, OrderDto, UpdateOrderStatusRequest, AssignOrderRequest } from '../models/dtos.model';
+import { CreateOrderDto, OrderDto, UpdateOrderStatusRequest, AssignOrderRequest } from '../models/order.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +24,7 @@ export class OrderService {
   }
 
   /** Get order by ID */
-  getOrder(id: number): Observable<OrderDto> {
+  getOrder(id: string): Observable<OrderDto> {
     return this.http.get<OrderDto>(`${this.apiUrl}/Order/${id}`);
   }
 

@@ -1,7 +1,7 @@
 import { Component, Input, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LanguageService } from '../../../../core/services/language.service';
-import { CollectionRequest } from '../../../../core/models/collection-request.model';
+import { OrderDto } from '@core/models/order.model';
 import { RequestCardComponent } from '../../../../shared/ui/request-card/request-card.component';
 import { CardComponent, CardHeaderComponent, CardTitleComponent, CardDescriptionComponent, CardContentComponent } from '../../../../shared/ui/card/card.component';
 
@@ -21,7 +21,7 @@ import { CardComponent, CardHeaderComponent, CardTitleComponent, CardDescription
   styleUrl: './recent-requests.component.css'
 })
 export class CitizenRecentRequestsComponent {
-  @Input() requests: CollectionRequest[] = [];
+  @Input() requests: OrderDto[] = [];
 
   languageService: LanguageService = inject(LanguageService);
 

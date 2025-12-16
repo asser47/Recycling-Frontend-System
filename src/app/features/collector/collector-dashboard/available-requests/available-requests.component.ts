@@ -1,6 +1,6 @@
 import { Component, computed, inject, output } from '@angular/core';
 import { DataService } from '../../../../core/services/data.service';
-import { CollectionRequest } from '../../../../core/models/collection-request.model';
+import { OrderDto } from '@core/models/order.model';
 import { RequestCardComponent } from '../../../../shared/ui/request-card/request-card.component';
 import { CardComponent, CardHeaderComponent, CardTitleComponent, CardDescriptionComponent, CardContentComponent } from '../../../../shared/ui/card/card.component';
 
@@ -26,14 +26,14 @@ export class CollectorAvailableRequestsComponent {
     this.dataService.pendingRequests().filter((r: any) => !r.collectorId || r.collectorId !== this.collectorId)
   );
 
-  selectRequest = output<CollectionRequest>();
-  acceptRequest = output<CollectionRequest>();
+  selectRequest = output<OrderDto>();
+  acceptRequest = output<OrderDto>();
 
-  onCardClick(request: CollectionRequest): void {
+  onCardClick(request: OrderDto): void {
     this.selectRequest.emit(request);
   }
 
-  onAccept(request: CollectionRequest): void {
+  onAccept(request: OrderDto): void {
     this.acceptRequest.emit(request);
   }
 }

@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LanguageService } from '../../../../core/services/language.service';
-import { CollectionRequest } from '../../../../core/models/collection-request.model';
+import { OrderDto } from '@core/models/order.model';
 import { CreateCollectionModalComponent } from '../../../../shared/components/create-collection-modal/create-collection-modal.component';
 
 @Component({
@@ -14,7 +14,7 @@ import { CreateCollectionModalComponent } from '../../../../shared/components/cr
 export class CitizenCollectionRequestComponent {
   @Input() modalOpen = false;
   @Output() modalOpenChange = new EventEmitter<boolean>();
-  @Output() requestCreated = new EventEmitter<CollectionRequest>();
+  @Output() requestCreated = new EventEmitter<OrderDto>();
 
   languageService: LanguageService = inject(LanguageService);
 
@@ -24,7 +24,7 @@ export class CitizenCollectionRequestComponent {
     this.modalOpenChange.emit(open);
   }
 
-  onRequestCreated(request: CollectionRequest): void {
+  onRequestCreated(request: OrderDto): void {
     this.requestCreated.emit(request);
   }
 }

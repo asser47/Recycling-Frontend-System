@@ -1,15 +1,15 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as L from 'leaflet';
-import { CollectionRequest } from '../../../core/models/collection-request.model';
+import { OrderDto } from '@core/models/order.model';
 
 @Component({
   selector: 'app-map-container',
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div 
-      #mapContainer 
+    <div
+      #mapContainer
       id="map-container"
       class="w-full h-full rounded-lg overflow-hidden"
       [style.height.px]="height"
@@ -20,7 +20,7 @@ import { CollectionRequest } from '../../../core/models/collection-request.model
       position: relative;
       z-index: 1;
     }
-    
+
     ::ng-deep .leaflet-container {
       width: 100%;
       height: 100%;
@@ -36,14 +36,14 @@ import { CollectionRequest } from '../../../core/models/collection-request.model
 })
 export class MapContainerComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('mapContainer', { static: false }) mapContainer!: ElementRef<HTMLDivElement>;
-  
-  @Input() requests: CollectionRequest[] = [];
+
+  @Input() requests: OrderDto[] = [];
   @Input() height: number = 400;
   @Input() center: [number, number] = [30.0444, 31.2357];
   @Input() zoom: number = 12;
   @Input() showMarkers: boolean = true;
-  
-  @Output() markerClick = new EventEmitter<CollectionRequest>();
+
+  @Output() markerClick = new EventEmitter<OrderDto>();
   @Output() mapReady = new EventEmitter<L.Map>();
 
   private map: L.Map | null = null;
@@ -111,46 +111,57 @@ export class MapContainerComponent implements OnInit, AfterViewInit, OnDestroy {
     this.markers = [];
 
     // Add markers for each request
-    this.requests.forEach(request => {
-      if (request.lat && request.lng) {
-        const marker = L.marker([request.lat, request.lng], {
-          icon: this.getMarkerIcon(request.status)
-        }).addTo(this.map!);
+    this.requests.forEach((request) => {
+      // Since OrderDto doesn't have coordinates, we'll use offset positions
+      // In production, you'd geocode the address or fetch coordinates from backend
+      const offsetLat = this.center[0] + (Math.random() - 0.5) * 0.05;
+      const offsetLng = this.center[1] + (Math.random() - 0.5) * 0.05;
 
-        // Add popup
-        marker.bindPopup(`
-          <div class="p-2">
-            <h3 class="font-bold mb-1">${request.material}</h3>
-            <p class="text-sm text-gray-600">${request.location}</p>
-            <p class="text-sm text-gray-600">${request.weight || ''} ${request.distance ? '• ' + request.distance : ''}</p>
-            ${request.citizenName ? `<p class="text-xs text-gray-500 mt-1">${request.citizenName}</p>` : ''}
-          </div>
-        `);
+      const marker = L.marker([offsetLat, offsetLng], {
+        icon: this.getMarkerIcon(request.status)
+      }).addTo(this.map!);
 
-        // Add click handler
-        marker.on('click', () => {
-          this.markerClick.emit(request);
-        });
+      // Construct location from address fields
+      const location = [
+        request.buildingNo,
+        request.street,
+        request.apartment ? `Apt. ${request.apartment}` : '',
+        request.city
+      ].filter(Boolean).join(', ');
 
-        this.markers.push(marker);
-      }
+      // Add popup with OrderDto fields
+      marker.bindPopup(`
+        <div class="p-2 text-sm">
+          <h3 class="font-bold mb-1">${request.typeOfMaterial || 'Unknown'}</h3>
+          <p class="text-gray-600 text-xs">${location}</p>
+          ${request.quantity ? `<p class="text-gray-600 text-xs">Qty: ${request.quantity} kg</p>` : ''}
+          ${request.email ? `<p class="text-gray-500 text-xs mt-1">📧 ${request.email}</p>` : ''}
+          ${request.userName ? `<p class="text-gray-500 text-xs">👤 ${request.userName}</p>` : ''}
+        </div>
+      `);
+
+      // Add click handler
+      marker.on('click', () => {
+        this.markerClick.emit(request);
+      });
+
+      this.markers.push(marker);
     });
 
-    // Fit map to show all markers
-    if (this.requests.length > 0 && this.requests.some(r => r.lat && r.lng)) {
+    // Fit map to show all markers if any exist
+    if (this.markers.length > 0) {
       const bounds = L.latLngBounds(
-        this.requests
-          .filter(r => r.lat && r.lng)
-          .map(r => [r.lat!, r.lng!] as [number, number])
+        this.markers.map(m => m.getLatLng())
       );
       this.map.fitBounds(bounds, { padding: [50, 50] });
     }
   }
 
-  private getMarkerIcon(status: string): L.DivIcon {
-    const color = status === 'pending' ? '#3b82f6' : status === 'in-progress' ? '#f97316' : '#22c55e';
-    const emoji = status === 'pending' ? '📍' : status === 'in-progress' ? '🚛' : '✅';
-    
+  private getMarkerIcon(status?: string): L.DivIcon {
+    const statusLower = (status || '').toLowerCase();
+    const color = statusLower === 'pending' ? '#3b82f6' : statusLower === 'in-progress' ? '#f97316' : '#22c55e';
+    const emoji = statusLower === 'pending' ? '📍' : statusLower === 'in-progress' ? '🚛' : '✅';
+
     return L.divIcon({
       className: 'custom-marker',
       html: `<div style="
@@ -171,7 +182,7 @@ export class MapContainerComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   // Public method to update markers
-  updateMarkers(requests: CollectionRequest[]): void {
+  updateMarkers(requests: OrderDto[]): void {
     this.requests = requests;
     if (this.map && this.showMarkers) {
       this.addMarkers();

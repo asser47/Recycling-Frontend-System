@@ -5,6 +5,7 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, finalize, map } from 'rxjs/operators';
 import { API_CONFIG } from '../config/api.config';
 import { ApplicationUser } from '../models/application-user.model';
+import { UserDataService } from './user-data.service';
 
 /**
  * Authentication Service
@@ -45,6 +46,7 @@ export interface ResetPasswordRequest {
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
+  private userDataService = inject(UserDataService);
 
   private apiUrl = `${API_CONFIG.baseUrl}/api/Auth`;
   private readonly TOKEN_KEY = 'auth_token';
@@ -184,7 +186,8 @@ export class AuthService {
    */
   getToken(): string | null {
     if (typeof window !== 'undefined') {
-      return localStorage.getItem(this.TOKEN_KEY);
+      const token = localStorage.getItem(this.TOKEN_KEY);
+      return token;
     }
     return null;
   }
@@ -256,6 +259,56 @@ export class AuthService {
   // ===========================
   // PRIVATE HELPER METHODS
   // ===========================
+
+  /**
+   * Extract and set user data from JWT token to UserDataService
+   */
+  setUserDataFromToken(): void {
+    const token = this.getToken();
+    if (!token) {
+      console.warn('⚠️ No token found');
+      return;
+    }
+
+    try {
+      const payload = this.parseJwt(token);
+      if (!payload) {
+        console.error('❌ Could not parse token');
+        return;
+      }
+
+      console.log('🔍 Token payload:', payload);
+
+      // Extract user data from token payload - be flexible with field names
+      const userData = {
+        id: payload.id || payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"] || '',
+        fullName: payload.fullName || payload.name || payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'] || '',
+        firstName: payload.firstName || payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/givenname'] || '',
+        lastName: payload.lastName || payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/surname'] || '',
+        email: payload.email || payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'] || '',
+        phoneNumber: payload.phoneNumber || payload.phone || payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/mobilephone'] || '',
+        avatar: payload.avatar || '',
+        city: payload.city || '',
+        country: payload.country || '',
+        address: payload.address || '',
+      };
+
+      // Add coordinates if available
+      if (payload.lat && payload.lng) {
+        Object.assign(userData, {
+          coordinates: { lat: payload.lat, lng: payload.lng }
+        });
+      }
+
+      console.log('📝 Extracted user data:', userData);
+
+      // Set user data in service (saves to localStorage automatically)
+      this.userDataService.setUserData(userData);
+      console.log('✅ User data set from token and saved to localStorage');
+    } catch (error) {
+      console.error('❌ Error setting user data from token:', error);
+    }
+  }
 
   /**
    * Extract role from JWT token

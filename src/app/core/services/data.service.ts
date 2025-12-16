@@ -1,6 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { CollectionRequest } from '../models/collection-request.model';
-import type { RequestStatus } from '../models/collection-request.model';
+import { OrderDto, RequestStatus } from '../models/order.model';
 
 export interface User {
   id: string | number;
@@ -61,7 +60,7 @@ export interface PointHistory {
 })
 export class DataService {
   // Collection Requests
-  private _collectionRequests = signal<CollectionRequest[]>(this.getInitialRequests());
+  private _collectionRequests = signal<OrderDto[]>(this.getInitialRequests());
   collectionRequests = this._collectionRequests.asReadonly();
 
   // User Stats
@@ -81,7 +80,7 @@ export class DataService {
   pointHistory = this._pointHistory.asReadonly();
 
   // Current User
-  private _currentUser = signal<User>(this.getInitialUser());
+  private _currentUser = signal<User>(this.loadUserFromLocalStorage());
   currentUser = this._currentUser.asReadonly();
 
   // Computed values
@@ -109,15 +108,15 @@ export class DataService {
   // Collection Request Methods
   // ===========================
 
-  getRequestsByStatus(status: RequestStatus): CollectionRequest[] {
+  getRequestsByStatus(status: RequestStatus): OrderDto[] {
     return this._collectionRequests().filter(r => r.status === status);
   }
 
-  getRequestsByCitizenId(citizenId: string | number): CollectionRequest[] {
-    return this._collectionRequests().filter(r => r.citizenId === citizenId);
+  getRequestsByCitizenId(citizenId: string | number): OrderDto[] {
+    return this._collectionRequests().filter(r => r.userId === citizenId);
   }
 
-  getRequestsByCollectorId(collectorId: string | number): CollectionRequest[] {
+  getRequestsByCollectorId(collectorId: string | number): OrderDto[] {
     return this._collectionRequests().filter(r => r.collectorId === collectorId);
   }
 
@@ -133,7 +132,7 @@ export class DataService {
         return {
           ...r,
           status,
-          ...(collectorId !== undefined && { collectorId: collectorId as number }),
+          ...(collectorId !== undefined && { collectorId: String(collectorId) }),
           ...(estimatedArrivalTime !== undefined && { estimatedArrivalTime }),
           ...(routeOrder !== undefined && { routeOrder })
         };
@@ -152,7 +151,7 @@ export class DataService {
     this.updateRequestStatus(requestId, 'in-progress', collectorId, estimatedArrivalTime, routeOrder);
   }
 
-  addRequest(request: CollectionRequest): void {
+  addRequest(request: OrderDto): void {
     const requests = [...this._collectionRequests(), request];
     this._collectionRequests.set(requests);
   }
@@ -269,46 +268,95 @@ export class DataService {
 
   setCurrentUser(user: User): void {
     this._currentUser.set(user);
+    this.saveUserToLocalStorage(user);
   }
 
   updateCurrentUser(updates: Partial<User>): void {
-    this._currentUser.update(u => ({ ...u, ...updates }));
+    this._currentUser.update(u => {
+      const updated = { ...u, ...updates };
+      this.saveUserToLocalStorage(updated);
+      return updated;
+    });
+  }
+
+  // ===========================
+  // LocalStorage Methods
+  // ===========================
+
+  private loadUserFromLocalStorage(): User {
+    try {
+      const storedUser = localStorage.getItem('user_profile_data');
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        console.log('✅ User loaded from localStorage:', user);
+        return user;
+      }
+    } catch (error) {
+      console.error('❌ Error loading user from localStorage:', error);
+    }
+    console.log('📝 Using default user');
+    return this.getInitialUser();
+  }
+
+  private saveUserToLocalStorage(user: User): void {
+    try {
+      localStorage.setItem('currentUser', JSON.stringify(user));
+      console.log('💾 User saved to localStorage');
+    } catch (error) {
+      console.error('❌ Error saving user to localStorage:', error);
+    }
   }
 
   // ===========================
   // Initial Data
   // ===========================
 
-  private getInitialRequests(): CollectionRequest[] {
+  private getInitialRequests(): OrderDto[] {
     return [
       {
         id: 1,
-        material: 'Plastic Bottles',
-        weight: '15 kg',
-        location: 'Downtown Cairo',
-        lat: 30.0444,
-        lng: 31.2357,
         status: 'pending',
-        date: '2025-11-28',
-        distance: '2.3 km',
-        citizenName: 'Ahmed Ali',
-        citizenId: 1,
-        materials: ['plastic']
+        orderDate: '2025-12-15T10:30:00Z',
+        userId: '1',
+        userName: 'Ahmed Ali',
+        email: 'ahmed@example.com',
+        typeOfMaterial: 'plastic',
+        quantity: 15,
+        city: 'Cairo',
+        street: 'Tahrir',
+        buildingNo: '45',
+        apartment: '2A'
       },
       {
         id: 2,
-        material: 'Paper & Cardboard',
-        weight: '25 kg',
-        location: 'Nasr City',
-        lat: 30.0626,
-        lng: 31.3169,
         status: 'in-progress',
-        date: '2025-11-29',
-        distance: '5.1 km',
-        citizenName: 'Fatima Hassan',
-        citizenId: 2,
-        collectorId: 1,
-        materials: ['paper']
+        orderDate: '2025-12-14T14:20:00Z',
+        userId: '2',
+        collectorId: '1',
+        collectorName: 'Mohammed Hassan',
+        userName: 'Fatima Hassan',
+        email: 'fatima@example.com',
+        typeOfMaterial: 'paper',
+        quantity: 25,
+        city: 'Giza',
+        street: 'Haram',
+        buildingNo: '120',
+        apartment: '5B'
+      },
+      {
+        id: 3,
+        status: 'completed',
+        orderDate: '2025-12-13T09:15:00Z',
+        userId: '3',
+        collectorId: '2',
+        userName: 'Aisha Ibrahim',
+        email: 'aisha@example.com',
+        typeOfMaterial: 'glass',
+        quantity: 8,
+        city: 'Alexandria',
+        street: 'Corniche',
+        buildingNo: '78',
+        apartment: '3C'
       }
     ];
   }

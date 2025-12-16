@@ -1,7 +1,7 @@
 import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { LanguageService } from '../../../core/services/language.service';
 import { DataService } from '../../../core/services/data.service';
-import { CollectionRequest } from '../../../core/models/collection-request.model';
+import { OrderDto } from '@core/models/order.model';
 import { CollectorHeaderComponent } from './header/header.component';
 import { CollectorStatsCardsComponent } from './stats-cards/stats-cards.component';
 import { CollectorActiveRouteComponent } from './active-route/active-route.component';
@@ -30,15 +30,15 @@ export class CollectorDashboardComponent {
 
   t = (key: string) => this.languageService.t(key);
 
-  selectedRequest = signal<CollectionRequest | null>(null);
+  selectedRequest = signal<OrderDto | null>(null);
   collectorId = 1; // Current collector ID
 
-  selectRequest(request: CollectionRequest): void {
+  selectRequest(request: OrderDto): void {
     this.selectedRequest.set(request);
     // Map will handle centering automatically via marker click
   }
 
-  acceptRequest(request: CollectionRequest): void {
+  acceptRequest(request: OrderDto): void {
     // Get current active route requests
     const activeRoute = this.dataService.getRequestsByCollectorId(this.collectorId)
       .filter(r => r.status === 'in-progress');
@@ -59,7 +59,7 @@ export class CollectorDashboardComponent {
       routeOrder
     );
 
-    console.log(`Accepted request: ${request.material} from ${request.citizenName}`);
+    console.log(`Accepted request: ${request.typeOfMaterial} from ${request.userName}`);
     console.log(`Route order: ${routeOrder}`);
   }
 }

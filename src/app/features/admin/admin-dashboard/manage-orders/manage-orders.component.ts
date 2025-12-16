@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { OrderService } from '../../../../core/services/order.service';
 import { CollectorService } from '../../../../core/services/collector.service';
 import { FlashMessageService } from '../../../../core/services/flash-message.service';
-import { OrderDto, ApplicationUserDto } from '../../../../core/models/dtos.model';
+import {  ApplicationUserDto } from '../../../../core/models/dtos.model';
+import { OrderDto } from '@core/models/order.model';
 
 @Component({
   selector: 'app-order-management',

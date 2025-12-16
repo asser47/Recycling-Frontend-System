@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LanguageService } from '../../../core/services/language.service';
 import { DataService } from '../../../core/services/data.service';
 import { UserService } from '../../../core/services/user.service';
-import { CollectionRequest, RequestStatus } from '../../../core/models/collection-request.model';
+import { OrderDto, RequestStatus } from '@core/models/order.model';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
 import { RequestCardComponent } from '../../../shared/ui/request-card/request-card.component';
 import { CardComponent, CardContentComponent } from '../../../shared/ui/card/card.component';
@@ -39,8 +39,8 @@ import { TabsListComponent, TabsTriggerComponent, TabsContentComponent } from '.
           </app-button>
         </div>
 
-        <app-create-collection-modal 
-          [open]="modalOpen()" 
+        <app-create-collection-modal
+          [open]="modalOpen()"
           (openChange)="modalOpen.set($event)"
           (requestCreated)="onRequestCreated($event)"
         ></app-create-collection-modal>
@@ -87,6 +87,7 @@ import { TabsListComponent, TabsTriggerComponent, TabsContentComponent } from '.
             @for (request of filteredRequests(); track request.id) {
             <app-request-card
               [request]="request"
+    
               [clickable]="false"
               [showActions]="false"
             ></app-request-card>
@@ -105,6 +106,7 @@ import { TabsListComponent, TabsTriggerComponent, TabsContentComponent } from '.
             @for (request of getRequestsByStatus('pending'); track request.id) {
             <app-request-card
               [request]="request"
+    
               [clickable]="false"
               [showActions]="false"
             ></app-request-card>
@@ -142,6 +144,7 @@ import { TabsListComponent, TabsTriggerComponent, TabsContentComponent } from '.
             <app-request-card
               [request]="request"
               [clickable]="false"
+    
               [showActions]="false"
             ></app-request-card>
             }
@@ -161,6 +164,7 @@ import { TabsListComponent, TabsTriggerComponent, TabsContentComponent } from '.
               [request]="request"
               [clickable]="false"
               [showActions]="false"
+    
             ></app-request-card>
             }
             @if (getRequestsByStatus('cancelled').length === 0) {
@@ -182,7 +186,7 @@ export class MyRequestsComponent {
   languageService = inject(LanguageService);
   dataService = inject(DataService);
   userService = inject(UserService);
-  
+
   selectedTab = signal<string>('all');
   modalOpen = signal(false);
 
@@ -202,23 +206,23 @@ export class MyRequestsComponent {
     return this.getRequestsByStatus(tab as RequestStatus);
   });
 
-  completedCount = computed(() => 
+  completedCount = computed(() =>
     this.userRequests().filter(r => r.status === 'completed').length
   );
 
-  inProgressCount = computed(() => 
+  inProgressCount = computed(() =>
     this.userRequests().filter(r => r.status === 'in-progress').length
   );
 
-  pendingCount = computed(() => 
+  pendingCount = computed(() =>
     this.userRequests().filter(r => r.status === 'pending').length
   );
 
-  getRequestsByStatus(status: RequestStatus): CollectionRequest[] {
+  getRequestsByStatus(status: string): OrderDto[] {
     return this.userRequests().filter(r => r.status === status);
   }
 
-  onRequestCreated(request: CollectionRequest): void {
+  onRequestCreated(request: OrderDto): void {
     // Request is already added to DataService, just refresh the view
     console.log('New request created:', request);
     // The computed signals will automatically update

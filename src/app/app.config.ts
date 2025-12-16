@@ -1,9 +1,6 @@
 import { ApplicationConfig, provideBrowserGlobalErrorListeners, ErrorHandler } from '@angular/core';
 import { provideRouter, withPreloading } from '@angular/router';
 import { routes } from './app.routes';
-import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from './core/interceptors/auth-interceptor';
-import { LoadingInterceptor } from './core/interceptors/loading-interceptor';
 import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { CustomPreloadingStrategy } from './core/utils/custom-preloading.strategy';
 
@@ -24,9 +21,6 @@ export const appConfig: ApplicationConfig = {
       routes,
       withPreloading(CustomPreloadingStrategy) // Smart preloading for performance
     ),
-    provideHttpClient(withInterceptorsFromDi()),
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor },
-    { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor },
     { provide: ErrorHandler, useClass: GlobalErrorHandler },
     provideCharts(withDefaultRegisterables())
   ]

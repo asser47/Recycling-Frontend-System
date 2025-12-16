@@ -58,11 +58,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     // Redirect if already logged in
     if (this.authService.isLogged()) {
-<<<<<<< HEAD:src/app/features/auth/login/login.ts
-      this.router.navigate(['/role-selection']);
-=======
       this.router.navigate(['/']);
->>>>>>> e708b113397d4e75e9ec92db4ece727a966b2dc2:src/app/features/auth/login/login.component.ts
     }
   }
 
@@ -165,15 +161,13 @@ export class LoginComponent implements OnInit, OnDestroy {
       next: (token) => {
         try {
           this.authService.saveToken(token);
+          // Set user data from token to localStorage
+          this.authService.setUserDataFromToken();
           this.flash.showSuccess('Welcome back! 🎉');
 
           // Navigate after a short delay for UX
           setTimeout(() => {
-<<<<<<< HEAD:src/app/features/auth/login/login.ts
-            this.router.navigate(['/role-selection']);
-=======
             this.router.navigate(['/']);
->>>>>>> e708b113397d4e75e9ec92db4ece727a966b2dc2:src/app/features/auth/login/login.component.ts
           }, 500);
         } catch (error) {
           this.globalError = 'Failed to save authentication token';

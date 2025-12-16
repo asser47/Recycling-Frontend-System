@@ -8,8 +8,9 @@ import { AdminService } from '../../../../core/services/admin.service';
 import { OrderService } from '../../../../core/services/order.service';
 import { CollectorService } from '../../../../core/services/collector.service';
 import { BaseChartDirective } from 'ng2-charts';
-import { MaterialDto, OrderDto, ApplicationUserDto } from '../../../../core/models/dtos.model';
+import { MaterialDto, ApplicationUserDto } from '../../../../core/models/dtos.model';
 import { Factory } from '../../../../core/models/factory.model';
+import { OrderDto } from '@core/models/order.model';
 
 @Component({
   selector: 'app-admin-dashboard',
