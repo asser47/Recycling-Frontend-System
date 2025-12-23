@@ -1,144 +1,75 @@
-/* ---------- Background ---------- */
+/* ======================================================
+   🌿 AUTH PAGES – LOGIN / REGISTER (NO SCROLL VERSION)
+   ====================================================== */
+
+/* ---------- Page Wrapper ---------- */
 .auth-wrapper {
-  min-height: calc(100vh - 80px); /* يخلي الفورم يقرب للوسط بعد النافبار */
+  position: relative;
+  min-height: calc(100vh - 64px);
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #0bb56b, #0aa45f, #06723b);
-  padding:25px;
+
+  /* 🌿 Modern Eco-Tech Gradient */
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(255, 255, 255, 0.18),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(0, 200, 140, 0.25),
+      transparent 50%
+    ),
+    linear-gradient(
+      135deg,
+      #0b7d4f 0%,
+      #0bb56b 35%,
+      #0aa45f 60%,
+      #064e3b 100%
+    );
+
+  padding: 16;
+  overflow: hidden;
 }
+
 
 /* ---------- Card ---------- */
 .auth-card {
-  width: 370px;
-  background: white;
-  padding: 38px 30px;
-  border-radius: 18px;
+  width: 100%;
+  max-width: 380px;
+
+  background: #ffffff;
+  padding: 28px 26px; /* مضغوط */
+  border-radius: 22px;
   text-align: center;
-  box-shadow: 0 10px 35px rgba(0,0,0,0.13);
-  animation: fadeIn 0.5s ease;
-  transform: translateY(-20px);
+
+  box-shadow:
+    0 18px 40px rgba(0,0,0,0.18),
+    0 6px 16px rgba(0,0,0,0.08);
+
+  animation: fadeIn 0.45s ease;
 }
 
+/* ---------- Animation ---------- */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(25px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-/* ---------- Logo Top ---------- */
-.eco-logo-big img {
-  width: 55px;
-  height: 55px;
-  object-fit: contain;
-  margin-bottom: 8px;
-}
-
-/* ---------- Titles ---------- */
-.auth-title {
-  font-size: 30px;
-  font-weight: 800;
-  color: #1e293b;
-  margin-bottom: 4px;
-}
-
-.auth-subtitle {
-  font-size: 15px;
-  color: #6b7280;
-  margin-bottom: 28px;
-}
-
-/* ---------- Inputs ---------- */
-.auth-input, .auth-select {
-  width: 100%;
-  padding: 13px 15px;
-  margin-bottom: 14px;
-  background: #f1f5f9;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
-  font-size: 15px;
-  transition: 0.2s;
-}
-
-.auth-input:focus, .auth-select:focus {
-  outline: none;
-  border-color: #0bb56b;
-  background: white;
-  box-shadow: 0 0 7px rgba(11,181,107,0.35);
-}
-
-/* ---------- Forgot Password ---------- */
-.auth-forgot {
-  width: 100%;
-  text-align: right;
-  margin-top: -8px;
-  margin-bottom: 16px;
-  font-size: 14px;
-}
-
-.auth-forgot span {
-  color:#0a8f4c;
-  cursor: pointer;
-  font-weight: 600;
-}
-
-/* ---------- Button ---------- */
-.auth-btn {
-  width: 100%;
-  padding: 13px;
-  border: none;
-  border-radius: 10px;
-  background: #0bb56b;
-  color: white;
-  font-size: 17px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 4px;
-  transition: 0.25s;
-}
-
-.auth-btn:hover {
-  background: #089a5a;
-  transform: translateY(-1px);
-}
-
-/* ---------- Footer ---------- */
-.auth-footer {
-  margin-top: 12px;        
-  font-size: 15px;         
-  color: #1b2e23;         
-  display: block;
-}
-
-.auth-footer span {
-  color: #0a8f4c;          
-  cursor: pointer;
-  font-weight: 700;
-  transition: 0.2s;
-}
-
-.auth-footer span:hover {
-  letter-spacing: 0.3px;
-  color: #06723b;
-}
-
-/* ===== ERROR TEXT ===== */
-.alert-danger, .text-danger {
-  color: #d62828;
-  font-size: 14px;
-  font-weight: 600;
-  background: #ffdada;
-  border: 1px solid #ffb9b9;
-  padding: 10px;
-  border-radius: 8px;
-  margin-bottom: 12px;   /* خلي في مساحة بعد الرسالة */
-}
-
-/* ===== LOGO SIMPLE ECO ICON ===== */
+/* ---------- ECO LOGO ---------- */
 .eco-logo-big {
   display: flex;
   justify-content: center;
-  gap: 7px;
-  margin-bottom: 15px;
+  gap: 8px;
+  margin-bottom: 14px;
 }
 
 .leaf {
@@ -148,35 +79,157 @@
 }
 
 .leaf.one {
-  background: #0bb56b;
+  background: linear-gradient(135deg, #0bb56b, #0aa45f);
   transform: rotate(-35deg);
 }
 
 .leaf.two {
-  background: #089a5a;
+  background: linear-gradient(135deg, #089a5a, #06723b);
   transform: rotate(-20deg);
 }
 
-.form-group {
-  margin-bottom: 14px;
+/* ---------- Titles ---------- */
+.auth-title {
+  font-size: 26px;
+  font-weight: 900;
+  color: #0f172a;
+  margin-bottom: 4px;
 }
 
+.auth-subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 18px;
+}
+
+/* ---------- Form Group ---------- */
+.form-group {
+  margin-bottom: 10px;
+}
+
+/* ---------- Inputs ---------- */
+.auth-input {
+  width: 100%;
+  padding: 12px 14px;
+
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+
+  font-size: 14.5px;
+}
+
+.auth-input:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: #0bb56b;
+  box-shadow: 0 0 0 3px rgba(11,181,107,0.22);
+}
+
+/* ---------- Validation (Inline – No Height Jump) ---------- */
 .validation-error {
-  margin-top: 6px;
-  padding: 6px 10px;
-  font-size: 13px;
-  color: #b42318;
-  background: #fdecec;
+  margin-top: 4px;
+  padding: 4px 8px;
+
+  font-size: 12px;
+  color: #991b1b;
+
+  background: #fff1f1;
+  border-left: 3px solid #ef4444;
   border-radius: 6px;
+
   text-align: left;
 }
+
+/* ---------- General Error ---------- */
 .validation-box {
-  background: #ffe6e6;
-  border: 1px solid #ff4d4f;
-  color: #b00020;
-  padding: 12px 14px;
+  background: #fff1f1;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+
+  padding: 10px 12px;
   border-radius: 10px;
-  margin-bottom: 16px;
-  font-size: 14px;
+  margin-bottom: 12px;
+
+  font-size: 13px;
   text-align: center;
+}
+
+/* ---------- Alert Error (API) ---------- */
+.alert-danger {
+  background: #ffecec;
+  border: 1px solid #fca5a5;
+  color: #991b1b;
+
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+/* ---------- Forgot Password ---------- */
+.auth-forgot {
+  width: 100%;
+  text-align: right;
+  margin-top: -2px;
+  margin-bottom: 12px;
+
+  font-size: 13px;
+}
+
+.auth-forgot span {
+  color: #0a8f4c;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* ---------- Submit Button ---------- */
+.auth-btn {
+  width: 100%;
+  padding: 12px;
+
+  border-radius: 12px;
+  border: none;
+
+  background: linear-gradient(135deg, #0bb56b, #089a5a);
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+
+  box-shadow: 0 8px 20px rgba(11,181,107,0.35);
+}
+
+.auth-btn:hover {
+  background: linear-gradient(135deg, #089a5a, #06723b);
+}
+
+/* ---------- Footer ---------- */
+.auth-footer {
+  margin-top: 12px;
+  font-size: 13.5px;
+  color: #334155;
+}
+
+.auth-footer span {
+  color: #0a8f4c;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* ---------- Mobile Safety ---------- */
+@media (max-height: 650px) {
+  .auth-card {
+    padding: 22px 22px;
+  }
+
+  .auth-title {
+    font-size: 24px;
+  }
+
+  .leaf {
+    width: 30px;
+    height: 30px;
+  }
 }

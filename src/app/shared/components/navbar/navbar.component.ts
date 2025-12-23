@@ -1,4 +1,10 @@
-import { Component, inject, computed, signal, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  inject,
+  computed,
+  signal,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 
@@ -9,6 +15,7 @@ import { NotificationService } from '../../../core/services/notification.service
 import { AuthService } from '../../../core/services/auth.service';
 import { DataService } from '../../../core/services/data.service';
 import { UserDataService } from '../../../core/services/user-data.service';
+import { Role } from '@core/models/role.enum';
 
 @Component({
   selector: 'app-navbar',
@@ -21,12 +28,13 @@ import { UserDataService } from '../../../core/services/user-data.service';
 export class NavbarComponent {
 
   // ================= INJECTS =================
-  router = inject(Router);
+  private router = inject(Router);
+  private authService = inject(AuthService);
+
   themeService = inject(ThemeService);
   languageService = inject(LanguageService);
   userService = inject(UserService);
   notificationService = inject(NotificationService);
-  authService = inject(AuthService);
   dataService = inject(DataService);
   userDataService = inject(UserDataService);
 
@@ -34,18 +42,26 @@ export class NavbarComponent {
   showUserMenu = signal(false);
   showNotificationsDropdown = signal(false);
 
-  // ================= COMPUTED =================
-  isLoggedIn = () => this.authService.isLogged();
-isAdmin = computed(() => {
-  return this.userService.currentRole()?.toLowerCase() === 'admin';
-});
+  // ================= AUTH =================
+  isLoggedIn = this.authService.isLoggedIn;
+  role = this.authService.roleSignal;
 
+  isAdmin = computed(() => this.role() === Role.Admin);
+  isCollector = computed(() => this.role() === Role.Collector);
+  isUser = computed(() => this.role() === Role.User);
+
+  roleLabel = computed(() => {
+    if (this.isAdmin()) return 'Admin';
+    if (this.isCollector()) return 'Collector';
+    return 'User';
+  });
+
+  // ================= DATA =================
   userPoints = computed(() =>
     this.dataService.currentUser()?.points ?? 0
   );
 
   unreadNotifications = this.notificationService.unreadCount;
-
   userData = this.userDataService.userData;
 
   displayName = computed(() =>
@@ -54,6 +70,7 @@ isAdmin = computed(() => {
     'User'
   );
 
+  // ================= ROUTES =================
   isAuthRoute = computed(() => {
     const url = this.router.url;
     return (
@@ -70,14 +87,13 @@ isAdmin = computed(() => {
     this.router.url === '/' || this.router.url === ''
   );
 
-  // ================= METHODS =================
   getDashboardRoute(): string {
-    const role = this.userService.currentRole()?.toLowerCase();
-    if (role === 'collector') return '/collector-dashboard';
-    if (role === 'admin') return '/admin/dashboard';
+    if (this.isAdmin()) return '/admin/dashboard';
+    if (this.isCollector()) return '/collector-dashboard';
     return '/citizen-dashboard';
   }
 
+  // ================= ACTIONS =================
   toggleUserMenu() {
     this.showUserMenu.update(v => !v);
     this.showNotificationsDropdown.set(false);
@@ -93,8 +109,8 @@ isAdmin = computed(() => {
     this.showNotificationsDropdown.set(false);
   }
 
-  switchRole(role: string) {
-    this.userService.setCurrentRole(role as any);
+  switchRole(role: any) {
+    this.userService.setCurrentRole(role);
     this.closeDropdowns();
     this.router.navigateByUrl(this.getDashboardRoute());
   }
@@ -102,7 +118,16 @@ isAdmin = computed(() => {
   logout() {
     this.authService.logout();
     this.closeDropdowns();
-    this.router.navigateByUrl('/');
+    this.router.navigateByUrl('/login');
+  }
+
+  // ================= ⭐ المطلوب =================
+  // الضغط على اسم المشروع / اللوجو
+  // يرجّع Navbar لحالة Guest
+  goHomeAndReset() {
+    this.authService.logout();     // يمسح token + role
+    this.closeDropdowns();
+    this.router.navigateByUrl('/'); // Home كـ Guest
   }
 
   isActiveRoute(route: string): boolean {

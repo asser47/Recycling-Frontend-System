@@ -4,6 +4,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  background: linear-gradient(180deg, #ecfdf5, #ffffff);
 }
 
 .search-box input {
@@ -78,6 +79,9 @@ tbody td {
   padding: 6px 14px;
   border-radius: 10px;
   cursor: pointer;
+}
+.btn-view:hover {
+  background: #0d9457;
 }
 
 /* MODAL */

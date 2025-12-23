@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { Role } from '../models/role.enum';
 import { jwtDecode } from 'jwt-decode';
+import { signal, computed } from '@angular/core';
 
 interface JwtPayload {
   role?: string | string[];
@@ -16,8 +16,15 @@ interface JwtPayload {
 export class AuthService {
 
   private http = inject(HttpClient);
-  private router = inject(Router);
+private _token = signal<string | null>(
+  localStorage.getItem('token')
+);
 
+private _role = signal<Role | null>(
+  localStorage.getItem('role') as Role | null
+);
+isLoggedIn = computed(() => !!this._token() && !!this._role());
+roleSignal = computed(() => this._role());
   private apiUrl = 'https://localhost:4375/api/Auth';
 
   // ===========================
@@ -97,7 +104,8 @@ resetPassword(data: any) {
       console.error('INVALID ROLE:', role);
       return;
     }
-
+  this._token.set(token);
+  this._role.set(normalizedRole);
     localStorage.setItem('role', normalizedRole);
     console.log('ROLE FROM TOKEN:', normalizedRole);
   }
@@ -124,7 +132,9 @@ isLogged(): boolean {
 logout() {
   localStorage.removeItem('token');
   localStorage.removeItem('role');
-  this.router.navigate(['/login']);
+    // ✅ notify UI
+  this._token.set(null);
+  this._role.set(null);
 }
 
 }

@@ -1,14 +1,11 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from '@features/home/home';
-
 import { LoginComponent } from './features/auth/login/login';
 import { RegisterComponent } from './features/auth/register/register';
 import { ForgotPasswordComponent } from './features/auth/forgot-password/forgot-password';
 import { ResetPasswordComponent } from './features/auth/reset-password/reset-password';
 import { ConfirmEmailComponent } from './features/auth/confirm-email/confirm-email';
 import { RegisterSuccessComponent } from './features/auth/register-success/register-success';
-
-import { AdminNavbarComponent } from './features/admin/admin-navbar/admin-navbar';
 import { AdminDashboardComponent } from './features/admin/dashboard/dashboard';
 import { ManageMaterialsComponent } from './features/admin/manage-materials/manage-materials';
 import { ManageFactoriesComponent } from './features/admin/manage-factories/manage-factories';
@@ -17,7 +14,6 @@ import { ManageOrdersComponent } from './features/admin/manage-orders/manage-ord
 import { RewardManagementComponent } from './features/admin/reward-management/reward-management';
 import { AddCollectorComponent } from './features/admin/add-collector/add-collector';
 import { ManageCollectorsComponent } from './features/admin/manage-collectors/manage-collectors';
-
 import { adminGuard } from './core/guards/admin/admin-guard';
 import { userGuard } from './core/guards/citizin/citizen-guard';
 import { collectorGuard } from './core/guards/collector/collector-guard';
@@ -43,7 +39,6 @@ export const routes: Routes = [
   // ===================== ADMIN =====================
   {
     path: 'admin',
-    component: AdminNavbarComponent,
     canActivate: [adminGuard],
     canActivateChild: [adminGuard],
     children: [

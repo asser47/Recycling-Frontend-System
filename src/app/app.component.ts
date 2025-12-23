@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import {  RouterOutlet } from '@angular/router';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { FlashMessageComponent } from './features/flash-message/flash-message/flash-message';
 
@@ -13,13 +13,6 @@ import { FlashMessageComponent } from './features/flash-message/flash-message/fl
 })
 export class AppComponent {
   title = 'GreenZone';
-
-  
-  private router = inject(Router);
-
-  isAdminRoute(): boolean {
-    return this.router.url.startsWith('/admin');
-  }
 }
 
 

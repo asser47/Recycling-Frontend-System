@@ -1,295 +1,160 @@
-@if (!isAdmin()) {
-
-<!-- 🖥️ Desktop Navbar -->
+<!-- ================= 🖥️ Desktop Navbar ================= -->
 <nav class="navbar-desktop">
   <div class="navbar-container">
-    <!-- Logo Section -->
+
+    <!-- ===== Left ===== -->
     <div class="navbar-left">
-      <a [routerLink]="['/']" class="logo-link">
-        <div class="logo-icon">
-          <img src="assets/GreenZone Logo.png" alt="Green Zone Icon" class="h-8 w-8 object-contain">
-        </div>
-        <span class="logo-text">Green Zone</span>
-      </a>
 
-      <!-- Navigation Links (للمستخدمين المسجلين فقط) -->
+      <!-- Logo -->
+<a class="logo-link logo-btn" (click)="goHomeAndReset()">
+  <div class="logo-icon">
+    <img src="assets/GreenZone Logo.png" alt="GreenZone Logo" />
+  </div>
+  <span class="logo-text">Green Zone</span>
+</a>
+
+
+      <!-- ===== Role Based Links ===== -->
       @if (isLoggedIn() && !isAuthRoute()) {
-        <div class="nav-links">
-          <a
-            [routerLink]="[getDashboardRoute()]"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact: false}"
-            class="nav-link"
-          >
-            <span class="nav-icon">📊</span>
-            <span>Dashboard</span>
-          </a>
 
-          <a
-            [routerLink]="['/my-requests']"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact: true}"
-            class="nav-link"
-          >
-            <span class="nav-icon">📋</span>
-            <span>My Requests</span>
-          </a>
+        <!-- ================= ADMIN ================= -->
+        @if (isAdmin()) {
+          <div class="nav-links admin-links">
+            <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
+            <a routerLink="/admin/materials" routerLinkActive="active" class="nav-link">Materials</a>
+            <a routerLink="/admin/factories" routerLinkActive="active" class="nav-link">Factories</a>
+            <a routerLink="/admin/orders" routerLinkActive="active" class="nav-link">Orders</a>
+            <a routerLink="/admin/users" routerLinkActive="active" class="nav-link">Users</a>
+            <a routerLink="/admin/rewards" routerLinkActive="active" class="nav-link">Rewards</a>
+            <a routerLink="/admin/collectors" routerLinkActive="active" class="nav-link">Collectors</a>
+            <a routerLink="/admin/add-collector" routerLinkActive="active" class="nav-link">Add Collector</a>
+          </div>
+        }
 
-          <a
-            [routerLink]="['/rewards']"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact: true}"
-            class="nav-link"
-          >
-            <span class="nav-icon">🎁</span>
-            <span>Rewards</span>
-            @if (userPoints()) {
-              <span class="points-badge">{{ userPoints() }}</span>
-            }
-          </a>
-        </div>
+        <!-- ================= COLLECTOR ================= -->
+        @if (isCollector()) {
+          <div class="nav-links">
+            <a routerLink="/collector-dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
+            <a routerLink="/my-requests" routerLinkActive="active" class="nav-link">Requests</a>
+          </div>
+        }
+
+        <!-- ================= USER ================= -->
+        @if (isUser()) {
+          <div class="nav-links">
+            <a routerLink="/citizen-dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
+            <a routerLink="/rewards" routerLinkActive="active" class="nav-link">
+              Rewards
+              @if (userPoints()) {
+                <span class="points-badge">{{ userPoints() }}</span>
+              }
+            </a>
+            <a routerLink="/my-requests" routerLinkActive="active" class="nav-link">My Requests</a>
+          </div>
+        }
+
       }
     </div>
 
-    <!-- Actions Section -->
+    <!-- ===== Right ===== -->
     <div class="navbar-right">
-      <!-- Notifications Bell (للمستخدمين المسجلين فقط) -->
-      @if (isLoggedIn() && !isAuthRoute()) {
-        <div class="relative">
-          <button
-            class="action-btn"
-            (click)="toggleNotifications()"
-            [attr.aria-label]="'Notifications'"
-          >
-            <span class="text-xl">🔔</span>
-            @if (unreadNotifications() > 0) {
-              <span class="notification-badge animate-pulse">
-                {{ unreadNotifications() > 9 ? '9+' : unreadNotifications() }}
-              </span>
-            }
-          </button>
 
-          <!-- Notifications Dropdown -->
+      <!-- 🔔 Notifications (User + Collector فقط) -->
+      @if (isLoggedIn() && !isAuthRoute() && !isAdmin()) {
+        <div class="relative">
+          <button class="action-btn" (click)="toggleNotifications()">🔔</button>
+
           @if (showNotificationsDropdown()) {
             <div class="dropdown-overlay" (click)="closeDropdowns()"></div>
-            <div class="dropdown-menu notifications-dropdown">
-              <div class="dropdown-header">
-                <h3>Notifications</h3>
-                @if (unreadNotifications() > 0) {
-                  <span class="badge badge-destructive">{{ unreadNotifications() }} new</span>
-                }
-              </div>
-              <div class="dropdown-content">
-                <a [routerLink]="['/notifications']" (click)="closeDropdowns()" class="notification-item">
-                  <span class="text-lg">🎉</span>
-                  <div>
-                    <p class="font-medium">View all notifications</p>
-                    <p class="text-xs text-muted-foreground">Click to see details</p>
-                  </div>
-                </a>
-              </div>
+            <div class="dropdown-menu">
+              <a routerLink="/notifications" class="dropdown-item">
+                View all notifications
+              </a>
             </div>
           }
         </div>
       }
 
-      <!-- Language Toggle -->
-      <button
-        class="action-btn"
-        (click)="languageService.toggleLanguage()"
-        [attr.aria-label]="'Toggle Language'"
-        [attr.title]="languageService.language() === 'en' ? 'العربية' : 'English'"
-      >
-        <span class="text-xl">🌐</span>
+      <!-- 🌐 Language -->
+      <button class="action-btn" (click)="languageService.toggleLanguage()">🌐</button>
+
+      <!-- 🌙 / ☀️ Theme -->
+      <button class="action-btn" (click)="themeService.toggleTheme()">
+        {{ themeService.theme() === 'light' ? '🌙' : '☀️' }}
       </button>
 
-      <!-- Theme Toggle -->
-      <button
-        class="action-btn theme-toggle"
-        (click)="themeService.toggleTheme()"
-        [attr.aria-label]="'Toggle Theme'"
-      >
-        <span class="text-xl transition-transform duration-300">
-          {{ themeService.theme() === 'light' ? '🌙' : '☀️' }}
-        </span>
-      </button>
-  @if (isLoggedIn()) {
-    <button class="btn-primary" (click)="logout()">Logout</button>
-  }
-      <!-- User Dropdown Menu (للمستخدمين المسجلين فقط) -->
-      @if (isLoggedIn() && !isAuthRoute()) {
+      <!-- 👤 User Menu (User + Collector) -->
+      @if (isLoggedIn() && !isAdmin()) {
         <div class="relative">
-          <button
-            class="user-menu-btn"
-            (click)="toggleUserMenu()"
-            [attr.aria-label]="'User Menu'"
-          >
-            <div class="user-avatar">
-              @if (userData()?.avatar && userData()?.avatar !== '') {
-                <img [src]="userData()?.avatar" [alt]="displayName()" class="w-full h-full object-cover">
-              } @else {
-                <span class="text-lg">👤</span>
-              }
-            </div>
+          <button class="user-menu-btn" (click)="toggleUserMenu()">
+            <div class="user-avatar">👤</div>
             <div class="user-info">
               <span class="user-name">{{ displayName() }}</span>
-              <span class="user-role">{{ userService.currentRole() }}</span>
+              <span class="user-role">{{ roleLabel() }}</span>
             </div>
-            <span class="dropdown-arrow">▼</span>
+            <span class="dropdown-arrow">▾</span>
           </button>
 
-          <!-- User Dropdown -->
           @if (showUserMenu()) {
             <div class="dropdown-overlay" (click)="closeDropdowns()"></div>
-            <div class="dropdown-menu user-dropdown">
-              <a [routerLink]="['/profile']" (click)="closeDropdowns()" class="dropdown-item">
-                <span class="dropdown-icon">👤</span>
-                <span>Profile</span>
+            <div class="dropdown-menu">
+              <a [routerLink]="getDashboardRoute()" class="dropdown-item">
+                Dashboard
               </a>
-
-              <!-- Switch Role / Add New Role -->
-              @if (userService.roles().length > 1) {
-                <div class="dropdown-separator"></div>
-                <div class="dropdown-label">Switch Role</div>
-                @for (role of userService.roles(); track role) {
-                  @if (role !== userService.currentRole()) {
-                    <button
-                      class="dropdown-item"
-                      (click)="switchRole(role)"
-                    >
-                      <span class="dropdown-icon">🔄</span>
-                      <span>Switch to {{ role }}</span>
-                    </button>
-                  }
-                }
-              } @else {
-                <a
-                  [routerLink]="['/role-selection']"
-                  (click)="closeDropdowns()"
-                  class="dropdown-item"
-                >
-                  <span class="dropdown-icon">➕</span>
-                  <span>Add New Role</span>
-                </a>
-              }
-
-              <div class="dropdown-separator"></div>
-
-              <a [routerLink]="['/settings']" (click)="closeDropdowns()" class="dropdown-item">
-                <span class="dropdown-icon">⚙️</span>
-                <span>Settings</span>
+              <a routerLink="/settings" class="dropdown-item">
+                Settings
               </a>
-
               <div class="dropdown-separator"></div>
-
+              <!-- ✅ Logout هنا -->
               <button class="dropdown-item logout-btn" (click)="logout()">
-                <span class="dropdown-icon">🚪</span>
-                <span>Logout</span>
+                🚪 Logout
               </button>
             </div>
           }
         </div>
       }
 
-      <!-- Login / Register Buttons (للزوار غير المسجلين) -->
+@if (isLoggedIn()) {
+  <button class="btn-ghost logout-direct" (click)="logout()">
+    🚪 Logout
+  </button>
+}
+
+      <!-- 👋 Guest -->
       @if (!isLoggedIn() && !isAuthRoute()) {
-        <a [routerLink]="['/login']" class="btn-ghost">
-          Login
-        </a>
-        <a [routerLink]="['/register']" class="btn-primary">
-          Get Started
-        </a>
+        <a routerLink="/login" class="btn-ghost">Login</a>
+        <a routerLink="/register" class="btn-primary">Get Started</a>
       }
+
     </div>
   </div>
 </nav>
 
-<!-- 📱 Mobile Top Bar -->
-<nav class="navbar-mobile-top">
-  <div class="mobile-top-content">
-    <!-- Logo -->
-    <a [routerLink]="['/']" class="mobile-logo">
-      <div class="mobile-logo-icon">
-          <img src="assets/icon-greenzone.ico" alt="Green Zone Icon" class="h-8 w-8 object-contain">
-      </div>
-      <span class="mobile-logo-text">EcoCollect</span>
-    </a>
+<!-- ================= 📱 Mobile Bottom Navbar ================= -->
+<!-- @if (isLoggedIn() && !isAuthRoute() && !isAdmin()) {
+  <nav class="navbar-mobile-bottom"> -->
 
-    <!-- Actions -->
-    <div class="mobile-actions">
-      <button
-        class="mobile-action-btn"
-        (click)="languageService.toggleLanguage()"
-        [attr.aria-label]="'Toggle Language'"
-      >
-        <span>🌐</span>
-      </button>
+    <!-- Admin -->
+    <!-- @if (isAdmin()) {
+      <a routerLink="/admin/dashboard" routerLinkActive="active" class="mobile-nav-item">📊</a>
+      <a routerLink="/admin/orders" routerLinkActive="active" class="mobile-nav-item">📦</a>
+      <a routerLink="/admin/users" routerLinkActive="active" class="mobile-nav-item">👥</a>
+    } -->
 
-      <button
-        class="mobile-action-btn"
-        (click)="themeService.toggleTheme()"
-        [attr.aria-label]="'Toggle Theme'"
-      >
-        <span>{{ themeService.theme() === 'light' ? '🌙' : '☀️' }}</span>
-      </button>
-    </div>
-  </div>
-</nav>
+    <!-- Collector -->
+    <!-- @if (isCollector()) {
+      <a routerLink="/collector-dashboard" routerLinkActive="active" class="mobile-nav-item">📍</a>
+      <a routerLink="/my-requests" routerLinkActive="active" class="mobile-nav-item">📦</a>
+    } -->
 
-<!-- 📱 Mobile Bottom Navigation (للمستخدمين المسجلين فقط) -->
-@if (isLoggedIn() && !isAuthRoute()) {
-  <nav class="navbar-mobile-bottom">
-    <a
-      [routerLink]="[getDashboardRoute()]"
-      [class.active]="isActiveRoute(getDashboardRoute())"
-      class="mobile-nav-item"
-    >
-      <span class="mobile-nav-icon">🏠</span>
-    </a>
+    <!-- User -->
+    <!-- @if (isUser()) {
+      <a routerLink="/citizen-dashboard" routerLinkActive="active" class="mobile-nav-item">🏠</a>
+      <a routerLink="/rewards" routerLinkActive="active" class="mobile-nav-item">🎁</a>
+      <a routerLink="/my-requests" routerLinkActive="active" class="mobile-nav-item">📄</a>
+    } -->
 
-    <a
-      [routerLink]="['/my-requests']"
-      [class.active]="isActiveRoute('/my-requests')"
-      class="mobile-nav-item"
-    >
-      <span class="mobile-nav-icon">📋</span>
-    </a>
-
-    <a
-      [routerLink]="['/rewards']"
-      [class.active]="isActiveRoute('/rewards')"
-      class="mobile-nav-item"
-    >
-      <span class="mobile-nav-icon">🎁</span>
-    </a>
-
-    <a
-      [routerLink]="['/notifications']"
-      [class.active]="isActiveRoute('/notifications')"
-      class="mobile-nav-item relative"
-    >
-      <span class="mobile-nav-icon">🔔</span>
-      @if (unreadNotifications() > 0) {
-        <span class="mobile-notification-badge">
-          {{ unreadNotifications() > 9 ? '9+' : unreadNotifications() }}
-        </span>
-      }
-    </a>
-
-    <a
-      [routerLink]="['/profile']"
-      [class.active]="isActiveRoute('/profile')"
-      class="mobile-nav-item"
-    >
-      <span class="mobile-nav-icon">👤</span>
-    </a>
-<button
-  (click)="logout()"
-  class="mobile-nav-item logout-mobile">
-  <span class="mobile-nav-icon">🚪</span>
-</button>
-
+    <!-- Logout -->
+    <!-- <button class="mobile-nav-item logout-mobile" (click)="logout()">🚪</button>
   </nav>
-}
-
-}
+} -->

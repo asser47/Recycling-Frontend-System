@@ -1,38 +1,61 @@
-/* ===============================
-   🌿 GreenZone Navbar – Full CSS
-   =============================== */
+/* ======================================================
+   🌿 GreenZone Navbar – CLEAN FINAL VERSION
+   ====================================================== */
 
-/* Reset transition smooth */
-* {
-  transition: background-color 0.2s ease,
-              color 0.2s ease,
-              transform 0.2s ease,
-              box-shadow 0.2s ease;
+/* ===============================
+   🎨 Variables
+   =============================== */
+:root {
+  --green-primary: #16a34a;
+  --green-dark: #15803d;
+  --green-soft: #22c55e;
+
+  --glass-bg: rgba(255,255,255,0.75);
+  --glass-border: rgba(22,163,74,0.25);
+
+  --text-main: #0f172a;
+  --text-muted: #64748b;
+  --danger: #dc2626;
+}
+
+.dark {
+  --glass-bg: rgba(3,7,18,0.85);
+  --glass-border: rgba(34,197,94,0.25);
+  --text-main: #e5e7eb;
+  --text-muted: #94a3b8;
 }
 
 /* ===============================
-   🖥️ Desktop Navbar
+   🔄 Global Transition
+   =============================== */
+* {
+  transition: background-color .25s ease,
+              color .25s ease,
+              box-shadow .25s ease,
+              transform .25s ease;
+}
+
+/* ===============================
+   🖥 Navbar Layout
    =============================== */
 .navbar-desktop {
   position: sticky;
   top: 0;
   z-index: 50;
   height: 64px;
-  background: hsl(var(--background) / 0.85);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-bottom: 1px solid hsl(var(--border) / 0.6);
-  box-shadow: 0 4px 20px rgba(16, 185, 129, 0.08);
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--glass-border);
 }
 
 .navbar-container {
   max-width: 1400px;
   height: 100%;
-  margin: 0 auto;
+  margin: auto;
   padding: 0 2rem;
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   gap: 2rem;
 }
 
@@ -46,118 +69,98 @@
 }
 
 .logo-link {
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: .75rem;
   text-decoration: none;
-}
+  cursor: pointer;
+  user-select: none;
 
-.logo-link:hover {
-  transform: translateY(-1px);
+  transition: all 0.25s ease;
 }
 
 .logo-icon {
-  width: 40px;
-  height: 40px;
-  background: hsl(var(--primary));
-  border-radius: 0.75rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 48px;
+  height: 48px;
 }
 
-.logo-link:hover .logo-icon {
-  transform: scale(1.05);
-  box-shadow: 0 6px 14px hsl(var(--primary) / 0.35);
+.logo-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transform: scale(1.2);
+  filter: contrast(1.1) saturate(1.2)
+          drop-shadow(0 2px 4px rgba(0,0,0,.25));
 }
 
 .logo-text {
-  font-size: 1.25rem;
-  font-weight: 800;
-  color: #16a34a; /* Recycling Green */
+  font-size: 1.4rem;
+  font-weight: 900;
+  background: linear-gradient(135deg,#15803d,#22c55e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 /* ===============================
-   🔗 Navigation Links
+   🔗 Links
    =============================== */
 .nav-links {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: .3rem;
+  flex-wrap: wrap;
 }
 
 .nav-link {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.55rem 1rem;
-  border-radius: 0.6rem;
-  font-size: 0.875rem;
-  font-weight: 500;
-  color: hsl(var(--foreground));
+  padding: .5rem .9rem;
+  border-radius: .6rem;
+  font-size: .85rem;
+  font-weight: 600;
+  color: var(--text-main);
   text-decoration: none;
 }
 
 .nav-link:hover {
-  background: hsl(var(--accent));
-  color: hsl(var(--primary));
+  background: rgba(22,163,74,.12);
+  color: var(--green-primary);
 }
 
 .nav-link.active {
-  background: linear-gradient(
-    135deg,
-    hsl(var(--primary) / 0.18),
-    hsl(var(--primary) / 0.06)
-  );
-  color: hsl(var(--primary));
-  font-weight: 600;
+  background: rgba(22,163,74,.22);
+  color: var(--green-dark);
+  font-weight: 800;
 }
 
-.nav-icon {
-  font-size: 1.125rem;
-}
-
-.points-badge {
-  margin-left: 0.25rem;
-  padding: 0.15rem 0.55rem;
-  background: hsl(var(--primary) / 0.15);
-  color: hsl(var(--primary));
-  border-radius: 999px;
-  font-size: 0.7rem;
-  font-weight: 700;
+/* Admin only tuning */
+.admin-links .nav-link {
+  font-size: .82rem;
+  padding: .45rem .8rem;
 }
 
 /* ===============================
-   ⚙️ Actions
+   ⚙️ Right Area
    =============================== */
 .navbar-right {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: .5rem;
 }
 
 .action-btn {
   width: 40px;
   height: 40px;
-  border-radius: 0.6rem;
+  border-radius: .6rem;
   background: transparent;
   border: none;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .action-btn:hover {
-  background: hsl(var(--accent));
-}
-
-.theme-toggle:hover span {
-  transform: rotate(180deg);
+  background: rgba(22,163,74,.15);
 }
 
 /* ===============================
-   🔔 Notification Badge
+   🔔 Notifications
    =============================== */
 .notification-badge {
   position: absolute;
@@ -165,11 +168,11 @@
   right: -4px;
   min-width: 18px;
   height: 18px;
-  background: hsl(var(--destructive));
-  color: hsl(var(--destructive-foreground));
+  background: var(--danger);
+  color: #fff;
+  font-size: .65rem;
+  font-weight: 800;
   border-radius: 999px;
-  font-size: 0.65rem;
-  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -181,24 +184,19 @@
 .user-menu-btn {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.4rem 0.75rem;
-  background: hsl(var(--card));
-  border: 1px solid hsl(var(--border));
-  border-radius: 0.6rem;
+  gap: .6rem;
+  padding: .4rem .75rem;
+  background: rgba(22,163,74,.08);
+  border-radius: .7rem;
+  border: 1px solid var(--glass-border);
   cursor: pointer;
-}
-
-.user-menu-btn:hover {
-  background: hsl(var(--accent));
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
 }
 
 .user-avatar {
   width: 32px;
   height: 32px;
   border-radius: 999px;
-  background: hsl(var(--primary) / 0.15);
+  background: rgba(22,163,74,.25);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -210,23 +208,22 @@
 }
 
 .user-name {
-  font-size: 0.85rem;
-  font-weight: 700;
+  font-size: .85rem;
+  font-weight: 800;
 }
 
 .user-role {
-  font-size: 0.7rem;
-  color: hsl(var(--muted-foreground));
-  text-transform: capitalize;
+  font-size: .7rem;
+  color: var(--text-muted);
 }
 
 .dropdown-arrow {
-  font-size: 0.6rem;
-  color: hsl(var(--muted-foreground));
+  font-size: .6rem;
+  color: var(--text-muted);
 }
 
 /* ===============================
-   📂 Dropdown Menu
+   📂 Dropdown
    =============================== */
 .dropdown-overlay {
   position: fixed;
@@ -238,141 +235,76 @@
   position: absolute;
   top: calc(100% + 8px);
   right: 0;
-  min-width: 240px;
-  background: hsl(var(--card));
-  border: 1px solid hsl(var(--border));
-  border-radius: 0.75rem;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.18);
+  min-width: 220px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: .75rem;
+  box-shadow: 0 20px 40px rgba(0,0,0,.18);
   z-index: 50;
-  animation: dropdownFade 0.2s ease-out;
-}
-
-@keyframes dropdownFade {
-  from {
-    opacity: 0;
-    transform: translateY(-8px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
 }
 
 .dropdown-item {
-  padding: 0.65rem 0.75rem;
-  border-radius: 0.5rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 0.85rem;
+  padding: .6rem .75rem;
+  border-radius: .55rem;
   cursor: pointer;
+  font-size: .85rem;
 }
 
 .dropdown-item:hover {
-  background: hsl(var(--accent));
+  background: rgba(22,163,74,.12);
 }
 
 .dropdown-separator {
   height: 1px;
-  background: hsl(var(--border));
-  margin: 0.5rem 0;
+  background: var(--glass-border);
+  margin: .4rem 0;
 }
 
 .logout-btn {
-  color: hsl(var(--destructive));
-  font-weight: 600;
-}
-
-.logout-btn:hover {
-  background: hsl(var(--destructive) / 0.12);
+  color: var(--danger);
+  font-weight: 700;
 }
 
 /* ===============================
-   📱 Mobile Top Bar
+   🔘 Buttons
    =============================== */
-.navbar-mobile-top {
-  position: sticky;
-  top: 0;
-  height: 56px;
-  background: hsl(var(--background) / 0.9);
-  backdrop-filter: blur(12px);
-  border-bottom: 1px solid hsl(var(--border));
+.btn-primary {
+  padding: .6rem 1.4rem;
+  border-radius: 999px;
+  font-weight: 700;
+  background: linear-gradient(135deg,#16a34a,#22c55e);
+  color: #fff;
+  text-decoration: none;
 }
 
-.mobile-top-content {
-  height: 100%;
-  padding: 0 1rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.btn-ghost {
+  padding: .55rem 1.3rem;
+  border-radius: 999px;
+  font-weight: 700;
+  background: transparent;
+  color: var(--green-primary);
+  border: 2px solid rgba(22,163,74,.5);
 }
 
-/* ===============================
-   📱 Mobile Bottom Nav
-   =============================== */
-.navbar-mobile-bottom {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 64px;
-  background: hsl(var(--card));
-  border-top: 1px solid hsl(var(--border));
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+.logout-direct {
+  color: var(--danger);
+  border-color: rgba(220,38,38,.45);
 }
 
-.mobile-nav-item {
-  color: hsl(var(--muted-foreground));
-  padding: 0.5rem;
-  border-radius: 0.75rem;
-}
-
-.mobile-nav-item.active {
-  color: hsl(var(--primary));
-}
-
-.logout-mobile {
-  color: hsl(var(--destructive));
-}
-
-.logout-mobile:hover {
-  background: hsl(var(--destructive) / 0.12);
-}
-
-/* ===============================
-   🌙 Dark Mode
-   =============================== */
-:host-context(.dark) .navbar-desktop,
-:host-context(.dark) .navbar-mobile-top {
-  background: hsl(var(--background) / 0.95);
-}
-
-/* ===============================
-   🔄 RTL Support
-   =============================== */
-:host-context([dir='rtl']) .navbar-container {
-  direction: rtl;
-}
-
-:host-context([dir='rtl']) .dropdown-menu {
-  right: auto;
-  left: 0;
+.logout-direct:hover {
+  background: rgba(220,38,38,.12);
 }
 
 /* ===============================
    📱 Responsive
    =============================== */
 @media (max-width: 767px) {
-  .navbar-desktop {
-    display: none;
-  }
+  .navbar-desktop { display: none; }
 }
 
-@media (min-width: 768px) {
-  .navbar-mobile-top,
-  .navbar-mobile-bottom {
-    display: none;
-  }
+/* ===============================
+   🔄 RTL
+   =============================== */
+:host-context([dir='rtl']) .navbar-container {
+  direction: rtl;
 }

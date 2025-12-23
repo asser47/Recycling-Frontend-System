@@ -65,8 +65,8 @@ export class LoginComponent {
   // ===========================
   private redirectByRole(role: Role | null) {
     if (role === Role.Admin) this.router.navigate(['/admin/dashboard']);
-    else if (role === Role.Collector) this.router.navigate(['/collector']);
-    else if (role === Role.User) this.router.navigate(['/user']);
+    else if (role === Role.Collector) this.router.navigate(['/collector-dashboard']);
+    else if (role === Role.User) this.router.navigate(['/citizen-dashboard']);
     else this.router.navigate(['/']);
   }
 

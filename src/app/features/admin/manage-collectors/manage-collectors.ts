@@ -17,6 +17,7 @@ import { AuthService } from '../../../core/services/auth.service';
   selector: 'app-manage-collectors',
   imports: [CommonModule, FormsModule],
   templateUrl: './manage-collectors.html',
+  styleUrls: ['./manage-collectors.css']
 })
 export class ManageCollectorsComponent implements OnInit {
 
@@ -29,13 +30,13 @@ export class ManageCollectorsComponent implements OnInit {
   collectors: Collector[] = [];
   filtered: Collector[] = [];
   search = '';
-
   loading = false;
 
-  // Orders
-  selectedCollectorId: string | null = null;
-  collectorOrders: Order[] = [];
+  // 🔹 Modal State
+  ordersModalOpen = false;
   loadingOrders = false;
+  selectedCollector: Collector | null = null;
+  collectorOrders: Order[] = [];
 
   ngOnInit() {
     this.loadCollectors();
@@ -43,9 +44,8 @@ export class ManageCollectorsComponent implements OnInit {
 
   loadCollectors() {
     this.loading = true;
-
     this.collectorService.getAll().subscribe({
-      next: (res) => {
+      next: res => {
         this.collectors = res;
         this.filtered = res;
         this.loading = false;
@@ -83,28 +83,29 @@ export class ManageCollectorsComponent implements OnInit {
     return this.auth.getRole() === Role.Admin;
   }
 
-  // 👇 عرض أوردرات الكوليكتور
-  showOrders(collectorId: string) {
-    // Toggle
-    if (this.selectedCollectorId === collectorId) {
-      this.selectedCollectorId = null;
-      this.collectorOrders = [];
-      return;
-    }
-
-    this.selectedCollectorId = collectorId;
+  // ================= MODAL =================
+  openOrdersModal(collector: Collector) {
+    this.selectedCollector = collector;
+    this.ordersModalOpen = true;
     this.loadingOrders = true;
+    this.collectorOrders = [];
 
-    this.orderService.getByCollector(collectorId).subscribe({
+    this.orderService.getByCollector(collector.id!).subscribe({
       next: res => {
         this.collectorOrders = res;
         this.loadingOrders = false;
         this.cdr.detectChanges();
       },
-      error: err => {
-        console.error(err);
+      error: () => {
         this.loadingOrders = false;
+        this.flash.showError('Failed to load orders');
       }
     });
+  }
+
+  closeOrdersModal() {
+    this.ordersModalOpen = false;
+    this.selectedCollector = null;
+    this.collectorOrders = [];
   }
 }

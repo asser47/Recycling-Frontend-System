@@ -29,12 +29,12 @@ onRegister(form: NgForm) {
   this.error = null;
 
   if (form.invalid) {
-    this.flash.showError('Please complete the fields ❌');
+    this.error = 'Please complete all required fields.';
     return;
   }
 
   if (form.value.password !== form.value.confirmPassword) {
-    this.flash.showError('The passwords do not match ❌');
+    this.error = 'Passwords do not match.';
     return;
   }
 
@@ -57,6 +57,8 @@ onRegister(form: NgForm) {
     next: () => {
       this.zone.run(() => {
         this.isLoading = false;
+
+        // نجاح → ممكن تسيبه Flash أو تعمل صفحة Success
         this.flash.showSuccess('Account created successfully ✔');
 
         setTimeout(() => {
@@ -69,7 +71,6 @@ onRegister(form: NgForm) {
       this.zone.run(() => {
         this.isLoading = false;
 
-        // Identity validation errors
         if (err.status === 400 && Array.isArray(err.error)) {
 
           const codes: string[] = err.error.map(
@@ -77,17 +78,17 @@ onRegister(form: NgForm) {
           );
 
           if (codes.includes('DuplicateEmail')) {
-            this.flash.showError('This email is already registered ❌');
+            this.error = 'This email is already registered.';
           }
           else if (codes.includes('DuplicateUserName')) {
-            this.flash.showError('This username is already taken ❌');
+            this.error = 'This username is already taken.';
           }
           else {
-            this.flash.showError('Invalid registration data ❌');
+            this.error = 'Invalid registration data.';
           }
 
         } else {
-          this.flash.showError('Unexpected error occurred ❌');
+          this.error = 'Unexpected error occurred. Please try again.';
         }
 
         this.cdr.detectChanges();
@@ -95,6 +96,7 @@ onRegister(form: NgForm) {
     }
   });
 }
+
 
 
   goToLogin() {

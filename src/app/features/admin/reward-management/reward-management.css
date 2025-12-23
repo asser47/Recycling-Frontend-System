@@ -33,7 +33,7 @@
 }
 
 .tabs-menu button.active {
-  background: #0d6efd;
+  background: linear-gradient(135deg,#15803d,#22c55e);
   color: #fff;
 }
 
