@@ -1,6 +1,7 @@
 import { Component, inject, computed, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+
 import { ThemeService } from '../../../core/services/theme.service';
 import { LanguageService } from '../../../core/services/language.service';
 import { UserService } from '../../../core/services/user.service';
@@ -18,6 +19,8 @@ import { UserDataService } from '../../../core/services/user-data.service';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+
+  // ================= INJECTS =================
   router = inject(Router);
   themeService = inject(ThemeService);
   languageService = inject(LanguageService);
@@ -27,36 +30,49 @@ export class NavbarComponent {
   dataService = inject(DataService);
   userDataService = inject(UserDataService);
 
-  // UI State
+  // ================= UI STATE =================
   showUserMenu = signal(false);
   showNotificationsDropdown = signal(false);
 
-  // Computed
+  // ================= COMPUTED =================
   isLoggedIn = () => this.authService.isLogged();
-  userPoints = computed(() => this.dataService.currentUser().points);
+isAdmin = computed(() => {
+  return this.userService.currentRole()?.toLowerCase() === 'admin';
+});
+
+  userPoints = computed(() =>
+    this.dataService.currentUser()?.points ?? 0
+  );
+
   unreadNotifications = this.notificationService.unreadCount;
 
-  // User data from registration/profile
   userData = this.userDataService.userData;
-  displayName = computed(() => this.userData()?.fullName || this.dataService.currentUser().name || 'User');
+
+  displayName = computed(() =>
+    this.userData()?.fullName ||
+    this.dataService.currentUser()?.name ||
+    'User'
+  );
 
   isAuthRoute = computed(() => {
     const url = this.router.url;
-    return url.includes('/login') ||
-           url.includes('/register') ||
-           url.includes('/forgot-password') ||
-           url.includes('/reset-password') ||
-           url.includes('/confirm-email') ||
-           url.includes('/register-success');
+    return (
+      url.includes('/login') ||
+      url.includes('/register') ||
+      url.includes('/forgot-password') ||
+      url.includes('/reset-password') ||
+      url.includes('/confirm-email') ||
+      url.includes('/register-success')
+    );
   });
 
-  isLandingRoute = computed(() => {
-    return this.router.url === '/' || this.router.url === '';
-  });
+  isLandingRoute = computed(() =>
+    this.router.url === '/' || this.router.url === ''
+  );
 
-  // Methods
+  // ================= METHODS =================
   getDashboardRoute(): string {
-    const role = this.userService.currentRole();
+    const role = this.userService.currentRole()?.toLowerCase();
     if (role === 'collector') return '/collector-dashboard';
     if (role === 'admin') return '/admin/dashboard';
     return '/citizen-dashboard';
@@ -78,14 +94,15 @@ export class NavbarComponent {
   }
 
   switchRole(role: string) {
-    this.userService.setCurrentRole(role as 'citizen' | 'collector' | 'admin');
+    this.userService.setCurrentRole(role as any);
     this.closeDropdowns();
-    this.router.navigate([this.getDashboardRoute()]);
+    this.router.navigateByUrl(this.getDashboardRoute());
   }
 
   logout() {
     this.authService.logout();
     this.closeDropdowns();
+    this.router.navigateByUrl('/');
   }
 
   isActiveRoute(route: string): boolean {
@@ -95,4 +112,3 @@ export class NavbarComponent {
     return this.router.url.startsWith(route);
   }
 }
-

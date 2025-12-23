@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
-import { NavbarComponent } from "../../../shared/components/navbar/navbar.component";
 import { FlashMessageService } from '../../../core/services/flash-message.service';
 import { extractAuthError } from '../../../core/utils/auth-error.util';
 import { NgZone, ChangeDetectorRef } from '@angular/core';
@@ -13,7 +12,7 @@ import { Role } from '../../../core/models/role.enum';
   standalone: true,
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
-  imports: [FormsModule, NavbarComponent],
+  imports: [FormsModule],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {

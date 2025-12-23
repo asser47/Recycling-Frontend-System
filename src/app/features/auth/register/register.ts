@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
-import { NavbarComponent } from "../../../shared/components/navbar/navbar.component";
 import { FlashMessageService } from '../../../core/services/flash-message.service';
 import { ChangeDetectorRef, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -12,7 +11,7 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   templateUrl: './register.html',
   styleUrls: ['./register.css'],
-  imports: [CommonModule, FormsModule, NavbarComponent]
+  imports: [CommonModule, FormsModule]
 })
 export class RegisterComponent {
 

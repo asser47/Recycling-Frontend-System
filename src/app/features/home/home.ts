@@ -120,6 +120,9 @@ export class HomeComponent {
       description: 'Be part of the solution for a greener tomorrow.'
     }
   ];
+
+
+
 }
 
 

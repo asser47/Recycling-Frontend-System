@@ -1,6 +1,7 @@
 <div class="d-flex flex-column" style="min-height: 100vh; transition: background-color 0.3s, color 0.3s;">
-  <app-navbar></app-navbar>
-  <app-flash-message></app-flash-message>
+  @if (!isAdminRoute()) {
+    <app-navbar></app-navbar>
+  }  <app-flash-message></app-flash-message>
   <main class="flex-grow-1">
     <router-outlet></router-outlet>
   </main>

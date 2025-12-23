@@ -1,3 +1,5 @@
+@if (!isAdmin()) {
+
 <!-- 🖥️ Desktop Navbar -->
 <nav class="navbar-desktop">
   <div class="navbar-container">
@@ -111,7 +113,9 @@
           {{ themeService.theme() === 'light' ? '🌙' : '☀️' }}
         </span>
       </button>
-
+  @if (isLoggedIn()) {
+    <button class="btn-primary" (click)="logout()">Logout</button>
+  }
       <!-- User Dropdown Menu (للمستخدمين المسجلين فقط) -->
       @if (isLoggedIn() && !isAuthRoute()) {
         <div class="relative">
@@ -279,5 +283,13 @@
     >
       <span class="mobile-nav-icon">👤</span>
     </a>
+<button
+  (click)="logout()"
+  class="mobile-nav-item logout-mobile">
+  <span class="mobile-nav-icon">🚪</span>
+</button>
+
   </nav>
+}
+
 }

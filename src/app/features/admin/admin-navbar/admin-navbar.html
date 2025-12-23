@@ -1,55 +1,56 @@
 <div class="admin-layout">
 
-  <!-- Sidebar -->
-  <aside class="sidebar">
+  <!-- Top Navbar -->
+  <header class="navbar">
 
-  <!-- Logo -->
-  <div class="brand">
-    <img src="assets/GreenZone Logo.png"
-         class="brand-logo"
-         alt="GreenZone Logo" />
-  </div>
+    <!-- Left -->
+    <div class="nav-left">
+      <img src="assets/GreenZone Logo.png" class="nav-logo" />
+      <span class="nav-title">GreenZone Admin</span>
+    </div>
 
-  <!-- Scrollable Menu -->
-  <nav class="sidebar-menu">
-    <button [class.active]="isActive('dashboard')" (click)="go('dashboard')">Dashboard</button>
-    <button [class.active]="isActive('materials')" (click)="go('materials')">Materials</button>
-    <button [class.active]="isActive('factories')" (click)="go('factories')">Factories</button>
-    <button [class.active]="isActive('users')" (click)="go('users')">Users</button>
-    <button [class.active]="isActive('orders')" (click)="go('orders')">Orders</button>
-    <button [class.active]="isActive('rewards')" (click)="go('rewards')">Rewards</button>
+    <!-- Center Menu -->
+    <div class="nav-center">
+      <div class="menu-wrapper">
 
-    <hr />
+        <button class="menu-btn">
+          Admin Menu
+          <span class="arrow">▾</span>
+        </button>
 
-    <button [class.active]="isActive('add-collector')" (click)="go('add-collector')">
-      Add Collector
-    </button>
+        <div class="menu-dropdown">
+          <button (click)="go('dashboard')" [class.active]="isActive('dashboard')">Dashboard</button>
+          <button (click)="go('materials')" [class.active]="isActive('materials')">Materials</button>
+          <button (click)="go('factories')" [class.active]="isActive('factories')">Factories</button>
+          <button (click)="go('users')" [class.active]="isActive('users')">Users</button>
+          <button (click)="go('orders')" [class.active]="isActive('orders')">Orders</button>
+          <button (click)="go('rewards')" [class.active]="isActive('rewards')">Rewards</button>
 
-    <button [class.active]="isActive('collectors')" (click)="go('collectors')">
-      Collectors
-    </button>
-  </nav>
+          <hr />
 
-</aside>
+          <button (click)="go('add-collector')" [class.active]="isActive('add-collector')">
+            Add Collector
+          </button>
 
+          <button (click)="go('collectors')" [class.active]="isActive('collectors')">
+            Collectors
+          </button>
+        </div>
 
-  <!-- Main Content -->
-  <div class="content">
-
-    <!-- Top Navbar -->
-    <header class="topbar">
-      <span class="brand-text">GreenZone Admin Panel</span>
-
-      <div class="actions">
-        <button class="logout" (click)="logoutAdmin()">Logout</button>
-        <button class="home" (click)="goToHome()">Home</button>
       </div>
-    </header>
+    </div>
 
-    <!-- Router Content -->
-    <main>
-      <router-outlet></router-outlet>
-    </main>
+    <!-- Right -->
+    <div class="nav-right">
+      <button class="home" (click)="goToHome()">Home</button>
+      <button class="logout" (click)="logoutAdmin()">Logout</button>
+    </div>
 
-  </div>
+  </header>
+
+  <!-- Page Content -->
+  <main class="content">
+    <router-outlet></router-outlet>
+  </main>
+
 </div>
