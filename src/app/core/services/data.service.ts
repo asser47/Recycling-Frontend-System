@@ -371,14 +371,6 @@ export class DataService {
         change: '+5 this week',
         color: 'text-primary'
       },
-      {
-        id: 'total-points',
-        icon: '⭐',
-        label: 'Total Points',
-        value: '1250',
-        change: '+250 this month',
-        color: 'text-accent'
-      }
     ];
   }
 

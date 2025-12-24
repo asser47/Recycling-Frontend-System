@@ -1,49 +1,30 @@
 import { Component, inject, signal, computed, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LanguageService } from '../../../core/services/language.service';
-import { DataService } from '../../../core/services/data.service';
-import { UserService } from '../../../core/services/user.service';
-import { OrderService } from '../../../core/services/order.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { OrderDto } from '@core/models/order.model';
-import { ButtonComponent } from '../../../shared/ui/button/button.component';
-import { RequestCardComponent } from '../../../shared/ui/request-card/request-card.component';
-import { CardComponent, CardContentComponent } from '../../../shared/ui/card/card.component';
-import { CreateCollectionModalComponent } from '../../../shared/components/create-collection-modal/create-collection-modal.component';
-import { TabsListComponent, TabsTriggerComponent } from '../../../shared/ui/tabs/tabs.component';
+import { DataService } from '@core/services/data.service';
+import { LanguageService } from '@core/services/language.service';
+import { UserService } from '@core/services/user.service';
+import { CardComponent, CardContentComponent } from '@shared/ui/card/card.component';
+import { RequestCardComponent } from '@shared/ui/request-card/request-card.component';
+import { TabsListComponent, TabsTriggerComponent } from '@shared/ui/tabs/tabs.component';
+import { CollectorService } from '@core/services/collector.service';
+
 
 @Component({
-  selector: 'app-my-requests',
+  selector: 'app-collector-requests',
   standalone: true,
   imports: [
     CommonModule,
-    ButtonComponent,
     RequestCardComponent,
     CardComponent,
     CardContentComponent,
-    CreateCollectionModalComponent,
     TabsListComponent,
     TabsTriggerComponent
   ],
   template: `
-    <div class="min-h-screen py-8 px-4 md:px-6 lg:px-8 pb-24 md:pb-8">
+    <div class="">
       <div class="max-w-7xl mx-auto space-y-8">
-        <!-- Header -->
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div>
-            <h1 class="text-3xl md:text-4xl font-bold text-foreground">{{ t('myRequests') }}</h1>
-            <p class="text-muted-foreground mt-2">Manage your collection requests</p>
-          </div>
-          <app-button (onClick)="modalOpen.set(true)"  size="lg" class="gap-2 shadow-md">
-            <span>➕</span>
-            {{ t('createRequest') }}
-          </app-button>
-        </div>
-
-        <app-create-collection-modal
-          [open]="modalOpen()"
-          (openChange)="modalOpen.set($event)"
-          (requestCreated)="onRequestCreated()"
-        ></app-create-collection-modal>
 
         <!-- Stats -->
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -61,8 +42,8 @@ import { TabsListComponent, TabsTriggerComponent } from '../../../shared/ui/tabs
           </app-card>
           <app-card>
             <app-card-content class="p-4 text-center">
-              <div class="text-2xl font-bold text-accent">{{ inProgressCount() }}</div>
-              <p class="text-sm text-muted-foreground">{{ t('inProgress') }}</p>
+              <div class="text-2xl font-bold text-accent">{{ deliveredCount() }}</div>
+              <p class="text-sm text-muted-foreground">{{ t('Delivered') }}</p>
             </app-card-content>
           </app-card>
           <app-card>
@@ -94,15 +75,19 @@ import { TabsListComponent, TabsTriggerComponent } from '../../../shared/ui/tabs
               @case ('pending') {
                 <ng-container *ngTemplateOutlet="requestsTemplate; context: { requests: getRequestsByStatus('pending'), emptyIcon: '⏳', emptyText: 'No pending requests' }"></ng-container>
               }
-              @case ('in-progress') {
-                <ng-container *ngTemplateOutlet="requestsTemplate; context: { requests: getRequestsByStatus('in-progress'), emptyIcon: '🔄', emptyText: 'No in-progress requests' }"></ng-container>
+               @case ('collected') {
+                <ng-container *ngTemplateOutlet="requestsTemplate; context: { requests: getRequestsByStatus('collected'), emptyIcon: '✅', emptyText: 'No collected requests' }"></ng-container>
+              }
+              @case ('delivered') {
+                <ng-container *ngTemplateOutlet="requestsTemplate; context: { requests: getRequestsByStatus('delivered'), emptyIcon: '🔄', emptyText: 'No delivered requests' }"></ng-container>
               }
               @case ('completed') {
                 <ng-container *ngTemplateOutlet="requestsTemplate; context: { requests: getRequestsByStatus('completed'), emptyIcon: '✅', emptyText: 'No completed requests' }"></ng-container>
               }
-              @case ('cancelled') {
+
+              <!-- @case ('cancelled') {
                 <ng-container *ngTemplateOutlet="requestsTemplate; context: { requests: getRequestsByStatus('cancelled'), emptyIcon: '❌', emptyText: 'No cancelled requests' }"></ng-container>
-              }
+              } -->
             }
           </div>
         </div>
@@ -129,12 +114,12 @@ import { TabsListComponent, TabsTriggerComponent } from '../../../shared/ui/tabs
   `,
   styles: []
 })
-export class MyRequestsComponent {
+export class CollectorRequestsComponent {
   languageService = inject(LanguageService);
   dataService = inject(DataService);
   userService = inject(UserService);
-  orderService = inject(OrderService);
   destroyRef = inject(DestroyRef);
+  collectorService = inject(CollectorService);
 
   selectedTab = signal<string>('all');
   modalOpen = signal(false);
@@ -143,9 +128,11 @@ export class MyRequestsComponent {
   tabs = [
     { value: 'all', label: 'All' },
     { value: 'pending', label: 'Pending' },
-    { value: 'in-progress', label: 'In Progress' },
+    // { value: 'in-progress', label: 'In Progress' },
+    { value: 'collected', label: 'Collected' },
+    { value: 'delivered', label: 'Delivered' },
     { value: 'completed', label: 'Completed' },
-    { value: 'cancelled', label: 'Cancelled' }
+    // { value: 'cancelled', label: 'Cancelled' }
   ];
 
   t = (key: string) => this.languageService.t(key);
@@ -166,24 +153,24 @@ export class MyRequestsComponent {
       return;
     }
 
-    // this.orderService.getUserOrders(String(userId))
-    //   .pipe(takeUntilDestroyed(this.destroyRef))
-    //   .subscribe({
-    //     next: (orders) => {
-    //       this.userRequests.set(orders || []);
-    //     },
-    //     error: () => {
-    //       this.userRequests.set([]);
-    //     }
-    //   });
+    this.collectorService.getAllOrders()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (orders) => {
+          this.userRequests.set(orders.reverse() || []);
+        },
+        error: () => {
+          this.userRequests.set([]);
+        }
+      });
   }
 
   completedCount = computed(() =>
     this.userRequests().filter(r => r.status.toLocaleLowerCase() === 'completed').length
   );
 
-  inProgressCount = computed(() =>
-    this.userRequests().filter(r => r.status.toLocaleLowerCase() === 'in-progress').length
+  deliveredCount = computed(() =>
+    this.userRequests().filter(r => r.status.toLocaleLowerCase() === 'delivered').length
   );
 
   pendingCount = computed(() =>

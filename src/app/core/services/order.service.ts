@@ -91,7 +91,7 @@ export class OrderService {
     return this.http.get<Order[]>(`${this.base}/status/${status}`);
   }
   complete(id: number) {
-  return this.http.post(`${this.base}/${id}/complete`, {});
+  return this.http.post(`${this.base}/${id}/complete`, null);
 }
 }
 

@@ -3,11 +3,7 @@ import { LanguageService } from '../../../core/services/language.service';
 import { DataService } from '../../../core/services/data.service';
 import { OrderDto } from '@core/models/order.model';
 import { CollectorHeaderComponent } from './header/header.component';
-import { CollectorStatsCardsComponent } from './stats-cards/stats-cards.component';
-import { CollectorActiveRouteComponent } from './active-route/active-route.component';
-import { CollectorMapRequestsComponent } from './map-requests/map-requests.component';
-import { CollectorAvailableRequestsComponent } from './available-requests/available-requests.component';
-import { CollectorRecentCollectionsComponent } from './recent-collections/recent-collections.component';
+import { CollectorRequestsComponent } from "./requests/my-requests/my-requests.component";
 
 @Component({
   selector: 'app-collector-dashboard',
@@ -15,12 +11,8 @@ import { CollectorRecentCollectionsComponent } from './recent-collections/recent
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CollectorHeaderComponent,
-    CollectorStatsCardsComponent,
-    CollectorActiveRouteComponent,
-    CollectorMapRequestsComponent,
-    CollectorAvailableRequestsComponent,
-    CollectorRecentCollectionsComponent
-  ],
+    CollectorRequestsComponent
+],
   templateUrl: './collector-dashboard.component.html',
   styleUrl: './collector-dashboard.component.css'
 })

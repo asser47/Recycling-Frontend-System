@@ -76,14 +76,20 @@ export const routes: Routes = [
   {
     path: 'rewards',
     loadComponent: () =>
-      import('./features/rewards/rewards.component')
+      import('./features/citizen/rewards/rewards.component')
         .then(m => m.RewardsComponent)
   },
   {
     path: 'my-requests',
     loadComponent: () =>
-      import('./features/requests/my-requests/my-requests.component')
+      import('./features/citizen/my-requests/my-requests.component')
         .then(m => m.MyRequestsComponent)
+  },
+  {
+    path: 'collector-requests',
+    loadComponent: () =>
+      import('./features/collector/collector-dashboard/available-requests/available-requests.component')
+        .then(m => m.CollectorAvailableRequestsComponent)
   },
   {
     path: 'profile',

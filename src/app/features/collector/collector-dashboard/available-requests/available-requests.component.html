@@ -1,24 +1,176 @@
-<app-card class="shadow-md">
-  <app-card-header>
-    <app-card-title class="text-xl">📦 Available Requests</app-card-title>
-    <app-card-description>Pick up requests in your area</app-card-description>
-  </app-card-header>
-  <app-card-content>
-    <div class="space-y-4 max-h-[400px] overflow-y-auto">
-      @for (request of pendingRequests(); track request.id) {
-        <app-request-card
-          [request]="request"
-          [showActions]="true"
-          (onCardClick)="onCardClick($event)"
-          (onAccept)="onAccept($event)"
-        ></app-request-card>
-      }
-      @if (pendingRequests().length === 0) {
-        <div class="text-center py-8 text-muted-foreground">
-          <span class="text-4xl block mb-2">📦</span>
-          <p>No available requests</p>
-        </div>
-      }
+<div class="min-h-screen py-8 px-4 md:px-6 lg:px-8 pb-24 md:pb-8">
+  <div class="max-w-7xl mx-auto space-y-8">
+    <div
+      class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
+    >
+      <div>
+        <h1 class="text-3xl md:text-4xl font-bold text-foreground">
+          📦 My Orders
+        </h1>
+        <p class="text-muted-foreground mt-2">Pick up order in your area</p>
+      </div>
     </div>
-  </app-card-content>
-</app-card>
+    <app-card-content>
+      <div class="space-y-4 max-h-[600px] overflow-y-auto pr-2">
+        @for (request of pendingRequests(); track request.id) {
+        <div
+          class="border border-border rounded-xl p-4 hover:shadow-lg hover:border-primary/40 transition-all cursor-pointer group bg-white"
+          (click)="onCardClick(request)"
+        >
+          <!-- Header with Order ID and Status -->
+          <div class="flex items-center justify-between mb-3">
+            <div>
+              <h3 class="font-bold text-base text-card-foreground">
+                🔄 Order #{{ request.id }}
+                @if (request.orderDate) {
+                <span class="font-semibold text-card-foreground">{{
+                  " , " + formatDate(request.orderDate)
+                }}</span>
+                }
+              </h3>
+              <!-- <p class="text-xs text-muted-foreground">{{ request.userName }}</p> -->
+            </div>
+            <div class="text-right">
+              <app-badge [variant]="getBadgeVariant(request.status)">
+                {{ getStatusText(request.status) }}
+              </app-badge>
+            </div>
+          </div>
+
+          <!-- Material Type Badge -->
+          <!-- @if (request.typeOfMaterial) {
+            <div class="mb-3 inline-block px-3 py-1 bg-accent rounded-lg border border-accent/50">
+              <p class="text-xs font-semibold text-card-foreground">📦 {{ request.typeOfMaterial }}</p>
+            </div>
+          } -->
+
+          <!-- From & To Section -->
+          <div class="grid grid-cols-2 gap-3 mb-3">
+            <!-- FROM: Pickup Location -->
+            <div
+              class="p-3 border-l-4 border-l-blue-500 bg-blue-50/50 rounded-lg"
+            >
+              <p
+                class="text-xs font-bold text-blue-700 uppercase tracking-wide mb-1"
+              >
+                📍 From (Pickup)
+              </p>
+              <div class="text-xs space-y-1">
+                <p class="font-semibold text-gray-800">
+                  {{ request.userName }}
+                </p>
+                @if (request.street) {
+                <p class="text-gray-700">Street: {{ request.street }}</p>
+                } @if (request.buildingNo) {
+                <p class="text-gray-700">Building: {{ request.buildingNo }}</p>
+                } @if (request.apartment) {
+                <p class="text-gray-700">Apartment: {{ request.apartment }}</p>
+                } @if (request.city) {
+                <p class="text-gray-700">City: {{ request.city }}</p>
+                }
+              </div>
+            </div>
+
+            <!-- TO: Delivery Location -->
+            <div
+              class="p-3 border-l-4 border-l-green-500 bg-green-50/50 rounded-lg"
+            >
+              <p
+                class="text-xs font-bold text-green-700 uppercase tracking-wide mb-1"
+              >
+                🏭 To (Delivery)
+              </p>
+              <div class="text-xs space-y-1">
+                @if (request.factoryName) {
+                <p class="font-semibold text-gray-800">
+                  {{ request.factoryName }}
+                </p>
+                } @if (request.factoryArea) {
+                <p class="text-gray-700">Area: {{ request.factoryArea }}</p>
+                } @if (request.factoryStreet) {
+                <p class="text-gray-700">Street: {{ request.factoryStreet }}</p>
+                } @if (request.factoryBuildingNo) {
+                <p class="text-gray-700">
+                  Building: {{ request.factoryBuildingNo }}
+                </p>
+                } @if (request.factoryCity) {
+                <p class="text-gray-700">City: {{ request.factoryCity }}</p>
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Details Row -->
+          <!-- <div class="grid grid-cols-2 gap-2 text-xs text-muted-foreground mb-3 py-2 border-y border-border/30">
+            @if (request.quantity) {
+              <div class="flex items-center gap-2">
+                <span class="text-base">⚖️</span>
+                <div>
+                  <p class="text-muted-foreground">Quantity</p>
+                  <p class="font-semibold text-card-foreground">{{ request.quantity }} kg</p>
+                </div>
+              </div>
+            }
+             @if (request.orderDate) {
+              <div class="flex items-center gap-2">
+                <span class="text-base">📅</span>
+                <div>
+                  <p class="text-muted-foreground">Date</p>
+                  <p class="font-semibold text-card-foreground">{{ formatDate(request.orderDate) }}</p>
+                </div>
+              </div>
+            }
+          </div> -->
+
+          <!-- Contact Info -->
+          <!-- @if (request.email) {
+            <div class="text-xs text-muted-foreground mb-3 flex items-center gap-2">
+              <span>📧</span>
+              <span class="truncate">{{ request.email }}</span>
+            </div>
+          } -->
+
+          <!-- Action Button -->
+          @if (request.status.toLowerCase() === 'pending') {
+          <button
+            class="w-full py-2.5 px-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white text-sm font-bold rounded-lg transition-all shadow-sm hover:shadow-md"
+            (click)="acceptOrder(request.id); $event.stopPropagation()"
+          >
+            ✅ Accept This Order
+          </button>
+          } @if (request.status.toLowerCase() === 'accepted') {
+          <button
+            class="w-full py-2.5 px-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white text-sm font-bold rounded-lg transition-all shadow-sm hover:shadow-md"
+            (click)="
+              changeStatus(request.id, 'Collected'); $event.stopPropagation()
+            "
+          >
+            Collected
+          </button>
+          } @if (request.status.toLowerCase() === 'collected') {
+          <button
+            class="w-full py-2.5 px-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white text-sm font-bold rounded-lg transition-all shadow-sm hover:shadow-md"
+            (click)="
+              changeStatus(request.id, 'Delivered'); $event.stopPropagation()
+            "
+          >
+            Delivered
+          </button>
+          }
+        </div>
+        }
+
+        <!-- Empty State -->
+        @if (pendingRequests().length === 0) {
+        <div class="text-center py-16 text-muted-foreground">
+          <span class="text-6xl block mb-4">📦</span>
+          <p class="font-semibold text-lg">No Available Orders</p>
+          <p class="text-sm mt-2">
+            Check back soon for new pickup requests in your area
+          </p>
+        </div>
+        }
+      </div>
+    </app-card-content>
+  </div>
+</div>
