@@ -5,8 +5,6 @@ import { OrderDto } from '@core/models/order.model';
 import { DataService } from '@core/services/data.service';
 import { LanguageService } from '@core/services/language.service';
 import { UserService } from '@core/services/user.service';
-import { CreateCollectionModalComponent } from '@shared/components/create-collection-modal/create-collection-modal.component';
-import { ButtonComponent } from '@shared/ui/button/button.component';
 import { CardComponent, CardContentComponent } from '@shared/ui/card/card.component';
 import { RequestCardComponent } from '@shared/ui/request-card/request-card.component';
 import { TabsListComponent, TabsTriggerComponent } from '@shared/ui/tabs/tabs.component';
@@ -18,11 +16,9 @@ import { CollectorService } from '@core/services/collector.service';
   standalone: true,
   imports: [
     CommonModule,
-    ButtonComponent,
     RequestCardComponent,
     CardComponent,
     CardContentComponent,
-    CreateCollectionModalComponent,
     TabsListComponent,
     TabsTriggerComponent
   ],

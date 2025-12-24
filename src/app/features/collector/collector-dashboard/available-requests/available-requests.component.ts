@@ -2,13 +2,7 @@ import { Component, DestroyRef, inject, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataService } from '../../../../core/services/data.service';
 import { OrderDto } from '@core/models/order.model';
-import {
-  CardComponent,
-  CardHeaderComponent,
-  CardTitleComponent,
-  CardDescriptionComponent,
-  CardContentComponent,
-} from '../../../../shared/ui/card/card.component';
+import { CardContentComponent } from '../../../../shared/ui/card/card.component';
 import { CollectorService } from '@core/services/collector.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LanguageService } from '@core/services/language.service';
@@ -19,10 +13,6 @@ import { BadgeComponent } from '@shared/ui/badge/badge.component';
   standalone: true,
   imports: [
     CommonModule,
-    CardComponent,
-    CardHeaderComponent,
-    CardTitleComponent,
-    CardDescriptionComponent,
     CardContentComponent,
     BadgeComponent,
   ],
