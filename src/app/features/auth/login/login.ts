@@ -6,6 +6,7 @@ import { FlashMessageService } from '../../../core/services/flash-message.servic
 import { extractAuthError } from '../../../core/utils/auth-error.util';
 import { NgZone, ChangeDetectorRef } from '@angular/core';
 import { Role } from '../../../core/models/role.enum';
+import { UserProfileService } from '@core/services/user-profile.service';
 
 @Component({
   selector: 'app-login',
@@ -18,6 +19,7 @@ import { Role } from '../../../core/models/role.enum';
 export class LoginComponent {
 
   private auth = inject(AuthService);
+  private profile = inject(UserProfileService);
   private router = inject(Router);
   private flash = inject(FlashMessageService);
   private zone = inject(NgZone);
@@ -41,6 +43,7 @@ export class LoginComponent {
       next: (res) => {
         this.auth.saveAuth(res.token);
 
+        this.profile.loadUserProfile().subscribe(() => {
         const role = this.auth.getRole();
         this.flash.showSuccess('Successful login 🎉');
 
@@ -48,6 +51,7 @@ export class LoginComponent {
           this.isLoading = false;
           this.redirectByRole(role);
           this.cdr.detectChanges();
+          });
         });
       },
 

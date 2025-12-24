@@ -3,11 +3,12 @@ import {
   inject,
   computed,
   signal,
-  ChangeDetectionStrategy
+  ChangeDetectionStrategy,
+  HostListener   
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-
+import { UserProfileService } from '@core/services/user-profile.service';
 import { ThemeService } from '../../../core/services/theme.service';
 import { LanguageService } from '../../../core/services/language.service';
 import { UserService } from '../../../core/services/user.service';
@@ -30,6 +31,7 @@ export class NavbarComponent {
   // ================= INJECTS =================
   private router = inject(Router);
   private authService = inject(AuthService);
+  private profileService = inject(UserProfileService);
 
   themeService = inject(ThemeService);
   languageService = inject(LanguageService);
@@ -64,11 +66,18 @@ export class NavbarComponent {
   unreadNotifications = this.notificationService.unreadCount;
   userData = this.userDataService.userData;
 
-  displayName = computed(() =>
-    this.userData()?.fullName ||
-    this.dataService.currentUser()?.name ||
-    'User'
-  );
+displayName = computed(() => {
+  const profile = this.profileService.userProfile();
+
+  if (!profile) return '';
+
+  // لو API بيرجع fullName
+  if (profile.fullName) return profile.fullName;
+
+  // لو بيرجع first + last
+  return `${profile.firstName ?? ''} ${profile.lastName ?? ''}`.trim();
+});
+
 
   // ================= ROUTES =================
   isAuthRoute = computed(() => {
@@ -94,10 +103,12 @@ export class NavbarComponent {
   }
 
   // ================= ACTIONS =================
-  toggleUserMenu() {
-    this.showUserMenu.update(v => !v);
-    this.showNotificationsDropdown.set(false);
-  }
+toggleUserMenu(event?: MouseEvent) {
+  event?.stopPropagation();          // ✅ مهم
+  this.showUserMenu.update(v => !v);
+  this.showNotificationsDropdown.set(false);
+}
+
 
   toggleNotifications() {
     this.showNotificationsDropdown.update(v => !v);
@@ -117,9 +128,15 @@ export class NavbarComponent {
 
   logout() {
     this.authService.logout();
+    this.profileService.clearProfile(); // ✅ مهم
     this.closeDropdowns();
     this.router.navigateByUrl('/login');
   }
+@HostListener('document:click')
+closeOnOutsideClick() {
+  this.showUserMenu.set(false);
+  this.showNotificationsDropdown.set(false);
+}
 
   // ================= ⭐ المطلوب =================
   // الضغط على اسم المشروع / اللوجو

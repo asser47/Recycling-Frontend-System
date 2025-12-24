@@ -62,7 +62,9 @@
       <!-- 🔔 Notifications (User + Collector فقط) -->
       @if (isLoggedIn() && !isAuthRoute() && !isAdmin()) {
         <div class="relative">
-          <button class="action-btn" (click)="toggleNotifications()">🔔</button>
+<button class="action-btn" (click)="toggleNotifications()">
+  <i class="fa-regular fa-bell"></i>
+</button>
 
           @if (showNotificationsDropdown()) {
             <div class="dropdown-overlay" (click)="closeDropdowns()"></div>
@@ -76,43 +78,71 @@
       }
 
       <!-- 🌐 Language -->
-      <button class="action-btn" (click)="languageService.toggleLanguage()">🌐</button>
+<button class="action-btn" (click)="languageService.toggleLanguage()">
+  <i class="fa-solid fa-globe"></i>
+</button>
 
       <!-- 🌙 / ☀️ Theme -->
-      <button class="action-btn" (click)="themeService.toggleTheme()">
-        {{ themeService.theme() === 'light' ? '🌙' : '☀️' }}
-      </button>
+<button class="action-btn" (click)="themeService.toggleTheme()">
+  <i
+    class="fa-solid"
+    [class.fa-moon]="themeService.theme() === 'light'"
+    [class.fa-sun]="themeService.theme() !== 'light'">
+  </i>
+</button>
+
 
       <!-- 👤 User Menu (User + Collector) -->
       @if (isLoggedIn() && !isAdmin()) {
-        <div class="relative">
-          <button class="user-menu-btn" (click)="toggleUserMenu()">
-            <div class="user-avatar">👤</div>
-            <div class="user-info">
-              <span class="user-name">{{ displayName() }}</span>
-              <span class="user-role">{{ roleLabel() }}</span>
-            </div>
-            <span class="dropdown-arrow">▾</span>
-          </button>
+  <div class="relative">
+<button
+  class="user-menu-btn"
+  (click)="toggleUserMenu($event)"
+>
 
-          @if (showUserMenu()) {
-            <div class="dropdown-overlay" (click)="closeDropdowns()"></div>
-            <div class="dropdown-menu">
-              <a [routerLink]="getDashboardRoute()" class="dropdown-item">
-                Dashboard
-              </a>
-              <a routerLink="/settings" class="dropdown-item">
-                Settings
-              </a>
-              <div class="dropdown-separator"></div>
-              <!-- ✅ Logout هنا -->
-              <button class="dropdown-item logout-btn" (click)="logout()">
-                Logout
-              </button>
-            </div>
-          }
-        </div>
-      }
+
+      <!-- Info -->
+      <div class="user-info">
+        <span class="user-name">{{ displayName() }}</span>
+        <span class="user-role">{{ roleLabel() }}</span>
+      </div>
+
+      <i class="fa-solid fa-chevron-down dropdown-arrow"></i>
+    </button>
+
+    @if (showUserMenu()) {
+  <div class="dropdown-menu user-dropdown">
+
+    <div class="dropdown-user-card">
+      <div>
+        <strong>{{ displayName() }}</strong>
+        <span>{{ roleLabel() }}</span>
+      </div>
+    </div>
+
+        <div class="dropdown-separator"></div>
+
+    <a [routerLink]="getDashboardRoute()" class="dropdown-item">
+      <i class="fa-solid fa-gauge"></i>
+      Dashboard
+    </a>
+
+    <a routerLink="/settings" class="dropdown-item">
+      <i class="fa-solid fa-gear"></i>
+      Settings
+    </a>
+        <div class="dropdown-separator"></div>
+
+
+    <button class="dropdown-item logout-btn" (click)="logout()">
+      <i class="fa-solid fa-right-from-bracket"></i>
+      Logout
+    </button>
+      </div>
+    }
+  </div>
+}
+
 
 @if (isLoggedIn()) {
   <button class="btn-ghost logout-direct" (click)="logout()">

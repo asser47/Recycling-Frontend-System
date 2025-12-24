@@ -13,7 +13,6 @@ export interface UserProfileResponse {
   email: string;
   phoneNumber: string;
   address?: string;
-  avatar?: string;
   city?: string;
   country?: string;
   coordinates?: {
