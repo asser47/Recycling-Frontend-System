@@ -6,7 +6,6 @@ import { AuthService } from '../../core/services/auth.service';
 import { Role } from '../../core/models/role.enum';
 import { LanguageService } from '../../core/services/language.service';
 import { HomeFeaturesComponent } from './features/features.component';
-import { HomeFooterComponent } from './footer/footer'
 
 interface Feature {
   icon: string;
@@ -19,9 +18,7 @@ interface Feature {
   standalone: true,
   imports: [
     CommonModule,
-    // RouterModule,
     HomeFeaturesComponent,
-    HomeFooterComponent
   ],
   templateUrl: './home.html',
   styleUrls: ['./home.css'],
@@ -29,9 +26,7 @@ interface Feature {
 })
 export class HomeComponent {
 
-  // private router = inject(Router);
   private auth = inject(AuthService);
-  // private flash = inject(FlashMessageService);
   private lang = inject(LanguageService);
 
   readonly Role = Role;

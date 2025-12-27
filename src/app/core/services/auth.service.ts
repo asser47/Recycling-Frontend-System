@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Role } from '../models/role.enum';
 import { jwtDecode } from 'jwt-decode';
 import { signal, computed } from '@angular/core';
@@ -64,8 +64,13 @@ resetPassword(data: any) {
 
 
 confirmEmail(email: string, token: string) {
+  const params = new HttpParams()
+    .set('email', email)
+    .set('token', token);
+
   return this.http.get(
-    `${this.apiUrl}/confirm-email?email=${email}&token=${token}`
+    `${this.apiUrl}/confirm-email`,
+    { params, responseType: 'text' }
   );
 }
 
