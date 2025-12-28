@@ -7,22 +7,29 @@
         <form [formGroup]="form" (ngSubmit)="handleSubmit()" class="space-y-6">
           <!-- Email -->
           <div class="space-y-2">
-            <label for="email" class="text-sm font-medium">{{ t('email') }}</label>
+            <label for="email" class="text-sm font-medium">{{ t('email') }} <span class="text-destructive">*</span></label>
             <input
               id="email"
               type="email"
               formControlName="email"
               placeholder="example@email.com"
               class="w-full px-3 py-2 border border-input rounded-md bg-background focus:ring-2 focus:ring-primary focus:border-primary transition-colors"
+              [class.border-destructive]="form.get('email')?.invalid && form.get('email')?.touched"
             />
+            <!-- ✅ Email validation error -->
+            @if (form.get('email')?.invalid && form.get('email')?.touched) {
+              <p class="text-xs text-destructive">{{ t('emailRequired') || 'Valid email is required' }}</p>
+            }
           </div>
 
           <!-- Materials Section -->
           <div class="space-y-3">
-            <label class="text-sm font-medium">{{ t('materialsToCollect') }}</label>
+            <label class="text-sm font-medium">{{ t('materialsToCollect') }} <span class="text-destructive">*</span></label>
             <div class="grid grid-cols-2 gap-3">
               @for (material of materials(); track material.id) {
-                <label class="flex items-start space-x-2 p-3 border border-input rounded-md cursor-pointer hover:bg-muted/50 transition-colors" [class.bg-primary/10]="isSelectedMaterial(material.id)">
+                <label class="flex items-start space-x-2 p-3 border border-input rounded-md cursor-pointer hover:bg-muted/50 transition-colors" 
+                       [class.bg-primary/10]="isSelectedMaterial(material.id)"
+                       [class.border-primary]="isSelectedMaterial(material.id)">
                   <input
                     type="checkbox"
                     [checked]="isSelectedMaterial(material.id)"
@@ -30,10 +37,14 @@
                     class="mt-1 rounded"
                   />
                   <span class="text-lg">{{ material.icon }}</span>
-                  <span class="flex-1">{{ t(material.label) }}</span>
+                  <span class="flex-1 capitalize">{{ t(material.label) }}</span>
                 </label>
               }
             </div>
+            <!-- ✅ Material selection error -->
+            @if (selectedMaterials().length === 0 && form.touched) {
+              <p class="text-xs text-destructive">{{ t('selectMaterial') || 'Please select at least one material' }}</p>
+            }
           </div>
 
           <!-- Selected Materials with Individual Weights -->
@@ -43,32 +54,44 @@
               @for (material of selectedMaterials(); let i = $index; track material.id) {
                 <div class="flex items-end gap-3 p-3 bg-background rounded-md border border-border">
                   <div class="flex-1">
-                    <label class="text-xs font-medium text-muted-foreground">{{ t(material.label) }}</label>
+                    <label class="text-xs font-medium text-muted-foreground capitalize">
+                      {{ material.icon }} {{ t(material.label) }}
+                    </label>
                     <input
                       type="number"
                       [value]="getMaterialWeight(material.id)"
                       (change)="setMaterialWeight(material.id, $event)"
-                      placeholder="0"
+                      placeholder="0.0"
                       min="0.1"
                       step="0.1"
                       class="w-full px-2 py-2 border border-input rounded-md bg-background text-sm mt-1"
+                      [class.border-destructive]="getMaterialWeight(material.id) <= 0"
                     />
+                    <!-- ✅ Weight validation -->
+                    @if (getMaterialWeight(material.id) <= 0) {
+                      <p class="text-xs text-destructive mt-1">{{ t('weightRequired') || 'Weight must be > 0' }}</p>
+                    }
                   </div>
-                  <span class="text-xs text-muted-foreground">kg</span>
+                  <span class="text-xs text-muted-foreground pb-2">kg</span>
                   <button
                     type="button"
                     (click)="removeMaterial(material.id)"
-                    class="px-3 py-2 text-destructive hover:bg-destructive/10 rounded-md text-sm"
+                    class="px-3 py-2 text-destructive hover:bg-destructive/10 rounded-md text-sm transition-colors"
+                    title="{{ t('remove') || 'Remove' }}"
                   >
                     ✕
                   </button>
                 </div>
               }
               <div class="pt-2 border-t border-border">
-                <p class="text-sm font-medium">
-                  {{ t('totalWeight') || 'Total Weight' }}:
-                  <span class="font-bold text-primary">{{ getTotalWeight() }} kg</span>
+                <p class="text-sm font-medium flex justify-between items-center">
+                  <span>{{ t('totalWeight') || 'Total Weight' }}:</span>
+                  <span class="font-bold text-primary text-lg">{{ getTotalWeight() }} kg</span>
                 </p>
+                <!-- ✅ Total weight error -->
+                @if (getTotalWeight() <= 0 && selectedMaterials().length > 0) {
+                  <p class="text-xs text-destructive mt-1">{{ t('totalWeightRequired') || 'Total weight must be greater than 0' }}</p>
+                }
               </div>
             </div>
           }
@@ -79,44 +102,56 @@
 
             <!-- City -->
             <div class="space-y-2">
-              <label for="city" class="text-sm font-medium">{{ t('city') }}</label>
+              <label for="city" class="text-sm font-medium">{{ t('city') }} <span class="text-destructive">*</span></label>
               <input
                 id="city"
                 type="text"
                 formControlName="city"
                 placeholder="Cairo"
                 class="w-full px-3 py-2 border border-input rounded-md bg-background"
+                [class.border-destructive]="form.get('city')?.invalid && form.get('city')?.touched"
               />
+              @if (form.get('city')?.invalid && form.get('city')?.touched) {
+                <p class="text-xs text-destructive">{{ t('cityRequired') || 'City is required' }}</p>
+              }
             </div>
 
             <!-- Street -->
             <div class="space-y-2">
-              <label for="street" class="text-sm font-medium">{{ t('street') }}</label>
+              <label for="street" class="text-sm font-medium">{{ t('street') }} <span class="text-destructive">*</span></label>
               <input
                 id="street"
                 type="text"
                 formControlName="street"
                 placeholder="Main Street"
                 class="w-full px-3 py-2 border border-input rounded-md bg-background"
+                [class.border-destructive]="form.get('street')?.invalid && form.get('street')?.touched"
               />
+              @if (form.get('street')?.invalid && form.get('street')?.touched) {
+                <p class="text-xs text-destructive">{{ t('streetRequired') || 'Street is required' }}</p>
+              }
             </div>
 
             <!-- Building Number -->
             <div class="grid grid-cols-2 gap-4">
               <div class="space-y-2">
-                <label for="buildingNo" class="text-sm font-medium">{{ t('buildingNo') }}</label>
+                <label for="buildingNo" class="text-sm font-medium">{{ t('buildingNo') }} <span class="text-destructive">*</span></label>
                 <input
                   id="buildingNo"
                   type="text"
                   formControlName="buildingNo"
                   placeholder="123"
                   class="w-full px-3 py-2 border border-input rounded-md bg-background"
+                  [class.border-destructive]="form.get('buildingNo')?.invalid && form.get('buildingNo')?.touched"
                 />
+                @if (form.get('buildingNo')?.invalid && form.get('buildingNo')?.touched) {
+                  <p class="text-xs text-destructive">{{ t('buildingNoRequired') || 'Building number is required' }}</p>
+                }
               </div>
 
-              <!-- Apartment -->
+              <!-- Apartment (Optional) -->
               <div class="space-y-2">
-                <label for="apartment" class="text-sm font-medium">{{ t('apartment') }}</label>
+                <label for="apartment" class="text-sm font-medium">{{ t('apartment') }} <span class="text-xs text-muted-foreground">({{ t('optional') || 'optional' }})</span></label>
                 <input
                   id="apartment"
                   type="text"
@@ -127,6 +162,13 @@
               </div>
             </div>
           </div>
+
+          <!-- ✅ Backend Error Display -->
+          @if (submitError()) {
+            <div class="p-3 bg-destructive/10 border border-destructive/20 rounded-md">
+              <p class="text-sm text-destructive">{{ submitError() }}</p>
+            </div>
+          }
 
           <!-- Actions -->
           <div class="flex gap-4 pt-4 border-t border-border">
@@ -139,10 +181,21 @@
             </button>
             <button
               type="submit"
-              [disabled]="!form.valid || selectedMaterials().length === 0"
+              [disabled]="!form.valid || selectedMaterials().length === 0 || getTotalWeight() <= 0 || isSubmitting()"
               class="flex-1 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:opacity-90 h-10 px-4"
             >
-              {{ t('submitRequest') }}
+              <!-- ✅ Loading state -->
+              @if (isSubmitting()) {
+                <span class="inline-flex items-center gap-2">
+                  <svg class="animate-spin h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  {{ t('submitting') || 'Submitting...' }}
+                </span>
+              } @else {
+                {{ t('submitRequest') }}
+              }
             </button>
           </div>
         </form>

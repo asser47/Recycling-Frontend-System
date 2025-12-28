@@ -1,15 +1,15 @@
 import { Component, Input, Output, EventEmitter, inject, signal, computed, OnChanges, SimpleChanges, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { LanguageService } from '../../../core/services/language.service';
-import { DataService } from '../../../core/services/data.service';
+import { LanguageService } from '../../../../core/services/language.service';
+import { DataService } from '../../../../core/services/data.service';
 import { CreateOrderDto, OrderDto } from '@core/models/order.model';
 import { OrderService } from '@core/services/order.service';
-import { MaterialService } from '../../../core/services/material.service';
+import { MaterialService } from '../../../../core/services/material.service';
 
 interface MaterialItem {
-  id: string;
-  label: string;
+  id: string;        // TypeName from backend: "Plastic", "Carton", "Can", "Glass"
+  label: string;     // Display name (lowercase for translation)
   icon: string;
 }
 
@@ -43,6 +43,10 @@ export class CreateCollectionModalComponent implements OnChanges, OnInit {
     return this.materials().filter(m => selected.includes(m.id));
   });
 
+  // Loading and error states
+  isSubmitting = signal(false);
+  submitError = signal<string | null>(null);
+
   form: FormGroup = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
     city: ['', Validators.required],
@@ -52,7 +56,6 @@ export class CreateCollectionModalComponent implements OnChanges, OnInit {
   });
 
   ngOnInit(): void {
-    // Load materials from service
     this.loadMaterials();
   }
 
@@ -72,25 +75,34 @@ export class CreateCollectionModalComponent implements OnChanges, OnInit {
     this.materialService.getAll().subscribe({
       next: (apiMaterials) => {
         // Map API materials to MaterialItem format
+        // Use typeName as ID (matches backend enum: "Plastic", "Carton", "Can", "Glass")
         const materialItems: MaterialItem[] = apiMaterials.map(material => {
-          const typeNameLower = material.typeName.toLowerCase();
+          const typeName = material.typeName; // Keep original case from backend
           return {
-            id: material.id.toString(),
-            label: typeNameLower,
-            icon: this.getMaterialIcon(typeNameLower)
+            id: typeName,  // Use typeName like "Plastic", "Carton", "Can", "Glass"
+            label: typeName.toLowerCase(),  // Display in lowercase for translation
+            icon: this.getMaterialIcon(typeName)
           };
         });
-        this.materials.set(materialItems);
-        console.log('✅ Materials loaded from API:', materialItems);
+        
+        // Remove duplicates (in case same type appears multiple times)
+        const uniqueMaterials = materialItems.filter((material, index, self) =>
+          index === self.findIndex(m => m.id === material.id)
+        );
+        
+        this.materials.set(uniqueMaterials);
+        console.log('✅ Materials loaded from API:', uniqueMaterials);
       },
-      error: () => {
-        // Fallback to default materials if API fails
+      error: (err) => {
+        console.error('❌ Failed to load materials from API:', err);
+        // Fallback to default materials matching backend MaterialType enum
         this.materials.set([
-          { id: 'plastic', label: 'plastic', icon: '♻️' },
-          { id: 'paper', label: 'paper', icon: '📄' },
-          { id: 'glass', label: 'glass', icon: '🍶' },
-          { id: 'metal', label: 'metal', icon: '🔩' }
+          { id: 'Plastic', label: 'plastic', icon: '♻️' },
+          { id: 'Carton', label: 'carton', icon: '📄' },
+          { id: 'Glass', label: 'glass', icon: '🍶' },
+          { id: 'Can', label: 'can', icon: '🔩' }
         ]);
+        console.log('⚠️ Using fallback materials');
       }
     });
   }
@@ -102,12 +114,14 @@ export class CreateCollectionModalComponent implements OnChanges, OnInit {
     switch (material.toLowerCase()) {
       case 'plastic':
         return '♻️';
+      case 'carton':
       case 'paper':
+      case 'cardboard':
         return '📄';
       case 'glass':
         return '🍶';
-      case 'metal':
       case 'can':
+      case 'metal':
         return '🔩';
       default:
         return '🔄';
@@ -126,12 +140,14 @@ export class CreateCollectionModalComponent implements OnChanges, OnInit {
       currentMap.set(materialId, 0); // Default weight 0
     }
     this._selectedMaterialsMap.set(currentMap);
+    this.submitError.set(null); // Clear error when user makes changes
   }
 
   removeMaterial(materialId: string): void {
     const currentMap = new Map(this._selectedMaterialsMap());
     currentMap.delete(materialId);
     this._selectedMaterialsMap.set(currentMap);
+    this.submitError.set(null);
   }
 
   getMaterialWeight(materialId: string): number {
@@ -143,6 +159,7 @@ export class CreateCollectionModalComponent implements OnChanges, OnInit {
     const currentMap = new Map(this._selectedMaterialsMap());
     currentMap.set(materialId, Math.max(0, weight)); // Ensure non-negative
     this._selectedMaterialsMap.set(currentMap);
+    this.submitError.set(null);
   }
 
   getTotalWeight(): number {
@@ -154,18 +171,42 @@ export class CreateCollectionModalComponent implements OnChanges, OnInit {
   }
 
   handleSubmit(): void {
-    if (!this.form.valid || this.selectedMaterials().length === 0) return;
+    // Mark all form fields as touched to show validation errors
+    Object.keys(this.form.controls).forEach(key => {
+      this.form.get(key)?.markAsTouched();
+    });
+
+    // Validate form
+    if (!this.form.valid) {
+      console.error('❌ Form is invalid');
+      this.submitError.set(this.t('formInvalid') || 'Please fill all required fields correctly');
+      return;
+    }
+
+    // Validate material selection
+    if (this.selectedMaterials().length === 0) {
+      console.error('❌ No materials selected');
+      this.submitError.set(this.t('noMaterialsSelected') || 'Please select at least one material type');
+      return;
+    }
+
+    // Validate total weight
+    if (this.getTotalWeight() <= 0) {
+      console.error('❌ Total weight must be greater than 0');
+      this.submitError.set(this.t('invalidWeight') || 'Total weight must be greater than 0 kg');
+      return;
+    }
 
     const formValue = this.form.value;
     const selectedMaterials = this.selectedMaterials();
 
-    // Get the first selected material as primary
-    const primaryMaterial = selectedMaterials[0]?.id || 'mixed';
+    // Get the first selected material as primary (backend supports one material per order)
+    const primaryMaterial = selectedMaterials[0]?.id; // This will be "Plastic", "Carton", etc.
 
-    // Create collection request object
+    // Create collection request object matching backend CreateOrderDto
     const request: CreateOrderDto = {
       email: formValue.email,
-      typeOfMaterial: primaryMaterial,
+      typeOfMaterial: primaryMaterial,  // Sends "Plastic", "Carton", "Can", or "Glass"
       quantity: this.getTotalWeight(),
       city: formValue.city,
       street: formValue.street,
@@ -173,17 +214,45 @@ export class CreateCollectionModalComponent implements OnChanges, OnInit {
       apartment: formValue.apartment || '',
     };
 
-    console.log('Submitting request:', request);
-    console.log('Materials breakdown:', Object.fromEntries(this._selectedMaterialsMap()));
+    console.log('📤 Submitting order request:', request);
+    console.log('📦 Materials breakdown:', Object.fromEntries(this._selectedMaterialsMap()));
 
-    // Add to DataService
+    // Set loading state
+    this.isSubmitting.set(true);
+    this.submitError.set(null);
+
+    // Submit to backend
     this.orderService.createOrder(request).subscribe({
       next: (order: OrderDto) => {
+        console.log('✅ Order created successfully:', order);
+        this.isSubmitting.set(false);
+        
         // Emit event with the created order
         this.requestCreated.emit(order);
+        
+        // Close modal
         this.close();
       },
-      error: () => {
+      error: (err) => {
+        console.error('❌ Failed to create order:', err);
+        this.isSubmitting.set(false);
+        
+        // Extract and display error message
+        let errorMessage = this.t('orderCreationFailed') || 'Failed to create order. Please try again.';
+        
+        if (err.error?.message) {
+          errorMessage = err.error.message;
+        } else if (typeof err.error === 'string') {
+          errorMessage = err.error;
+        } else if (err.status === 400) {
+          errorMessage = this.t('invalidData') || 'Invalid data provided. Please check all fields.';
+        } else if (err.status === 404) {
+          errorMessage = this.t('userNotFound') || 'User not found with the provided email.';
+        } else if (err.status === 500) {
+          errorMessage = this.t('serverError') || 'Server error. Please try again later.';
+        }
+        
+        this.submitError.set(errorMessage);
       }
     });
   }
@@ -195,6 +264,8 @@ export class CreateCollectionModalComponent implements OnChanges, OnInit {
 
   private resetForm(): void {
     const currentUser = this.dataService.currentUser();
+    
+    // Reset form values
     this.form.patchValue({
       email: currentUser?.email || '',
       city: '',
@@ -202,7 +273,16 @@ export class CreateCollectionModalComponent implements OnChanges, OnInit {
       buildingNo: '',
       apartment: ''
     });
+    
+    // Reset form state
+    this.form.markAsUntouched();
+    this.form.markAsPristine();
+    
     // Clear selected materials
     this._selectedMaterialsMap.set(new Map());
+    
+    // Clear errors and loading state
+    this.submitError.set(null);
+    this.isSubmitting.set(false);
   }
 }

@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LanguageService } from '../../../../core/services/language.service';
 import { OrderDto } from '@core/models/order.model';
-import { CreateCollectionModalComponent } from '../../../../shared/components/create-collection-modal/create-collection-modal.component';
+import { CreateCollectionModalComponent } from '../create-collection-modal/create-collection-modal.component';
 
 @Component({
   selector: 'app-citizen-collection-request',
