@@ -1,21 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { LucideAngularModule } from 'lucide-angular';
-
-import {
-  Home,
-  LogIn,
-  UserPlus,
-  ShieldCheck,
-  FileText,
-  Cookie,
-  Mail,
-  MapPin,
-  Globe,
-  Facebook,
-  Instagram
-} from 'lucide-angular';
+import { LucideAngularModule, Home, LogIn, UserPlus, ShieldCheck, FileText, Cookie, Mail, MapPin, Globe, Facebook, Instagram } from 'lucide-angular';
 
 @Component({
   selector: 'app-home-footer',
@@ -26,7 +12,7 @@ import {
 })
 export class HomeFooterComponent {
 
-  // 👇 لازم تتعرّف هنا
+  // Icons
   Home = Home;
   LogIn = LogIn;
   UserPlus = UserPlus;

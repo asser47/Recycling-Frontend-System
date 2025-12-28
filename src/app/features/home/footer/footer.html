@@ -5,83 +5,88 @@
 
     <!-- Brand -->
     <div class="footer-brand">
-      <h3>GreenZone</h3>
-      <p>
+      <div class="brand-logo">
+        <h3>🌿 GreenZone</h3>
+      </div>
+      <p class="brand-description">
         Smart recycling platform helping communities turn waste into
-        environmental value across Egypt.
+        environmental value across Egypt. Join us in making a difference!
       </p>
 
       <!-- Socials -->
       <div class="socials">
-        <a href="#">
+        <a href="#" aria-label="Website" class="social-link">
           <lucide-icon [name]="Globe" class="footer-icon"></lucide-icon>
         </a>
-        <a href="#">
+        <a href="#" aria-label="Facebook" class="social-link">
           <lucide-icon [name]="Facebook" class="footer-icon"></lucide-icon>
         </a>
-        <a href="#">
+        <a href="#" aria-label="Instagram" class="social-link">
           <lucide-icon [name]="Instagram" class="footer-icon"></lucide-icon>
         </a>
       </div>
     </div>
 
     <!-- Quick Links -->
-    <div>
-      <h4>Quick Links</h4>
+    <div class="footer-section">
+      <h4 class="section-title">Quick Links</h4>
+      <div class="links-container">
+        <a routerLink="/" class="link-item">
+          <lucide-icon [name]="Home" class="footer-icon"></lucide-icon>
+          <span>Home</span>
+        </a>
 
-      <a routerLink="/" class="link-item">
-        <lucide-icon [name]="Home" class="footer-icon"></lucide-icon>
-        Home
-      </a>
+        <a routerLink="/login" class="link-item">
+          <lucide-icon [name]="LogIn" class="footer-icon"></lucide-icon>
+          <span>Login</span>
+        </a>
 
-      <a routerLink="/login" class="link-item">
-        <lucide-icon [name]="LogIn" class="footer-icon"></lucide-icon>
-        Login
-      </a>
-
-      <a routerLink="/register" class="link-item">
-        <lucide-icon [name]="UserPlus" class="footer-icon"></lucide-icon>
-        Sign Up
-      </a>
+        <a routerLink="/register" class="link-item">
+          <lucide-icon [name]="UserPlus" class="footer-icon"></lucide-icon>
+          <span>Sign Up</span>
+        </a>
+      </div>
     </div>
 
     <!-- Legal -->
-    <div>
-      <h4>Legal</h4>
+    <div class="footer-section">
+      <h4 class="section-title">Legal</h4>
+      <div class="links-container">
+        <a routerLink="" class="link-item">
+          <lucide-icon [name]="ShieldCheck" class="footer-icon"></lucide-icon>
+          <span>Privacy Policy</span>
+        </a>
 
-      <a routerLink="" class="link-item">
-        <lucide-icon [name]="ShieldCheck" class="footer-icon"></lucide-icon>
-        Privacy Policy
-      </a>
+        <a routerLink="" class="link-item">
+          <lucide-icon [name]="FileText" class="footer-icon"></lucide-icon>
+          <span>Terms of Service</span>
+        </a>
 
-      <a routerLink="" class="link-item">
-        <lucide-icon [name]="FileText" class="footer-icon"></lucide-icon>
-        Terms of Service
-      </a>
-
-      <a routerLink="" class="link-item">
-        <lucide-icon [name]="Cookie" class="footer-icon"></lucide-icon>
-        Cookie Policy
-      </a>
+        <a routerLink="" class="link-item">
+          <lucide-icon [name]="Cookie" class="footer-icon"></lucide-icon>
+          <span>Cookie Policy</span>
+        </a>
+      </div>
     </div>
 
     <!-- Contact -->
-    <div>
-      <h4>Contact Us</h4>
+    <div class="footer-section">
+      <h4 class="section-title">Contact Us</h4>
+      <div class="links-container">
+        <a
+          href="https://mail.google.com/mail/?view=cm&fs=1&to=recyclingsystem880@gmail.com"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="link-item"
+        >
+          <lucide-icon [name]="Mail" class="footer-icon"></lucide-icon>
+          <span>recyclingsystem880&#64;gmail.com</span>
+        </a>
 
-      <a
-        href="https://mail.google.com/mail/?view=cm&fs=1&to=recyclingsystem880@gmail.com"
-        target="_blank"
-        rel="noopener"
-        class="link-item"
-      >
-        <lucide-icon [name]="Mail" class="footer-icon"></lucide-icon>
-        recyclingsystem880@gmail.com
-      </a>
-
-      <div class="link-item">
-        <lucide-icon [name]="MapPin" class="footer-icon"></lucide-icon>
-        Port Said, Egypt
+        <div class="link-item contact-info">
+          <lucide-icon [name]="MapPin" class="footer-icon"></lucide-icon>
+          <span>Port Said, Egypt</span>
+        </div>
       </div>
     </div>
 
@@ -89,8 +94,11 @@
 
   <!-- ===== Bottom ===== -->
   <div class="footer-bottom">
-    <span>© 2025 GreenZone. All rights reserved.</span>
-    <span>Made with 💚 in Egypt</span>
+    <div class="footer-bottom-content">
+      <span class="copyright">© 2025 GreenZone. All rights reserved.</span>
+      <span class="divider">|</span>
+      <span class="made-with">Made with <span class="heart">💚</span> in Egypt</span>
+    </div>
   </div>
 
 </footer>

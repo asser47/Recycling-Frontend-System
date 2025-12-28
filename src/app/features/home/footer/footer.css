@@ -1,154 +1,340 @@
 /* ================= Footer Wrapper ================= */
 .footer-wrapper {
-  background: linear-gradient(135deg, #052e16, #064e3b);
+  background: linear-gradient(135deg, #052e16 0%, #064e3b 50%, #065f46 100%);
   color: #d1fae5;
-  padding-top: 60px;
+  padding-top: 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.footer-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #10b981, #22c55e, #34d399);
 }
 
 /* ================= Content ================= */
 .footer-content {
   padding: 0 8%;
+  max-width: 1400px;
+  margin: 0 auto;
   display: grid;
   grid-template-columns: 2fr 1fr 1fr 1fr;
-  gap: 40px;
+  gap: 60px;
+  margin-bottom: 60px;
 }
 
-/* ================= Brand ================= */
-.footer-brand h3 {
-  font-size: 1.8rem;
-  color: #22c55e;
-  margin-bottom: 10px;
+/* ================= Brand Section ================= */
+.footer-brand {
+  animation: fadeInUp 0.6s ease-out;
 }
 
-.footer-brand p {
-  font-size: .95rem;
-  line-height: 1.6;
-  opacity: .9;
+.brand-logo h3 {
+  font-size: 2rem;
+  font-weight: 800;
+  background: linear-gradient(135deg, #22c55e, #34d399);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 16px;
+  letter-spacing: -0.5px;
+}
+
+.brand-description {
+  font-size: 1rem;
+  line-height: 1.7;
+  color: #a7f3d0;
+  opacity: 0.95;
+  margin-bottom: 24px;
 }
 
 /* ================= Section Titles ================= */
-.footer-content h4 {
-  color: #22c55e;
-  margin-bottom: 12px;
+.footer-section {
+  animation: fadeInUp 0.6s ease-out;
+  animation-fill-mode: both;
 }
 
-/* ================= Links ================= */
-.footer-content a,
-.footer-content p {
+.footer-section:nth-child(2) { animation-delay: 0.1s; }
+.footer-section:nth-child(3) { animation-delay: 0.2s; }
+.footer-section:nth-child(4) { animation-delay: 0.3s; }
+
+.section-title {
+  color: #22c55e;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid rgba(34, 197, 94, 0.3);
+  display: inline-block;
+}
+
+/* ================= Links Container ================= */
+.links-container {
   display: flex;
-  align-items: center;
-  color: #d1fae5;
-  font-size: .95rem;
-  margin-bottom: 8px;
-  text-decoration: none;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.footer-content a:hover {
-  color: #22c55e;
-}
-
-/* ================= Icon + Text ================= */
+/* ================= Link Items ================= */
 .link-item {
   display: flex;
-  align-items: center;      /* يخلي الأيقونة والنص على نفس الخط */
-  gap: 10px;                /* مسافة مريحة */
-  margin-bottom: 10px;
+  align-items: center;
+  gap: 12px;
+  color: #d1fae5;
+  font-size: 0.95rem;
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.link-item::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background: #22c55e;
+  transform: scaleY(0);
+  transition: transform 0.3s ease;
+}
+
+.link-item:hover {
+  background: rgba(34, 197, 94, 0.1);
+  color: #22c55e;
+  transform: translateX(8px);
+  padding-left: 20px;
+}
+
+.link-item:hover::before {
+  transform: scaleY(1);
+}
+
+.contact-info {
+  cursor: default;
+}
+
+.contact-info:hover {
+  transform: translateX(0);
+  padding-left: 12px;
+  background: transparent;
 }
 
 /* ================= Lucide Icons ================= */
 .footer-icon {
-  width: 18px;
-  height: 18px;
+  width: 20px;
+  height: 20px;
   color: #22c55e;
   stroke: currentColor;
   fill: none;
   flex-shrink: 0;
-  .link-item {
-  display: flex;
-  align-items: center;      /* يخلي الأيقونة والنص على نفس الخط */
-  gap: 10px;                /* مسافة مريحة */
-  margin-bottom: 10px;
+  transition: all 0.3s ease;
 }
+
+.link-item:hover .footer-icon {
+  transform: scale(1.1);
+  color: #34d399;
 }
 
 /* ================= Social Icons ================= */
 .socials {
-  margin-top: 16px;
+  margin-top: 24px;
   display: flex;
-  gap: 10px;
+  gap: 12px;
 }
 
-.socials {
-  margin-top: 16px;
-  display: flex;
-  gap: 10px;
-}
-
-/* الدايرة */
-.socials a {
-  width: 38px;
-  height: 38px;
-  background: rgba(255,255,255,.12);
+.social-link {
+  width: 44px;
+  height: 44px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  transition: .3s;
-
-  overflow: hidden;     /* مهم */
-  line-height: 0;       /* ⭐ يمنع أي baseline */
+  transition: all 0.3s ease;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  overflow: hidden;
+  line-height: 0;
+  position: relative;
 }
 
-/* عنصر lucide نفسه */
-.socials lucide-icon {
-  width: 20px;
-  height: 20px;
+.social-link::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, #22c55e, #10b981);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: 50%;
+}
+
+.social-link lucide-icon {
+  width: 22px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #22c55e;
   stroke: currentColor;
+  position: relative;
+  z-index: 1;
+  transition: all 0.3s ease;
 }
 
-/* الـ SVG الداخلي (ده المفتاح الحقيقي) */
-.socials lucide-icon svg {
+.social-link lucide-icon svg {
   width: 100%;
   height: 100%;
   display: block;
-  transform: scale(0.85);   /* ⭐ الحل السحري */
+  transform: scale(0.85);
 }
 
-/* Hover */
-.socials a:hover {
-  background: #22c55e;
+.social-link:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(34, 197, 94, 0.3);
+  border-color: #22c55e;
 }
 
-.socials a:hover lucide-icon {
+.social-link:hover::before {
+  opacity: 1;
+}
+
+.social-link:hover lucide-icon {
   color: #052e16;
+  transform: rotate(360deg);
 }
-
-
 
 /* ================= Bottom ================= */
 .footer-bottom {
-  margin-top: 50px;
-  padding: 20px 8%;
-  border-top: 1px solid rgba(255,255,255,.15);
+  margin-top: 60px;
+  padding: 24px 8%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.footer-bottom-content {
   display: flex;
-  justify-content: space-between;
-  font-size: .85rem;
-  opacity: .85;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-size: 0.9rem;
+  opacity: 0.9;
+  flex-wrap: wrap;
+}
+
+.copyright {
+  color: #a7f3d0;
+}
+
+.divider {
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.made-with {
+  color: #d1fae5;
+}
+
+.heart {
+  display: inline-block;
+  animation: heartbeat 1.5s ease-in-out infinite;
+  font-size: 1.1em;
+}
+
+/* ================= Animations ================= */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heartbeat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  25% {
+    transform: scale(1.2);
+  }
+  50% {
+    transform: scale(1);
+  }
 }
 
 /* ================= Responsive ================= */
-@media (max-width: 900px) {
+@media (max-width: 1024px) {
   .footer-content {
     grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    padding: 0 6%;
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-wrapper {
+    padding-top: 60px;
+  }
+
+  .footer-content {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 0 5%;
+  }
+
+  .brand-logo h3 {
+    font-size: 1.75rem;
   }
 
   .footer-bottom {
+    padding: 20px 5%;
+  }
+
+  .footer-bottom-content {
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     text-align: center;
+  }
+
+  .divider {
+    display: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-content {
+    padding: 0 4%;
+  }
+
+  .brand-logo h3 {
+    font-size: 1.5rem;
+  }
+
+  .brand-description {
+    font-size: 0.9rem;
+  }
+
+  .link-item {
+    font-size: 0.9rem;
+  }
+
+  .social-link {
+    width: 40px;
+    height: 40px;
   }
 }

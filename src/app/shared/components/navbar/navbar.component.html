@@ -107,100 +107,12 @@
         </i>
       </button>
 
-      <!-- 👤 User Menu (User + Collector) -->
-      @if (isLoggedIn() && !isAdmin()) {
-<div class="relative">
-
-  <button
-    class="user-menu-btn"
-    (click)="toggleUserMenu($event)"
-  >
-    <div class="user-info">
-      <span class="user-name">{{ displayName() }}</span>
-      <span class="user-role">{{ roleLabel() }}</span>
-    </div>
-    <span class="dropdown-arrow">▼</span>
-  </button>
-
-@if (showUserMenu()) {
-  <div class="dropdown-menu">
-
-    <!-- 👤 Basic Info -->
-    <div class="dropdown-item" style="cursor: default;">
-      <div>
-        <strong>{{ displayName() }}</strong><br />
-        <small>{{ profileService.userProfile()?.email }}</small>
-      </div>
-    </div>
-
-    <div class="dropdown-separator"></div>
-
-    <!-- 📞 Phone -->
-    <div class="dropdown-item" style="cursor: default;">
-      📞 Phone:
-      <strong>{{ profileService.userProfile()?.phoneNumber }}</strong>
-    </div>
-
-    <!-- 🏠 Address -->
-    @if (profileService.userProfile()?.street) {
-      <div class="dropdown-item" style="cursor: default;">
-        🏠 Address:
-        <strong>
-          {{ profileService.userProfile()?.street }},
-          {{ profileService.userProfile()?.city }}
-        </strong>
-      </div>
-    }
-
-    <!-- 🏢 Building / Apartment -->
-    @if (profileService.userProfile()?.buildingNo) {
-      <div class="dropdown-item" style="cursor: default;">
-        🏢 Building:
-        <strong>
-          {{ profileService.userProfile()?.buildingNo }}
-          / {{ profileService.userProfile()?.apartment }}
-        </strong>
-      </div>
-    }
-
-    <div class="dropdown-separator"></div>
-
-    <!-- 🎁 Points -->
-    <div class="dropdown-item" style="cursor: default;">
-      🎁 Reward Points:
-      <strong>{{ profileService.userProfile()?.points ?? 0 }}</strong>
-    </div>
-
-    <div class="dropdown-separator"></div>
-
-    <!-- 📊 Dashboard -->
-    <div class="dropdown-item" (click)="goToDashboard()">
-      📊 Dashboard
-    </div>
-
-    <div class="dropdown-separator"></div>
-
-    <!-- 🚪 Logout -->
-    <div class="dropdown-item logout-btn" (click)="logout()">
-      🚪 Logout
-    </div>
-
-  </div>
-}
-</div>
-
+      <!-- 👤 User Menu with Dropdown Component -->
+      @if (isLoggedIn() && !isAuthRoute()) {
+        <div class="relative user-menu-container">
+          <app-user-menu-dropdown></app-user-menu-dropdown>
+        </div>
       }
-      @if (isLoggedIn()) {
-  <button class="btn-ghost logout-direct" (click)="logout()">
-    Logout
-  </button>
-}
-
-        @if (isAdmin() && isCollector()) {
-  <button class="btn-ghost logout-direct" (click)="logout()">
-    Logout
-  </button>
-}
       <!-- 👋 Guest -->
       @if (!isLoggedIn() && !isAuthRoute()) {
         <a routerLink="/login" class="btn-ghost1">Login</a>

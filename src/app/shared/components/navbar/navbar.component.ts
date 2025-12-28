@@ -4,7 +4,8 @@ import {
   computed,
   signal,
   ChangeDetectionStrategy,
-  OnInit
+  OnInit,
+  HostListener
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
@@ -15,12 +16,13 @@ import { UserService } from '../../../core/services/user.service';
 import { NotificationService } from '../../../core/services/notification.service';
 import { AuthService } from '../../../core/services/auth.service';
 import { Role } from '@core/models/role.enum';
+import { UserMenuDropdownComponent } from '../user-menu-dropdown/user-menu-dropdown.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterLink, RouterLinkActive, UserMenuDropdownComponent],
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.css']
 })
@@ -39,6 +41,7 @@ export class NavbarComponent implements OnInit {
   // ================= UI STATE =================
   showUserMenu = signal(false);
   showNotificationsDropdown = signal(false);
+  showRoleMenu = signal(false);
 
   // ================= AUTH =================
   isLoggedIn = this.authService.isLoggedIn;
@@ -108,9 +111,21 @@ displayName = computed(() =>
     this.showUserMenu.set(false);
   }
 
+  toggleRoleMenu(event: MouseEvent): void {
+    event.stopPropagation();
+    this.showRoleMenu.set(!this.showRoleMenu());
+    this.showUserMenu.set(false);
+  }
+
   closeDropdowns(): void {
     this.showUserMenu.set(false);
-    // this.showNotificationsDropdown.set(false);
+    this.showNotificationsDropdown.set(false);
+    this.showRoleMenu.set(false);
+  }
+
+  @HostListener('document:click')
+  onDocumentClick(): void {
+    this.closeDropdowns();
   }
 
   goHomeAndReset() {

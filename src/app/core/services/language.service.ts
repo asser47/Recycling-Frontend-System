@@ -22,7 +22,7 @@ export const translations: Translations = {
   viewProfile: { en: "View Profile", ar: "عرض الملف" },
   switchRole: { en: "Switch Role", ar: "تبديل الدور" },
   addRole: { en: "Add Role", ar: "إضافة دور" },
-  settings: { en: "Settings", ar: "الإعدادات" },
+
   logout: { en: "Logout", ar: "تسجيل الخروج" },
   login: { en: "Login", ar: "تسجيل الدخول" },
   register: { en: "Register", ar: "التسجيل" },
