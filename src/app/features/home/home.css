@@ -5,8 +5,15 @@
   padding: 0 8%;
   background:
     radial-gradient(at 20% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
-    linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-  color: #0f172a;
+    linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--background)) 100%);
+  color: hsl(var(--foreground));
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark .hero {
+  background:
+    radial-gradient(at 20% 20%, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
+    linear-gradient(135deg, hsl(210, 15%, 10%) 0%, hsl(210, 15%, 15%) 100%);
 }
 
 .hero-content {
@@ -20,7 +27,7 @@
 }
 
 .hero h1 span {
-  color: #0bb56b;
+  color: hsl(var(--primary));
 }
 
 .hero p {
@@ -35,27 +42,27 @@
 }
 
 .btn-primary {
-  background: #22c55e;
-  color: #052e16;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
   padding: 12px 28px;
   border-radius: 999px;
   font-weight: 600;
-  transition: .3s;
+  transition: background-color 0.3s ease;
 }
 
 .btn-primary:hover {
-  background: #16a34a;
+  background: hsl(var(--primary-hover));
 }
 
 .btn-outline {
-  border: 2px solid #22c55e;
-  color: #22c55e;
+  border: 2px solid hsl(var(--primary));
+  color: hsl(var(--primary));
   padding: 12px 28px;
   border-radius: 999px;
-  transition: .3s;
+  transition: all 0.3s ease;
 }
 
 .btn-outline:hover {
-  background: #22c55e;
-  color: #052e16;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
 }

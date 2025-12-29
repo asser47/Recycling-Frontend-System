@@ -61,33 +61,27 @@
   }
 
   .dark {
-    --background: 0 0% 6%;            /* Near black #0a0a0a */
-    --foreground: 0 0% 98%;           /* Off white #fafafa */
+    --background: 210 15% 10%;        /* Deep blue-gray background #0f1820 */
+    --foreground: 210 15% 95%;        /* Nearly white for contrast */
 
-    --card: 0 0% 12%;                 /* Very dark gray */
-    --card-foreground: 0 0% 98%;
+    --card: 210 15% 12%;              /* Slightly lighter blue-gray for cards #141f2e */
+    --card-foreground: 210 15% 95%;
 
-    --popover: 0 0% 12%;
-    --popover-foreground: 0 0% 98%;
+    --popover: 210 15% 12%;
+    --popover-foreground: 210 15% 95%;
 
-    --secondary: 0 0% 15%;            /* Dark gray */
-    --secondary-foreground: 0 0% 98%;
+    --secondary: 210 15% 18%;         /* Darker blue-gray */
+    --secondary-foreground: 210 15% 95%;
 
-    --muted: 0 0% 15%;
-    --muted-foreground: 0 0% 60%;
+    --muted: 210 15% 18%;
+    --muted-foreground: 210 15% 70%;
 
-    --accent: 160 60% 55%;            /* Lighter emerald for dark */
+    --accent: 160 84% 50%;            /* Bright emerald for dark mode */
     --accent-foreground: 0 0% 100%;
 
-    --border: 0 0% 20%;               /* Dark gray border */
-    --input: 0 0% 15%;
+    --border: 210 15% 20%;            /* Blue-gray border */
+    --input: 210 15% 18%;
     --ring: 160 84% 45%;
-  }
-
-  .dark body {
-    background:
-      radial-gradient(at 20% 20%, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
-      linear-gradient(135deg, #0f172a 0%, #1a1f36 100%);
   }
 
   /* Typography */
@@ -300,7 +294,7 @@ body{
 }
 
 .dark body {
-  background: linear-gradient(180deg, #0f172a 0%, #1e293b 100%);
+  background: linear-gradient(180deg, #16191d 0%, #1a1e26 100%);
   color: #f8fafc;
 }
 

@@ -2,10 +2,13 @@
    MAIN CONTAINER
 ===================================================== */
 .tabs-container {
-  background: #fff;
-  padding: 24px;
+  background: hsl(var(--card));
+  padding: 28px;
   border-radius: 16px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, .08);
+  box-shadow: 0 4px 20px hsl(0, 0%, 0%, 0.08);
+  color: hsl(var(--foreground));
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border: 1px solid hsl(var(--border));
 }
 
 /* =====================================================
@@ -13,28 +16,31 @@
 ===================================================== */
 .tabs-menu {
   display: flex;
-  gap: 10px;
-  margin-bottom: 24px;
+  gap: 12px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
 }
 
 .tabs-menu button {
   flex: 1;
-  padding: 12px;
+  min-width: 120px;
+  padding: 12px 16px;
   border-radius: 10px;
   border: none;
   font-weight: 600;
-  background: #eef2f7;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
   cursor: pointer;
-  transition: .3s;
+  transition: all 0.3s ease;
 }
 
 .tabs-menu button:hover {
-  background: #d2e3ff;
+  background: hsl(var(--primary), 0.15);
 }
 
 .tabs-menu button.active {
-  background: linear-gradient(135deg,#15803d,#22c55e);
-  color: #fff;
+  background: linear-gradient(135deg, hsl(160, 84%, 32%), hsl(160, 84%, 45%));
+  color: hsl(var(--primary-foreground));
 }
 
 /* =====================================================
@@ -47,19 +53,21 @@
 }
 
 .reward-card {
-  background: #fff;
+  background: hsl(var(--card));
   border-radius: 18px;
   overflow: hidden;
   box-shadow: 0 6px 18px rgba(0, 0, 0, .08);
-  transition: transform .3s, box-shadow .3s;
+  transition: all 0.3s ease;
   display: flex;
   flex-direction: column;
   height: 100%;
+  color: hsl(var(--foreground));
 }
 
 .reward-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, .12);
+  transform: translateY(-8px);
+  box-shadow: 0 16px 36px hsl(160, 84%, 45%, 0.2);
+  background: hsl(var(--primary), 0.08);
 }
 
 /* =====================================================
@@ -68,8 +76,9 @@
 .reward-image-wrapper {
   width: 100%;
   aspect-ratio: 1 / 1;
-  background: #f1f3f6;
+  background: hsl(var(--background));
   overflow: hidden;
+  transition: background-color 0.3s ease;
 }
 
 .reward-image-wrapper img {
@@ -94,8 +103,9 @@
 .reward-card-content h4 {
   font-size: 18px;
   font-weight: 700;
-  color: #222;
+  color: hsl(var(--foreground));
   margin-bottom: 6px;
+  transition: color 0.3s ease;
 }
 
 .reward-card-content p {

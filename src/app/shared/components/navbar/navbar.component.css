@@ -6,23 +6,23 @@
    🎨 Variables
    =============================== */
 :root {
-  --green-primary: #16a34a;
-  --green-dark: #15803d;
-  --green-soft: #22c55e;
+  --green-primary: hsl(var(--primary));
+  --green-dark: hsl(160, 84%, 32%);
+  --green-soft: hsl(160, 84%, 45%);
 
   --glass-bg: rgba(255,255,255,0.75);
   --glass-border: rgba(22,163,74,0.25);
 
-  --text-main: #0f172a;
-  --text-muted: #64748b;
-  --danger: #dc2626;
+  --text-main: hsl(var(--foreground));
+  --text-muted: hsl(210, 20%, 60%);
+  --danger: hsl(0, 84%, 60%);
 }
 
 .dark {
-  --glass-bg: rgba(3,7,18,0.85);
-  --glass-border: rgba(34,197,94,0.25);
-  --text-main: #e5e7eb;
-  --text-muted: #94a3b8;
+  --glass-bg: rgba(15, 24, 32, 0.85);
+  --glass-border: rgba(16, 185, 129, 0.25);
+  --text-main: hsl(210, 15%, 95%);
+  --text-muted: hsl(210, 20%, 70%);
 }
 
 /* ===============================
@@ -43,9 +43,10 @@
   top: 0;
   z-index: 50;
   height: 64px;
-  background: var(--glass-bg);
+  background: hsl(var(--background));
   backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--glass-border);
+  border-bottom: 1px solid hsl(var(--border));
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .navbar-container {
@@ -96,7 +97,7 @@
 .logo-text {
   font-size: 1.4rem;
   font-weight: 900;
-  background: linear-gradient(135deg,#15803d,#22c55e);
+  background: linear-gradient(135deg, hsl(160, 84%, 32%), hsl(160, 84%, 45%));
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -117,22 +118,22 @@
   border-radius: .6rem;
   font-size: .85rem;
   font-weight: 600;
-  color: var(--text-main);
+  color: hsl(var(--foreground));
   text-decoration: none;
   position: relative;
   transition: all 0.25s ease;
 }
 
 .nav-link:hover {
-  background: rgba(22,163,74,.12);
-  color: var(--green-primary);
+  background: hsl(var(--primary), 0.12);
+  color: hsl(var(--primary));
 }
 
 .nav-link.active {
-  background: rgba(22,163,74,.22);
-  color: var(--green-dark);
+  background: hsl(var(--primary), 0.22);
+  color: hsl(160, 84%, 32%);
   font-weight: 700;
-  border-bottom: 3px solid #16a34a;
+  border-bottom: 3px solid hsl(var(--primary));
   padding-bottom: calc(0.5rem - 3px);
 }
 
@@ -158,10 +159,13 @@
   background: transparent;
   border: none;
   cursor: pointer;
+  color: hsl(var(--foreground));
+  transition: all 0.25s ease;
 }
 
 .action-btn:hover {
-  background: rgba(22,163,74,.15);
+  background: hsl(var(--primary), 0.15);
+  color: hsl(var(--primary));
 }
 
 /* ===============================
@@ -173,8 +177,8 @@
   right: -4px;
   min-width: 18px;
   height: 18px;
-  background: var(--danger);
-  color: #fff;
+  background: hsl(var(--destructive));
+  color: hsl(var(--destructive-foreground));
   font-size: .65rem;
   font-weight: 800;
   border-radius: 999px;
@@ -191,20 +195,24 @@
   align-items: center;
   gap: .6rem;
   padding: .4rem .75rem;
-  background: rgba(22,163,74,.08);
+  background: hsl(var(--primary), 0.08);
   border-radius: .7rem;
-  border: 1px solid var(--glass-border);
+  border: 1px solid hsl(var(--border));
   cursor: pointer;
+  transition: all 0.25s ease;
 }
 
 .user-avatar {
   width: 32px;
   height: 32px;
   border-radius: 999px;
-  background: rgba(22,163,74,.25);
+  background: hsl(var(--primary), 0.25);
   display: flex;
   align-items: center;
   justify-content: center;
+  color: hsl(var(--primary-foreground));
+  font-weight: 700;
+  transition: all 0.25s ease;
 }
 
 .user-info {
@@ -215,16 +223,17 @@
 .user-name {
   font-size: .85rem;
   font-weight: 800;
+  color: hsl(var(--foreground));
 }
 
 .user-role {
   font-size: .7rem;
-  color: var(--text-muted);
+  color: hsl(var(--muted-foreground));
 }
 
 .dropdown-arrow {
   font-size: .6rem;
-  color: var(--text-muted);
+  color: hsl(var(--muted-foreground));
 }
 
 /* ===============================
@@ -241,11 +250,12 @@
   top: calc(100% + 8px);
   right: 0;
   min-width: 220px;
-  background: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
   border-radius: .75rem;
   box-shadow: 0 20px 40px rgba(0,0,0,.18);
   z-index: 50;
+  transition: all 0.25s ease;
 }
 
 .dropdown-item {
@@ -253,20 +263,23 @@
   border-radius: .55rem;
   cursor: pointer;
   font-size: .85rem;
+  color: hsl(var(--foreground));
+  transition: all 0.25s ease;
 }
 
 .dropdown-item:hover {
-  background: rgba(22,163,74,.12);
+  background: hsl(var(--primary), 0.12);
+  color: hsl(var(--primary));
 }
 
 .dropdown-separator {
   height: 1px;
-  background: var(--glass-border);
+  background: hsl(var(--border));
   margin: .4rem 0;
 }
 
 .logout-btn {
-  color: var(--danger);
+  color: hsl(var(--destructive));
   font-weight: 700;
 }
 
@@ -277,9 +290,15 @@
   padding: .6rem 1.4rem;
   border-radius: 999px;
   font-weight: 700;
-  background: linear-gradient(135deg,#16a34a,#22c55e);
-  color: #fff;
+  background: linear-gradient(135deg, hsl(160, 84%, 32%), hsl(160, 84%, 45%));
+  color: hsl(var(--primary-foreground));
   text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 4px 12px hsl(160, 84%, 45%, 0.3);
+  transform: translateY(-2px);
 }
 
 /* ===== Primary Green Button ===== */
@@ -290,27 +309,23 @@
   font-weight: 700;
   font-size: 0.95rem;
 
-  background: linear-gradient(135deg, #ce211e, #e72525);
-  color: #ffffff;
+  background: linear-gradient(135deg, hsl(0, 84%, 48%), hsl(0, 84%, 55%));
+  color: hsl(var(--destructive-foreground));
   text-decoration: none;
 
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-
-  box-shadow: 0 6px 14px rgba(34, 197, 94, 0.35);
-  transition:
-    background 0.25s ease,
-    transform 0.2s ease,
-    box-shadow 0.25s ease;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px hsl(0, 84%, 48%, 0.3);
 }
 
 /* ===== Hover Effect ===== */
 .btn-ghost:hover,
 .logout-direct:hover {
-  background: linear-gradient(135deg, #ce211e, #e72525);
+  background: linear-gradient(135deg, hsl(0, 84%, 45%), hsl(0, 84%, 50%));
   transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(22, 163, 74, 0.45);
+  box-shadow: 0 10px 22px hsl(0, 84%, 48%, 0.35);
 }
 
 .btn-ghost1 {
@@ -319,33 +334,30 @@
   font-weight: 700;
   font-size: 0.95rem;
 
-  background: linear-gradient(135deg, #22c55e, #16a34a);
-  color: #ffffff;
+  background: linear-gradient(135deg, hsl(160, 84%, 45%), hsl(160, 84%, 32%));
+  color: hsl(var(--primary-foreground));
   text-decoration: none;
 
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
 
-  box-shadow: 0 6px 14px rgba(34, 197, 94, 0.35);
-  transition:
-    background 0.25s ease,
-    transform 0.2s ease,
-    box-shadow 0.25s ease;
+  box-shadow: 0 4px 12px hsl(160, 84%, 45%, 0.3);
+  transition: all 0.25s ease;
 }
 
 /* ===== Hover Effect ===== */
 .btn-ghost1:hover {
-  background: linear-gradient(135deg, #16a34a, #15803d);
+  background: linear-gradient(135deg, hsl(160, 84%, 40%), hsl(160, 84%, 28%));
   transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(22, 163, 74, 0.45);
+  box-shadow: 0 10px 22px hsl(160, 84%, 45%, 0.35);
 }
 
 /* ===== Active (Click) ===== */
 .btn-ghost:active,
 .logout-direct:active {
   transform: translateY(0);
-  box-shadow: 0 4px 10px rgba(22, 163, 74, 0.35);
+  box-shadow: 0 4px 10px hsl(0, 84%, 48%, 0.35);
 }
 
 /* ===== Focus (Keyboard Accessibility) ===== */
@@ -353,8 +365,8 @@
 .logout-direct:focus-visible {
   outline: none;
   box-shadow:
-    0 0 0 3px rgba(34, 197, 94, 0.35),
-    0 6px 14px rgba(34, 197, 94, 0.35);
+    0 0 0 3px hsl(0, 84%, 48%, 0.35),
+    0 6px 14px hsl(0, 84%, 48%, 0.35);
 }
 
 

@@ -1,30 +1,42 @@
 /* ================= PAGE ================= */
 .page-title {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 800;
-  color: #1e293b;
-  background: linear-gradient(180deg, #ecfdf5, #ffffff);
-
+  color: hsl(var(--primary));
+  background: linear-gradient(180deg, hsl(var(--background)), hsl(var(--background)));
+  transition: color 0.3s ease;
+  margin: 0;
+  padding: 8px 0;
+  letter-spacing: -0.5px;
 }
 
 .page-sub {
-  margin-top: -4px;
-  color: #6c757d;
-  margin-bottom: 18px;
+  margin-top: 4px;
+  color: hsl(var(--muted-foreground));
+  margin-bottom: 24px;
+  transition: color 0.3s ease;
+  font-size: 14px;
 }
 
 /* ================= CARD ================= */
 .section-card {
-  background: white;
-  padding: 18px;
+  background: hsl(var(--card));
+  padding: 20px;
   border-radius: 14px;
-  box-shadow: 0 4px 20px rgba(0,0,0,.05);
-  margin-top: 18px;
+  box-shadow: 0 4px 20px hsl(0, 0%, 0%, 0.08);
+  margin-top: 20px;
+  color: hsl(var(--foreground));
+  transition: all 0.3s ease;
+  border: 1px solid hsl(var(--border));
 }
 
 .section-title {
   font-weight: 600;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
+  color: hsl(var(--primary));
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 /* ================= FILTER ================= */
@@ -38,30 +50,47 @@
 .form-row select {
   padding: 10px;
   border-radius: 6px;
-  border: 1px solid #dadee2;
+  border: 1px solid hsl(var(--border));
   flex: 1;
+  background: hsl(var(--input));
+  color: hsl(var(--foreground));
+  transition: all 0.3s ease;
+}
+
+.form-row input:focus,
+.form-row select:focus {
+  outline: none;
+  border-color: hsl(var(--primary));
+  background: hsl(var(--card));
 }
 
 /* ================= BUTTONS ================= */
 .btn-view {
-  background: #10b981;
-  color: white;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
   border: none;
   padding: 6px 12px;
   border-radius: 6px;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 .btn-view:hover {
-  background: #0d9457;
+  background: hsl(160, 84%, 35%);
+  box-shadow: 0 4px 12px hsl(160, 84%, 45%, 0.3);
 }
 
 .btn-clear {
-  background: #6c757d;
+  background: hsl(var(--muted));
   padding: 10px 14px;
-  color: white;
+  color: hsl(var(--foreground));
   border-radius: 8px;
   border: none;
   cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn-clear:hover {
+  background: hsl(var(--border));
 }
 
 /* ================= TABLE ================= */
@@ -72,18 +101,23 @@ table {
 }
 
 th {
-  background: #f1f5f9;
+  background: hsl(var(--secondary));
   padding: 12px;
   text-align: left;
+  color: hsl(var(--foreground));
+  transition: all 0.3s ease;
 }
 
 td {
   padding: 12px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid hsl(var(--border));
+  color: hsl(var(--foreground));
+  transition: color 0.3s ease;
 }
 
 tr:hover {
-  background: #f9fafb;
+  background: hsl(var(--primary), 0.1);
+  transition: background-color 0.3s ease;
 }
 
 /* ================= STATUS BADGE ================= */

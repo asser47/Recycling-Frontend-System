@@ -1,20 +1,74 @@
 .collectors-card {
-  border-radius: 12px;
+  border-radius: 14px;
+  background: hsl(var(--card));
+  transition: all 0.3s ease;
+  padding: 20px;
+  border: 1px solid hsl(var(--border));
+  box-shadow: 0 4px 20px hsl(0, 0%, 0%, 0.08);
 }
 
 .search-input {
-  width: 260px;
-  border-radius: 20px;
-  padding: 8px 14px;
+  min-width: 240px;
+  border-radius: 10px;
+  padding: 10px 16px;
+  background: hsl(var(--input));
+  color: hsl(var(--foreground));
+  border: 1px solid hsl(var(--border));
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 3px hsl(var(--primary), 0.1);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
 }
 
 .table th {
   font-weight: 600;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  border-bottom: 2px solid hsl(var(--border));
+  padding: 14px;
+  font-size: 13px;
+  text-align: left;
+  transition: all 0.3s ease;
+}
+
+.table td {
+  color: hsl(var(--foreground));
+  border-bottom: 1px solid hsl(var(--border));
+  padding: 14px;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.table tbody tr:hover {
+  background: hsl(var(--primary), 0.08);
+  transition: background 0.3s ease;
 }
 
 .btn-sm {
-  padding: 6px 12px;
-  border-radius: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.btn-sm:hover {
+  background: hsl(160, 84%, 35%);
+  box-shadow: 0 2px 8px hsl(160, 84%, 45%, 0.3);
 }
 
 /* ===== MODAL ===== */
@@ -25,23 +79,38 @@
 .modal-content {
   border-radius: 14px;
   overflow: hidden;
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
+  transition: all 0.3s ease;
 }
 
 .modal-header {
-  background: #f8f9fa;
-  border-bottom: 1px solid #ddd;
+  background: hsl(var(--background));
+  border-bottom: 1px solid hsl(var(--border));
 }
 
 .modal-title {
   font-weight: 600;
+  color: hsl(var(--primary));
 }
 
 .modal-body table {
   margin-bottom: 0;
 }
 
+.modal-body table th {
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.modal-body table td {
+  color: hsl(var(--foreground));
+}
+
 .badge {
   font-size: 0.85rem;
   padding: 6px 10px;
   border-radius: 12px;
+  background: hsl(var(--primary), 0.2);
+  color: hsl(var(--primary));
 }
