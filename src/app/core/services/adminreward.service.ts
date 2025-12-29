@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
-import { Reward } from '../models/reward.model';
+import { Reward, RewardStats } from '../models/reward.model';
 
 @Injectable({ providedIn: 'root' })
 export class RewardService {
@@ -90,7 +90,7 @@ export class RewardService {
 
 getStats(id: number) {
   return this.http
-    .get<any>(`${this.baseUrl}/${id}/stats`)
+    .get<RewardStats>(`${this.baseUrl}/${id}/stats`)
     .pipe(
       map(res => ({
         ...res,
@@ -98,6 +98,7 @@ getStats(id: number) {
       }))
     );
 }
+
 
 
   delete(id: number) {

@@ -28,3 +28,18 @@ export interface PointHistory {
   type: 'earned' | 'redeemed' | 'refunded';
   relatedId?: number;
 }
+export interface RewardStats {
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  requiredPoints: number;
+  stockQuantity: number;
+  isAvailable: boolean;
+  imageUrl?: string | null;
+
+  // ⭐ stats
+  totalRedemptions: number;
+  pendingRedemptions: number;
+
+}

@@ -8,7 +8,7 @@ import {
 } from '@angular/forms';
 
 import { RewardService } from '../../../core/services/adminreward.service';
-import { Reward } from '../../../core/models/reward.model';
+import { Reward, RewardStats } from '../../../core/models/reward.model';
 
 @Component({
   standalone: true,
@@ -51,7 +51,7 @@ export class RewardManagementComponent implements OnInit {
   restockAmount: number | null = null;
 
   /* ================= STATS ================= */
-  stats: any | null = null;
+  stats: RewardStats | null = null;
   selectedReward: Reward | null = null;
   loadingStats = false;
 
@@ -251,14 +251,15 @@ openEdit(reward: Reward) {
   /* ================= STATS ================= */
 loadStats(reward: Reward) {
   this.loadingStats = true;
-  this.stats = null;
+  this.selectedReward = reward;
 
   this.rewardService.getStats(reward.id!).subscribe({
     next: (res) => {
-      if (res.imageUrl && !res.imageUrl.startsWith('http')) {
-      res.imageUrl = `https://localhost:4375${res.imageUrl}`;
-      }
-      this.stats = res;
+
+      this.stats = {
+        ...res,
+        isAvailable: res.stockQuantity > 0
+      };
       this.loadingStats = false;
       this.cdr.detectChanges();
     },
@@ -267,6 +268,7 @@ loadStats(reward: Reward) {
     }
   });
 }
+
 
   closeStats() {
     this.selectedReward = null;

@@ -161,7 +161,7 @@
 
 </div>
 <!-- ===== STATS MODAL ===== -->
-@if (stats) {
+@if (stats; as s) {
 
   <div class="modal-backdrop-custom" (click)="closeStats()"></div>
 
@@ -169,28 +169,32 @@
 
     <button class="close-btn" (click)="closeStats()">✕</button>
 
-    @if (stats.imageUrl) {
-      <img class="stats-image" [src]="stats.imageUrl" alt="Reward image">
+    @if (s.imageUrl) {
+      <img class="stats-image" [src]="s.imageUrl" alt="Reward image">
     }
 
-    <h4 class="text-center mt-2">{{ stats.name }}</h4>
+    <h4 class="text-center mt-2">{{ s.name }}</h4>
 
     <div class="stats-list">
-      <p><b>Description:</b> {{ stats.description }}</p>
-      <p><b>Category:</b> {{ stats.category }}</p>
-      <p><b>Required Points:</b> {{ stats.requiredPoints }}</p>
-      <p><b>Stock Quantity:</b> {{ stats.stockQuantity }}</p>
-      <p><b>Total Redeemptions:</b> {{ stats.totalRedeemptions }}</p>
-      <p><b>Pending Redeemptions:</b> {{ stats.pendingRedeemptions }}</p>
+      <p><b>Description:</b> {{ s.description }}</p>
+      <p><b>Category:</b> {{ s.category }}</p>
+      <p><b>Required Points:</b> {{ s.requiredPoints }}</p>
+      <p><b>Stock Quantity:</b> {{ s.stockQuantity }}</p>
+
+      <p><b>Total Redeemptions:</b> {{ s.totalRedemptions }}</p>
+      <p><b>Pending Redeemptions:</b> {{ s.pendingRedemptions }}</p>
+
       <p>
         <b>Status:</b>
         <span
-          [class.text-success]="stats.isAvailable"
-          [class.text-danger]="!stats.isAvailable">
-          {{ stats.isAvailable ? 'Available' : 'Not Available' }}
+          [class.text-success]="s.isAvailable"
+          [class.text-danger]="!s.isAvailable">
+          {{ s.isAvailable ? 'Available' : 'Not Available' }}
         </span>
       </p>
     </div>
 
   </div>
 }
+
+
