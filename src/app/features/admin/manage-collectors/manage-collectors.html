@@ -1,47 +1,49 @@
-<div class="card p-4 shadow-sm collectors-card">
+<div class="page-header">
+  <div>
+    <h1 class="page-title">Collectors</h1>
+    <p class="page-sub">Manage platform collectors</p>
+  </div>
 
-  <div class="d-flex justify-content-between align-items-center mb-3">
-    <h4 class="fw-bold">Collectors</h4>
-
+  <div class="search-box">
     <input
-      class="form-control search-input"
-      placeholder="Search by name or email"
+      type="text"
+      placeholder="🔍 Search by name or email"
       [(ngModel)]="search"
       (input)="filter()"
     />
   </div>
+</div>
 
+<div class="table-card">
   @if(loading) {
     <p class="text-center">Loading...</p>
   }
 
   @else {
-    <table class="table table-bordered table-hover text-center align-middle">
-      <thead class="table-light">
+    <table>
+      <thead>
         <tr>
-          <th>Name</th>
+          <th>Collector</th>
           <th>Email</th>
           <th>Phone</th>
-          <th width="200">Actions</th>
+          <th></th>
         </tr>
       </thead>
 
       <tbody>
         @for(c of filtered; track c.id) {
           <tr>
-            <td>{{ c.fullName }}</td>
+            <td class="collector-cell">
+              <div class="avatar">{{ c.fullName[0] }}</div>
+              <span>{{ c.fullName }}</span>
+            </td>
             <td>{{ c.email }}</td>
             <td>{{ c.phoneNumber }}</td>
-            <td>
-              <button
-                class="btn btn-sm btn-primary me-2"
-                (click)="openOrdersModal(c)">
+            <td class="actions-cell">
+              <button class="btn-view" (click)="openOrdersModal(c)">
                 Orders
               </button>
-
-              <button
-                class="btn btn-sm btn-danger"
-                (click)="delete(c.id!)">
+              <button class="btn-remove" (click)="delete(c.id!)">
                 Remove
               </button>
             </td>
@@ -57,68 +59,53 @@
 </div>
 
 <!-- ================= ORDERS MODAL ================= -->
-<div class="modal fade show modal-custom"
-     *ngIf="ordersModalOpen"
-     [style.display]="'block'">
+@if (ordersModalOpen) {
+<div class="details-modal">
+  <div class="details-content modal-lg">
 
-  <div class="modal-dialog modal-lg modal-dialog-centered">
-    <div class="modal-content">
-
-      <div class="modal-header">
-        <h5 class="modal-title">
-          Orders - {{ selectedCollector?.fullName }}
-        </h5>
-        <button class="btn-close" (click)="closeOrdersModal()"></button>
-      </div>
-
-      <div class="modal-body">
-
-        @if(loadingOrders) {
-          <p class="text-center">Loading orders...</p>
-        }
-
-        @else {
-          <table class="table table-bordered text-center">
-            <thead class="table-light">
-              <tr>
-                <th>#</th>
-                <th>Status</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              @for(o of collectorOrders; track o.id) {
-                <tr>
-                  <td>{{ o.id }}</td>
-                  <td>
-                    <span class="badge bg-info">
-                      {{ o.status }}
-                    </span>
-                  </td>
-                  <td>{{ o.orderDate | date:'short' }}</td>
-                </tr>
-              }
-
-              @if(collectorOrders.length === 0) {
-                <tr>
-                  <td colspan="3" class="text-muted">
-                    No orders found
-                  </td>
-                </tr>
-              }
-            </tbody>
-          </table>
-        }
-
-      </div>
-
-      <div class="modal-footer">
-        <button class="btn btn-secondary" (click)="closeOrdersModal()">Close</button>
-      </div>
-
+    <div class="modal-header">
+      <h3>Orders - {{ selectedCollector?.fullName }}</h3>
+      <button class="close-x" (click)="closeOrdersModal()">✕</button>
     </div>
+
+    @if(loadingOrders) {
+      <p class="text-center">Loading orders...</p>
+    }
+
+    @else {
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          @for(o of collectorOrders; track o.id) {
+            <tr>
+              <td>{{ o.id }}</td>
+              <td>
+                <span class="badge {{ o.status.toLowerCase() }}">
+                  {{ o.status }}
+                </span>
+              </td>
+              <td>{{ o.orderDate | date:'short' }}</td>
+            </tr>
+          }
+
+          @if(collectorOrders.length === 0) {
+            <tr>
+              <td colspan="3" class="text-muted">
+                No orders found
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+
   </div>
 </div>
-
-<div class="modal-backdrop fade show" *ngIf="ordersModalOpen"></div>
+}

@@ -9,6 +9,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { LanguageService } from '../../core/services/language.service';
+import { ThemeService } from '../../core/services/theme.service';
 import { UserProfileService } from '../../core/services/user-profile.service';
 import { ButtonComponent } from '../../shared/ui/button/button.component';
 import {
@@ -35,13 +36,20 @@ import { BadgeComponent } from '../../shared/ui/badge/badge.component';
     BadgeComponent
   ],
   templateUrl: './profile.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  styleUrl: './profile.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.dark]': 'isDarkMode()'
+  }
 })
 export class ProfileComponent {
 
   private fb = inject(FormBuilder);
   private profileService = inject(UserProfileService);
   languageService = inject(LanguageService);
+  themeService = inject(ThemeService);
+
+  isDarkMode = computed(() => this.themeService.theme() === 'dark');
 
   profileData = this.profileService.userProfile;
   isLoading = this.profileService.isLoading;

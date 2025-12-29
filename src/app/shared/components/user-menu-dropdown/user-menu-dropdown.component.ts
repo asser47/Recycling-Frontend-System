@@ -4,6 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../../core/services/user.service';
 import { UserProfileService } from '../../../core/services/user-profile.service';
 import { AuthService } from '../../../core/services/auth.service';
+import { ThemeService } from '../../../core/services/theme.service';
 import { Role } from '@core/models/role.enum';
 
 @Component({
@@ -103,6 +104,15 @@ import { Role } from '@core/models/role.enum';
       border-color: rgba(22, 163, 74, 0.4);
     }
 
+    :host(.dark) .user-menu-trigger {
+      border-color: rgba(74, 222, 128, 0.3);
+    }
+
+    :host(.dark) .user-menu-trigger:hover {
+      background: rgba(74, 222, 128, 0.15);
+      border-color: rgba(74, 222, 128, 0.5);
+    }
+
     .user-info {
       display: flex;
       flex-direction: column;
@@ -121,10 +131,18 @@ import { Role } from '@core/models/role.enum';
       line-height: 1.2;
     }
 
+    :host(.dark) .user-role {
+      color: hsl(210, 15%, 70%);
+    }
+
     .dropdown-arrow {
       font-size: 0.6rem;
       color: var(--text-muted);
       transition: transform 0.25s ease;
+    }
+
+    :host(.dark) .dropdown-arrow {
+      color: hsl(210, 15%, 70%);
     }
 
     .dropdown-arrow.open {
@@ -145,9 +163,9 @@ import { Role } from '@core/models/role.enum';
       animation: slideDown 0.2s ease;
     }
 
-    .dark .user-dropdown-menu {
-      background: #1f2937;
-      border-color: #374151;
+    :host(.dark) .user-dropdown-menu {
+      background: rgba(15, 17, 23, 1);
+      border-color: rgba(74, 222, 128, 0.15);
     }
 
     @keyframes slideDown {
@@ -174,6 +192,10 @@ import { Role } from '@core/models/role.enum';
       letter-spacing: 0.5px;
     }
 
+    :host(.dark) .menu-label {
+      color: hsl(210, 15%, 70%);
+    }
+
     .user-header {
       display: flex;
       gap: 0.75rem;
@@ -195,6 +217,10 @@ import { Role } from '@core/models/role.enum';
       flex-shrink: 0;
     }
 
+    :host(.dark) .user-avatar {
+      background: linear-gradient(135deg, hsl(120, 100%, 40%), hsl(120, 90%, 50%));
+    }
+
     .user-details {
       flex: 1;
       min-width: 0;
@@ -206,6 +232,10 @@ import { Role } from '@core/models/role.enum';
       line-height: 1.3;
     }
 
+    :host(.dark) .user-name-full {
+      color: hsl(210, 15%, 95%);
+    }
+
     .user-email {
       font-size: 0.8rem;
       color: var(--text-muted);
@@ -213,6 +243,10 @@ import { Role } from '@core/models/role.enum';
       text-overflow: ellipsis;
       white-space: nowrap;
       line-height: 1.3;
+    }
+
+    :host(.dark) .user-email {
+      color: hsl(210, 15%, 70%);
     }
 
     .user-role-badge {
@@ -227,10 +261,19 @@ import { Role } from '@core/models/role.enum';
       text-transform: uppercase;
     }
 
+    :host(.dark) .user-role-badge {
+      background: rgba(74, 222, 128, 0.15);
+      color: hsl(120, 100%, 60%);
+    }
+
     .menu-divider {
       height: 1px;
       background: var(--glass-border);
       margin: 0.25rem 0;
+    }
+
+    :host(.dark) .menu-divider {
+      background: rgba(74, 222, 128, 0.15);
     }
 
     .menu-item {
@@ -253,6 +296,10 @@ import { Role } from '@core/models/role.enum';
       background: rgba(22, 163, 74, 0.12);
     }
 
+    :host(.dark) .menu-item:hover {
+      background: rgba(74, 222, 128, 0.15);
+    }
+
     .menu-item.logout-item {
       color: var(--danger);
       font-weight: 600;
@@ -260,6 +307,10 @@ import { Role } from '@core/models/role.enum';
 
     .menu-item.logout-item:hover {
       background: rgba(220, 38, 38, 0.12);
+    }
+
+    :host(.dark) .menu-item.logout-item:hover {
+      background: rgba(220, 38, 38, 0.2);
     }
 
     .menu-item.role-item {
@@ -271,10 +322,19 @@ import { Role } from '@core/models/role.enum';
       font-weight: 600;
     }
 
+    :host(.dark) .menu-item.role-item.active {
+      background: rgba(74, 222, 128, 0.15);
+      color: hsl(120, 100%, 60%);
+    }
+
     .checkmark {
       margin-left: auto;
       color: #16a34a;
       font-weight: 700;
+    }
+
+    :host(.dark) .checkmark {
+      color: hsl(120, 100%, 60%);
     }
 
     .icon {
@@ -309,15 +369,24 @@ import { Role } from '@core/models/role.enum';
       color: #16a34a;
       font-size: 0.9rem;
     }
-  `]
+
+    :host(.dark) .item-value {
+      color: hsl(120, 100%, 60%);
+    }
+  `],
+  host: {
+    '[class.dark]': 'isDarkMode()'
+  }
 })
 export class UserMenuDropdownComponent {
   authService = inject(AuthService);
   userService = inject(UserService);
   profileService = inject(UserProfileService);
+  themeService = inject(ThemeService);
   router = inject(Router);
 
   isOpen = signal(false);
+  isDarkMode = computed(() => this.themeService.theme() === 'dark');
 
   // ========== Computed Properties ==========
   currentRole = computed(() => this.authService.roleSignal());

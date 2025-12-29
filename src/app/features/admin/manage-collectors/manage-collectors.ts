@@ -1,9 +1,10 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, inject, ChangeDetectorRef, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
 import { CollectorService } from '../../../core/services/collector.service';
 import { OrderService } from '../../../core/services/order.service';
+import { ThemeService } from '../../../core/services/theme.service';
 
 import { Collector } from '../../../core/models/collector.model';
 import { Order } from '../../../core/models/order.model';
@@ -17,7 +18,11 @@ import { AuthService } from '../../../core/services/auth.service';
   selector: 'app-manage-collectors',
   imports: [CommonModule, FormsModule],
   templateUrl: './manage-collectors.html',
-  styleUrls: ['./manage-collectors.css']
+  styleUrls: ['./manage-collectors.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.dark]': 'isDarkMode()'
+  }
 })
 export class ManageCollectorsComponent implements OnInit {
 
@@ -26,6 +31,9 @@ export class ManageCollectorsComponent implements OnInit {
   private flash = inject(FlashMessageService);
   private auth = inject(AuthService);
   private cdr = inject(ChangeDetectorRef);
+  private themeService = inject(ThemeService);
+
+  isDarkMode = computed(() => this.themeService.theme() === 'dark');
 
   collectors: Collector[] = [];
   filtered: Collector[] = [];

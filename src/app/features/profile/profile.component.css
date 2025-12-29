@@ -1,0 +1,84 @@
+/* ===============================
+   🌙 Dark Mode Support for Profile
+   =============================== */
+
+:host {
+  display: block;
+}
+
+:host(.dark) {
+  --foreground: hsl(210, 15%, 95%);
+  --card: rgba(15, 17, 23, 0.95);
+  --card-foreground: hsl(210, 15%, 95%);
+  --muted-foreground: hsl(210, 15%, 70%);
+  --border: rgba(74, 222, 128, 0.15);
+}
+
+/* Card Styling */
+:host(.dark) ::ng-deep .card {
+  background: rgba(15, 17, 23, 0.95) !important;
+  border-color: rgba(74, 222, 128, 0.15) !important;
+}
+
+/* Text Colors */
+:host(.dark) ::ng-deep .text-foreground {
+  color: hsl(210, 15%, 95%) !important;
+}
+
+:host(.dark) ::ng-deep .text-muted-foreground {
+  color: hsl(210, 15%, 70%) !important;
+}
+
+:host(.dark) ::ng-deep .text-card-foreground {
+  color: hsl(210, 15%, 95%) !important;
+}
+
+/* Input Fields */
+:host(.dark) ::ng-deep input[type="text"],
+:host(.dark) ::ng-deep input[type="email"],
+:host(.dark) ::ng-deep input[type="tel"],
+:host(.dark) ::ng-deep textarea {
+  background: rgba(30, 40, 50, 0.8) !important;
+  border-color: rgba(74, 222, 128, 0.15) !important;
+  color: hsl(210, 15%, 95%) !important;
+}
+
+:host(.dark) ::ng-deep input[type="text"]::placeholder,
+:host(.dark) ::ng-deep input[type="email"]::placeholder,
+:host(.dark) ::ng-deep input[type="tel"]::placeholder,
+:host(.dark) ::ng-deep textarea::placeholder {
+  color: hsl(210, 15%, 60%) !important;
+}
+
+:host(.dark) ::ng-deep input[type="text"]:focus,
+:host(.dark) ::ng-deep input[type="email"]:focus,
+:host(.dark) ::ng-deep input[type="tel"]:focus,
+:host(.dark) ::ng-deep textarea:focus {
+  border-color: rgba(74, 222, 128, 0.4) !important;
+  background: rgba(20, 30, 40, 0.9) !important;
+}
+
+/* Button Styling */
+:host(.dark) ::ng-deep .btn-primary {
+  background: linear-gradient(135deg, hsl(120, 100%, 45%), hsl(120, 90%, 38%)) !important;
+  color: hsl(210, 15%, 95%) !important;
+}
+
+:host(.dark) ::ng-deep .btn-primary:hover {
+  background: linear-gradient(135deg, hsl(120, 100%, 40%), hsl(120, 90%, 33%)) !important;
+}
+
+/* Badge */
+:host(.dark) ::ng-deep .badge {
+  background: rgba(74, 222, 128, 0.15) !important;
+  color: hsl(120, 100%, 60%) !important;
+}
+
+/* Scrollbar */
+:host(.dark) ::-webkit-scrollbar-thumb {
+  background-color: rgba(74, 222, 128, 0.4) !important;
+}
+
+:host(.dark) {
+  scrollbar-color: rgba(74, 222, 128, 0.4) transparent;
+}
