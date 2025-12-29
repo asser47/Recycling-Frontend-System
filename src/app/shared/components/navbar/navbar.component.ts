@@ -128,6 +128,11 @@ displayName = computed(() =>
     this.closeDropdowns();
   }
 
+  goHome(): void {
+    this.closeDropdowns();
+    this.router.navigateByUrl('/');
+  }
+
   goHomeAndReset() {
     this.authService.logout();
     this.profileService.clearProfile();

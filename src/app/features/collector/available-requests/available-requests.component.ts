@@ -1,6 +1,7 @@
-import { Component, DestroyRef, inject, output, signal } from '@angular/core';
+import { Component, DestroyRef, inject, output, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataService } from '../../../core/services/data.service';
+import { ThemeService } from '../../../core/services/theme.service';
 import { OrderDto } from '../../../core/models/order.model';
 import { CardContentComponent } from '../../../shared/ui/card/card.component';
 import { CollectorService } from '../../../core/services/collector.service';
@@ -11,6 +12,7 @@ import { BadgeComponent } from '../../../shared/ui/badge/badge.component';
 @Component({
   selector: 'app-collector-available-requests',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     CardContentComponent,
@@ -18,11 +20,17 @@ import { BadgeComponent } from '../../../shared/ui/badge/badge.component';
   ],
   templateUrl: './available-requests.component.html',
   styleUrl: './available-requests.component.css',
+  host: {
+    '[class.dark]': 'isDarkMode()'
+  }
 })
 export class CollectorAvailableRequestsComponent {
   dataService: DataService = inject(DataService);
   collectorService = inject(CollectorService);
   destroyRef = inject(DestroyRef);
+  themeService = inject(ThemeService);
+
+  isDarkMode = computed(() => this.themeService.theme() === 'dark');
 
   collectorId = 1;
   pendingRequests = signal<any[]>([]);

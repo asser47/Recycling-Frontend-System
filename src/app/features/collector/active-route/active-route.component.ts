@@ -1,6 +1,7 @@
-import { Component, inject, signal, DestroyRef } from '@angular/core';
+import { Component, inject, signal, DestroyRef, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataService } from '../../../core/services/data.service';
+import { ThemeService } from '../../../core/services/theme.service';
 import { CollectorService } from '../../../core/services/collector.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardContentComponent } from '../../../shared/ui/card/card.component';
@@ -10,19 +11,26 @@ import { BadgeComponent } from '../../../shared/ui/badge/badge.component';
 @Component({
   selector: 'app-collector-active-route',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule,
     CardContentComponent,
     BadgeComponent
   ],
   templateUrl: './active-route.component.html',
-  styleUrl: './active-route.component.css'
+  styleUrl: './active-route.component.css',
+  host: {
+    '[class.dark]': 'isDarkMode()'
+  }
 })
 export class CollectorActiveRouteComponent {
   dataService: DataService = inject(DataService);
   collectorService = inject(CollectorService);
   destroyRef = inject(DestroyRef);
   languageService = inject(LanguageService);
+  themeService = inject(ThemeService);
+
+  isDarkMode = computed(() => this.themeService.theme() === 'dark');
 
   collectorId = 1;
   activeRouteRequests = signal<any[]>([]);

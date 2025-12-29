@@ -19,3 +19,104 @@
   background-color: rgba(155, 155, 155, 0.5);
   border-radius: 20px;
 }
+
+/* ===============================
+   🌙 Dark Mode Support
+   =============================== */
+
+/* Card backgrounds */
+:host(.dark) .bg-white {
+  background-color: rgba(15, 17, 23, 0.95) !important;
+}
+
+/* Blue section styling */
+:host(.dark) .border-l-blue-500 {
+  border-left-color: hsl(200, 100%, 50%) !important;
+}
+
+:host(.dark) .bg-blue-50\/50 {
+  background-color: rgba(30, 58, 138, 0.3) !important;
+}
+
+:host(.dark) .text-blue-700 {
+  color: hsl(200, 100%, 60%) !important;
+}
+
+:host(.dark) .text-blue-700.uppercase {
+  color: hsl(200, 100%, 65%) !important;
+}
+
+/* Green section styling */
+:host(.dark) .border-l-green-500 {
+  border-left-color: hsl(120, 100%, 45%) !important;
+}
+
+:host(.dark) .bg-green-50\/50 {
+  background-color: rgba(5, 100, 68, 0.3) !important;
+}
+
+:host(.dark) .text-green-700 {
+  color: hsl(120, 100%, 60%) !important;
+}
+
+:host(.dark) .text-green-700.uppercase {
+  color: hsl(120, 100%, 65%) !important;
+}
+
+/* Text colors */
+:host(.dark) .text-gray-800 {
+  color: hsl(210, 15%, 95%) !important;
+}
+
+:host(.dark) .text-gray-700 {
+  color: hsl(210, 15%, 85%) !important;
+}
+
+/* Border styling */
+:host(.dark) .border-border {
+  border-color: rgba(74, 222, 128, 0.15) !important;
+}
+
+:host(.dark) .hover\:border-primary\/40:hover {
+  border-color: rgba(74, 222, 128, 0.4) !important;
+}
+
+/* Button styling */
+:host(.dark) .from-green-600 {
+  --tw-gradient-from: hsl(120, 100%, 45%) !important;
+}
+
+:host(.dark) .to-green-700 {
+  --tw-gradient-to: hsl(120, 90%, 38%) !important;
+}
+
+:host(.dark) .hover\:from-green-700:hover {
+  --tw-gradient-from: hsl(120, 90%, 38%) !important;
+}
+
+:host(.dark) .hover\:to-green-800:hover {
+  --tw-gradient-to: hsl(120, 85%, 32%) !important;
+}
+
+/* Blue button */
+:host(.dark) .from-blue-600 {
+  --tw-gradient-from: hsl(200, 100%, 45%) !important;
+}
+
+:host(.dark) .to-blue-700 {
+  --tw-gradient-to: hsl(200, 100%, 38%) !important;
+}
+
+/* Purple button */
+:host(.dark) .from-purple-600 {
+  --tw-gradient-from: hsl(260, 100%, 50%) !important;
+}
+
+:host(.dark) .to-purple-700 {
+  --tw-gradient-to: hsl(260, 100%, 42%) !important;
+}
+
+/* Dark mode scrollbar */
+:host(.dark) .requests-list {
+  scrollbar-color: rgba(100, 100, 100, 0.5) transparent;
+}
