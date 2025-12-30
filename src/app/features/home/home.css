@@ -16,8 +16,31 @@
     linear-gradient(135deg, hsl(210, 15%, 10%) 0%, hsl(210, 15%, 15%) 100%);
 }
 
+.hero-container {
+  display: flex;
+  align-items: center;
+  gap: 4rem;
+  width: 100%;
+  max-width: 1400px;
+}
+
 .hero-content {
   max-width: 650px;
+  flex: 1;
+}
+
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 16px;
 }
 
 .hero h1 {
@@ -65,4 +88,21 @@
 .btn-outline:hover {
   background: hsl(var(--primary));
   color: hsl(var(--primary-foreground));
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .hero-container {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero-image {
+    width: 100%;
+    max-width: 400px;
+  }
 }

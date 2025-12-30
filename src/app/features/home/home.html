@@ -2,24 +2,30 @@
 
   <!-- HERO -->
   <section class="hero">
-    <div class="hero-content">
-      <h1>
-        {{ t('heroTitle') }}
-        <span> Eco</span>
-      </h1>
+    <div class="hero-container">
+      <div class="hero-content">
+        <h1>
+          {{ t('heroTitle') }}
+          <span> Eco</span>
+        </h1>
 
-      <p>{{ t('heroSubtitle') }}</p>
+        <p>{{ t('heroSubtitle') }}</p>
 
-      <div class="hero-actions">
-        @if (!isLogged) {
-          <a routerLink="/register" class="btn-primary">
-            {{ t('getStarted') }}
-          </a>
-        }
+        <div class="hero-actions">
+          @if (!isLogged) {
+            <a routerLink="/register" class="btn-primary">
+              {{ t('getStarted') }}
+            </a>
+          }
 
-        <button class="btn-outline" (click)="scrollToFeatures()">
-          {{ t('learnMore') }}
-        </button>
+          <button class="btn-outline" (click)="scrollToFeatures()">
+            {{ t('learnMore') }}
+          </button>
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <img src="assets/hero-illustration.jpg" alt="Recycling Illustration" />
       </div>
     </div>
   </section>
