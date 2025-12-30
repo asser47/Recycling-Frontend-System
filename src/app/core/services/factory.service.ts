@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { API_CONFIG, API_ENDPOINTS } from '../config/api.config';
 import { Factory } from '../models/factory.model';
 
 @Injectable({
@@ -8,40 +9,39 @@ import { Factory } from '../models/factory.model';
 export class FactoryService {
 
   private http = inject(HttpClient);
-  private base = 'https://localhost:4375/api/Factory';
 
   // GET ALL → JSON
   getAll() {
-    return this.http.get<Factory[]>(this.base, { responseType: 'json' });
+    return this.http.get<Factory[]>(`${API_CONFIG.baseUrl}${API_ENDPOINTS.factories.getAll}`, { responseType: 'json' });
   }
 
   // GET BY ID → JSON
   getById(id: number) {
-    return this.http.get<Factory>(`${this.base}/${id}`, { responseType: 'json' });
+    return this.http.get<Factory>(`${API_CONFIG.baseUrl}${API_ENDPOINTS.factories.getById(id)}`, { responseType: 'json' });
   }
 
   // GET DETAILS → JSON
   getDetails(id: number) {
-    return this.http.get(`${this.base}/${id}/details`, { responseType: 'json' });
+    return this.http.get(`${API_CONFIG.baseUrl}${API_ENDPOINTS.factories.getDetails(id)}`, { responseType: 'json' });
   }
 
   search(name: string) {
-    return this.http.get<Factory[]>(`${this.base}/type/${name}`, { responseType: 'json' });
+    return this.http.get<Factory[]>(`${API_CONFIG.baseUrl}${API_ENDPOINTS.factories.search(name)}`, { responseType: 'json' });
   }
 
 
   // POST → TEXT
   create(model: Factory) {
-    return this.http.post(this.base, model, { responseType: 'text' });
+    return this.http.post(`${API_CONFIG.baseUrl}${API_ENDPOINTS.factories.create}`, model, { responseType: 'text' });
   }
 
   // PUT → TEXT
   update(model: Factory) {
-    return this.http.put(this.base, model, { responseType: 'text' });
+    return this.http.put(`${API_CONFIG.baseUrl}${API_ENDPOINTS.factories.update(model.id)}`, model, { responseType: 'text' });
   }
 
   // DELETE → TEXT
   delete(id: number) {
-    return this.http.delete(`${this.base}/${id}`, { responseType: 'text' });
+    return this.http.delete(`${API_CONFIG.baseUrl}${API_ENDPOINTS.factories.delete(id)}`, { responseType: 'text' });
   }
 }

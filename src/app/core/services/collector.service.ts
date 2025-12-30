@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_CONFIG, API_ENDPOINTS } from '../config/api.config';
 import { Collector } from '../models/collector.model';
 import { HireCollectorDto } from '../models/HireCollectorDto.model';
 import { ApplicationUserDto } from '../models/dtos.model';
@@ -10,51 +11,47 @@ import { ApplicationUserDto } from '../models/dtos.model';
 export class CollectorService {
 
   private http = inject(HttpClient);
-  private baseUrl = 'https://localhost:4375/api/Collector';
-    private apiUrl = 'https://localhost:4375/api';
-
 
   getAll(): Observable<Collector[]> {
-    return this.http.get<Collector[]>(this.baseUrl);
+    return this.http.get<Collector[]>(`${API_CONFIG.baseUrl}${API_ENDPOINTS.collectors.getAll}`);
   }
 
    getAllOrders(): Observable<any[]> {
-    return this.http.get<any[]>(this.apiUrl + '/Order');
+    return this.http.get<any[]>(`${API_CONFIG.baseUrl}${API_ENDPOINTS.orders.getAll}`);
   }
 
   getMyOrders(): Observable<Collector[]> {
-    return this.http.get<Collector[]>(`${this.baseUrl}/Orders/my-orders`);
+    return this.http.get<Collector[]>(`${API_CONFIG.baseUrl}${API_ENDPOINTS.collectors.getMyOrders}`);
   }
 
   getAvailableOrders(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/Orders/available`);
+    return this.http.get<any[]>(`${API_CONFIG.baseUrl}${API_ENDPOINTS.collectors.getAvailableOrders}`);
   }
 
   getById(id: string): Observable<Collector> {
-    return this.http.get<Collector>(`${this.baseUrl}/${id}`);
+    return this.http.get<Collector>(`${API_CONFIG.baseUrl}${API_ENDPOINTS.collectors.getById(id)}`);
   }
 
   hireCollector(data: HireCollectorDto) {
-    return this.http.post(`${this.baseUrl}/hire`, data);
+    return this.http.post(`${API_CONFIG.baseUrl}${API_ENDPOINTS.collectors.hire}`, data);
   }
 
   fireCollector(id: string) {
-    return this.http.delete(`${this.baseUrl}/${id}/fire`);
+    return this.http.delete(`${API_CONFIG.baseUrl}${API_ENDPOINTS.collectors.fire(id)}`);
   }
   // ===== COLLECTOR: View Own Profile =====
 
   /** Get current collector's profile */
   getMyProfile(): Observable<ApplicationUserDto> {
-    return this.http.get<ApplicationUserDto>(`${this.apiUrl}/User/profile`);
+    return this.http.get<ApplicationUserDto>(`${API_CONFIG.baseUrl}${API_ENDPOINTS.users.profile}`);
   }
 
   acceptOrder(orderId: number): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/collector/orders/${orderId}/accept`, {});
+    return this.http.post<any>(`${API_CONFIG.baseUrl}${API_ENDPOINTS.collectorOrders.accept(orderId)}`, {});
   }
 
   changeStatus(orderId: number, status: string): Observable<any> {
-    return this.http.patch<any>(`${this.apiUrl}/collector/orders/${orderId}/status`, {
-
+    return this.http.patch<any>(`${API_CONFIG.baseUrl}${API_ENDPOINTS.collectorOrders.updateStatus(orderId)}`, {
   newStatus: status
     });
   }

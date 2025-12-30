@@ -1,6 +1,6 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { API_CONFIG } from '../config/api.config';
+import { API_CONFIG, API_ENDPOINTS } from '../config/api.config';
 import { UpdateUserDto } from '../models/update-user.dto';
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
@@ -54,7 +54,7 @@ fullName = computed(() => {
     this._error.set(null);
 
     return this.http.get<UserProfileResponse>(
-      `${API_CONFIG.baseUrl}/User/profile`
+      `${API_CONFIG.baseUrl}${API_ENDPOINTS.users.profile}`
     ).pipe(
       tap((profile) => {
         this._userProfile.set(profile);
@@ -77,7 +77,7 @@ fullName = computed(() => {
     this._error.set(null);
 
     return this.http.put<{ success: boolean; message: string }>(
-      `${API_CONFIG.baseUrl}/User/profile`,
+      `${API_CONFIG.baseUrl}${API_ENDPOINTS.users.update}`,
       data
     ).pipe(
       tap((response) => {

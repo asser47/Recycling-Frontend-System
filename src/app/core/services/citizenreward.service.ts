@@ -1,16 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { API_CONFIG } from '@core/config/api.config';
+import { API_CONFIG, API_ENDPOINTS } from '@core/config/api.config';
 import { Reward } from '@core/models/reward.model';
 
 @Injectable({ providedIn: 'root' })
 export class CitizenRewardService {
 
   private http = inject(HttpClient);
-  private apiUrl = `${API_CONFIG.baseUrl}/Reward`;
 
   getAvailableRewards() {
-    return this.http.get<Reward[]>(`${this.apiUrl}/available`);
+    return this.http.get<Reward[]>(`${API_CONFIG.baseUrl}${API_ENDPOINTS.rewards.available}`);
   }
 
   redeem(rewardId: number, quantity: number = 1) {
@@ -24,7 +23,7 @@ export class CitizenRewardService {
     return this.http.post<{
       success: boolean;
       message: string;
-    }>(`${this.apiUrl}/redeem`, body);
+    }>(`${API_CONFIG.baseUrl}${API_ENDPOINTS.rewards.redeem}`, body);
   }
 }
 

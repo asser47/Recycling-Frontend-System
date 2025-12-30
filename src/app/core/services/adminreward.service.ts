@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
+import { API_CONFIG, API_ENDPOINTS } from '../config/api.config';
 import { Reward, RewardStats } from '../models/reward.model';
 
 @Injectable({ providedIn: 'root' })
@@ -8,7 +9,6 @@ export class RewardService {
 
   private http = inject(HttpClient);
 
-  private baseUrl = 'https://localhost:4375/api/Reward';
   private apiRoot = 'https://localhost:4375';
 
   // =====================
@@ -50,35 +50,33 @@ export class RewardService {
   // =====================
   getAll() {
     return this.http
-      .get<Reward[]>(this.baseUrl)
+      .get<Reward[]>(`${API_CONFIG.baseUrl}${API_ENDPOINTS.rewards.getAll}`)
       .pipe(map(res => this.mapRewards(res)));
   }
 
   create(formData: FormData) {
     return this.http
-      .post<Reward>(this.baseUrl, formData)
+      .post<Reward>(`${API_CONFIG.baseUrl}${API_ENDPOINTS.rewards.create}`, formData)
       .pipe(map(res => this.mapReward(res)));
   }
 
   update(id: number, formData: FormData) {
     return this.http
-      .put<Reward>(`${this.baseUrl}/${id}`, formData)
+      .put<Reward>(`${API_CONFIG.baseUrl}${API_ENDPOINTS.rewards.update(id)}`, formData)
       .pipe(map(res => this.mapReward(res)));
   }
 
   // ✅ كانت ناقصة
   getLowStock(threshold: number = 10) {
     return this.http
-      .get<Reward[]>(`${this.baseUrl}/low-stock`, {
-        params: { threshold }
-      })
+      .get<Reward[]>(`${API_CONFIG.baseUrl}${API_ENDPOINTS.rewards.getLowStock(threshold)}`)
       .pipe(map(res => this.mapRewards(res)));
   }
 
   updateStock(id: number, quantity: number) {
     // الباك مستني رقم raw مش object
     return this.http.patch(
-      `${this.baseUrl}/${id}/stock`,
+      `${API_CONFIG.baseUrl}${API_ENDPOINTS.rewards.update(id)}/stock`,
       quantity,
       {
         headers: {
@@ -90,7 +88,7 @@ export class RewardService {
 
 getStats(id: number) {
   return this.http
-    .get<RewardStats>(`${this.baseUrl}/${id}/stats`)
+    .get<RewardStats>(`${API_CONFIG.baseUrl}${API_ENDPOINTS.rewards.getById(id)}/stats`)
     .pipe(
       map(res => ({
         ...res,
@@ -99,9 +97,7 @@ getStats(id: number) {
     );
 }
 
-
-
   delete(id: number) {
-    return this.http.delete(`${this.baseUrl}/${id}`);
+    return this.http.delete(`${API_CONFIG.baseUrl}${API_ENDPOINTS.rewards.delete(id)}`);
   }
 }
