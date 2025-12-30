@@ -51,36 +51,51 @@
   </table>
 </div>
 @if (selectedUser) {
-<div class="details-modal">
-  <div class="details-content">
+<div class="details-modal" (click)="close()">
+  <div class="details-content" (click)="$event.stopPropagation()">
+
+    <button class="close-btn" (click)="close()">✕</button>
 
     <div class="modal-header">
-      <h3>{{ selectedUser.fullName }}</h3>
-      <button class="close-x" (click)="close()">✕</button>
+      <h3 class="modal-title">{{ selectedUser.fullName }}</h3>
+      <span class="points-badge-large">{{ selectedUser.points }} pts</span>
     </div>
 
-    <div class="user-info">
-      <div><b>Email:</b> {{ selectedUser.email }}</div>
-      <div><b>Phone:</b> {{ selectedUser.phoneNumber }}</div>
-      <div><b>Points:</b> {{ selectedUser.points }}</div>
+    <div class="modal-body">
+      <div class="info-row">
+        <span class="info-label">📧 Email:</span>
+        <span class="info-value">{{ selectedUser.email }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">📞 Phone:</span>
+        <span class="info-value">{{ selectedUser.phoneNumber }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">⭐ Points:</span>
+        <span class="info-value">{{ selectedUser.points }}</span>
+      </div>
     </div>
 
-    <h4>User Orders</h4>
+    <div class="orders-section">
+      <h4 class="section-title">📦 User Orders</h4>
 
-    @if (userOrders.length === 0) {
-      <p class="empty">No orders found</p>
-    } @else {
-      <ul class="orders-list">
-        @for (o of userOrders; track o.id) {
-          <li>
-            <span>Order #{{ o.id }}</span>
-            <span class="badge {{ o.status.toLowerCase() }}">
-              {{ o.status }}
-            </span>
-          </li>
-        }
-      </ul>
-    }
+      @if (userOrders.length === 0) {
+        <p class="empty">📥 No orders found</p>
+      } @else {
+        <ul class="orders-list">
+          @for (o of userOrders; track o.id) {
+            <li class="order-item">
+              <span class="order-id">Order #{{ o.id }}</span>
+              <span class="badge {{ o.status.toLowerCase() }}">
+                {{ o.status }}
+              </span>
+            </li>
+          }
+        </ul>
+      }
+    </div>
 
   </div>
 </div>

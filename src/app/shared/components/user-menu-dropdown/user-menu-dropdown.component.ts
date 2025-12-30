@@ -5,6 +5,7 @@ import { UserService } from '../../../core/services/user.services/user.service';
 import { UserProfileService } from '../../../core/services/user.services/user-profile.service';
 import { AuthService } from '../../../core/services/auth.services/auth.service';
 import { ThemeService } from '../../../core/services/theme.service';
+import { FlashMessageService } from '../../../core/services/flash-message.service';
 import { Role } from '@core/models/users/role.enum';
 
 @Component({
@@ -72,7 +73,7 @@ import { Role } from '@core/models/users/role.enum';
               class="menu-item logout-item"
               role="menuitem"
             >
-              <span class="icon">🚪</span>
+              <span class="icon">⬅️</span>
               <span class="item-label">Logout</span>
             </button>
           </div>
@@ -472,11 +473,11 @@ export class UserMenuDropdownComponent {
   switchRole(role: Role): void {
     // If user doesn't have the role yet, show a message
     if (role === Role.Admin && !this.isAdmin()) {
-      alert('You do not have admin privileges');
+      inject(FlashMessageService).showError('You do not have admin privileges');
       return;
     }
     if (role === Role.Collector && !this.isCollector() && !this.isAdmin()) {
-      alert('You do not have collector role');
+      inject(FlashMessageService).showError('You do not have collector role');
       return;
     }
 

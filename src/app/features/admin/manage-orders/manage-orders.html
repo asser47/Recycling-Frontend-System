@@ -81,27 +81,38 @@
 <div class="modal-backdrop" (click)="closeDetails()">
   <div class="modal-card" (click)="$event.stopPropagation()">
 
-    <button class="close-btn" (click)="closeDetails()">✖</button>
+    <button class="close-btn" (click)="closeDetails()">✕</button>
 
-    <h2>Order #{{ selectedOrder.id }}</h2>
-
-    <p>
-      <b>Status:</b>
+    <div class="modal-header">
+      <h2 class="modal-title">Order #{{ selectedOrder.id }}</h2>
       <span class="badge {{ selectedOrder.status.toLowerCase() }}">
         {{ selectedOrder.status }}
       </span>
-    </p>
+    </div>
 
-    <p><b>User:</b> {{ selectedOrder.userName }}</p>
-    <p><b>Collector:</b> {{ selectedOrder.collectorName }}</p>
-    <p><b>Factory:</b> {{ selectedOrder.factoryName }}</p>
+    <div class="modal-body">
+      <div class="info-row">
+        <span class="info-label">👤 User:</span>
+        <span class="info-value">{{ selectedOrder.userName }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">🚚 Collector:</span>
+        <span class="info-value">{{ selectedOrder.collectorName }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">🏭 Factory:</span>
+        <span class="info-value">{{ selectedOrder.factoryName }}</span>
+      </div>
+    </div>
 
 @if (canComplete()) {
   <div class="modal-actions">
     <button
-      class="btn-save"
+      class="btn-complete"
       (click)="completeOrder(); $event.stopPropagation()">
-      ✔ Complete Order & Reward User
+      ✅ Complete Order & Reward User
     </button>
   </div>
 }

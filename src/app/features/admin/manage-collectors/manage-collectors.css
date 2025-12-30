@@ -1,5 +1,58 @@
+:host {
+  display: block;
+  position: relative;
+  min-height: calc(100vh - 70px);
+  background: hsl(var(--background));
+  padding: 2rem;
+  overflow: hidden;
+}
+
+/* Animated Background Orbs */
+:host::before,
+:host::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.3;
+  animation: float 20s infinite ease-in-out;
+  pointer-events: none;
+  z-index: 0;
+}
+
+:host::before {
+  width: 500px;
+  height: 500px;
+  background: hsl(var(--primary));
+  top: -10%;
+  left: -10%;
+}
+
+:host::after {
+  width: 400px;
+  height: 400px;
+  background: hsl(var(--accent));
+  bottom: -10%;
+  right: -10%;
+  animation-delay: 10s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
+}
+
 /* HEADER */
 .page-header {
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -11,7 +64,10 @@
 .page-title {
   font-size: 28px;
   font-weight: 800;
-  color: hsl(var(--primary));
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin: 0;
   padding: 8px 0;
   letter-spacing: -0.5px;
@@ -60,13 +116,33 @@
 
 /* TABLE CARD */
 .table-card {
-  background: hsl(var(--card));
+  position: relative;
+  z-index: 1;
+  background: hsla(var(--card), 0.95);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-radius: 14px;
   padding: 24px;
-  box-shadow: 0 4px 20px hsl(0, 0%, 0%, 0.08);
-  transition: all 0.3s ease;
-  border: 1px solid hsl(var(--border));
-  overflow-x: auto;
+  box-shadow: 0 10px 30px hsla(0, 0%, 0%, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid hsla(var(--border), 0.5);
+  max-height: 600px;
+  overflow: auto;
+}
+
+.table-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, hsla(var(--primary), 0.05) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  border-radius: 14px;
+}
+
+.table-card:hover::before {
+  opacity: 1;
 }
 
 :host(.dark) .table-card {
@@ -256,6 +332,8 @@ tbody td {
 
 .details-content.modal-lg {
   width: 700px;
+  max-height: 80vh;
+  overflow-y: auto;
 }
 
 /* MODAL HEADER */
@@ -303,6 +381,16 @@ tbody td {
   width: 100%;
   border-collapse: collapse;
   margin-top: 16px;
+  display: block;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.orders-table thead,
+.orders-table tbody {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
 }
 
 .orders-table thead th {

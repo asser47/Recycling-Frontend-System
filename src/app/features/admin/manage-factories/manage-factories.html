@@ -4,7 +4,7 @@
 <div class="header-row">
 
   @if (isAdmin()) {
-    <button class="btn-primary" (click)="startAdd()">+ Add Factory</button>
+    <button class="btn-primary" (click)="startAdd()">🏭 Add Factory</button>
   }
 
   <div class="search-box">
@@ -87,14 +87,14 @@
 <div class="modal-backdrop" (click)="closeForm()">
   <div class="modal-card" (click)="$event.stopPropagation()">
 
-    <h3>{{ editing ? 'Edit Factory' : 'Add Factory' }}</h3>
+    <h3 class="modal-title">{{ editing ? '✏️ Edit Factory' : '🏭 Add Factory' }}</h3>
 
     <input type="text" placeholder="Name" [(ngModel)]="form.name">
     <input type="text" placeholder="Location" [(ngModel)]="form.location">
 
     <div class="modal-actions">
       <button class="btn-save" (click)="save()">
-        {{ editing ? 'Save Changes' : 'Add Factory' }}
+        {{ editing ? '💾 Save Changes' : '✨ Add Factory' }}
       </button>
 
       <button class="btn-cancel" (click)="closeForm()">Cancel</button>

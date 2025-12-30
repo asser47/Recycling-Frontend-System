@@ -1,31 +1,67 @@
-<div class="min-h-screen">
+<div class="home-page">
 
   <!-- HERO -->
   <section class="hero">
+    <div class="hero-background">
+      <div class="gradient-orb orb-1"></div>
+      <div class="gradient-orb orb-2"></div>
+      <div class="gradient-orb orb-3"></div>
+    </div>
+    
     <div class="hero-container">
       <div class="hero-content">
-        <h1>
+        <div class="hero-badge">
+          <span class="badge-icon">🌱</span>
+          <span class="badge-text">Smart Recycling Platform</span>
+        </div>
+        
+        <h1 class="hero-title">
           {{ t('heroTitle') }}
-          <span> Eco</span>
+          <span class="gradient-text"> Eco</span>
         </h1>
 
-        <p>{{ t('heroSubtitle') }}</p>
+        <p class="hero-subtitle">{{ t('heroSubtitle') }}</p>
 
         <div class="hero-actions">
           @if (!isLogged) {
             <a routerLink="/register" class="btn-primary">
-              {{ t('getStarted') }}
+              <span>{{ t('getStarted') }}</span>
+              <span class="btn-arrow">→</span>
             </a>
           }
 
           <button class="btn-outline" (click)="scrollToFeatures()">
-            {{ t('learnMore') }}
+            <span>{{ t('learnMore') }}</span>
           </button>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat-item">
+            <div class="stat-value">10K+</div>
+            <div class="stat-label">Active Users</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <div class="stat-value">50K+</div>
+            <div class="stat-label">Items Recycled</div>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <div class="stat-value">100+</div>
+            <div class="stat-label">Partner Factories</div>
+          </div>
         </div>
       </div>
 
-      <div class="hero-image">
-        <img src="assets/hero-illustration.jpg" alt="Recycling Illustration" />
+      <div class="hero-visual">
+        <div class="visual-card">
+          <img src="assets/hero-illustration.jpg" alt="Recycling Illustration" />
+        </div>
+        <div class="floating-elements">
+          <div class="floating-icon icon-1">♻️</div>
+          <div class="floating-icon icon-2">🌍</div>
+          <div class="floating-icon icon-3">🎁</div>
+        </div>
       </div>
     </div>
   </section>

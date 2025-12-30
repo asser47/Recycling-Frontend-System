@@ -172,29 +172,48 @@
 
     <button class="close-btn" (click)="closeStats()">✕</button>
 
-    @if (s.imageUrl) {
-      <img class="stats-image" [src]="s.imageUrl" alt="Reward image">
-    }
+    <div class="modal-header">
+      <h3 class="modal-title">{{ s.name }}</h3>
+      <span class="points-badge-large">{{ s.requiredPoints }} pts</span>
+    </div>
 
-    <h4 class="text-center mt-2">{{ s.name }}</h4>
+    <div class="modal-body">
+      <div class="info-row">
+        <span class="info-label">📝 Description:</span>
+        <span class="info-value">{{ s.description }}</span>
+      </div>
 
-    <div class="stats-list">
-      <p><b>Description:</b> {{ s.description }}</p>
-      <p><b>Category:</b> {{ s.category }}</p>
-      <p><b>Required Points:</b> {{ s.requiredPoints }}</p>
-      <p><b>Stock Quantity:</b> {{ s.stockQuantity }}</p>
+      <div class="info-row">
+        <span class="info-label">🏷️ Category:</span>
+        <span class="info-value">{{ s.category }}</span>
+      </div>
 
-      <p><b>Total Redeemptions:</b> {{ s.totalRedemptions }}</p>
-      <p><b>Pending Redeemptions:</b> {{ s.pendingRedemptions }}</p>
+      <div class="info-row">
+        <span class="info-label">⭐ Required Points:</span>
+        <span class="info-value">{{ s.requiredPoints }}</span>
+      </div>
 
-      <p>
-        <b>Status:</b>
-        <span
-          [class.text-success]="s.isAvailable"
-          [class.text-danger]="!s.isAvailable">
+      <div class="info-row">
+        <span class="info-label">📦 Stock Quantity:</span>
+        <span class="info-value">{{ s.stockQuantity }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">📈 Total Redeemptions:</span>
+        <span class="info-value">{{ s.totalRedemptions }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">⏳ Pending Redeemptions:</span>
+        <span class="info-value">{{ s.pendingRedemptions }}</span>
+      </div>
+
+      <div class="info-row">
+        <span class="info-label">🟢 Status:</span>
+        <span class="status-badge" [class.available]="s.isAvailable" [class.unavailable]="!s.isAvailable">
           {{ s.isAvailable ? 'Available' : 'Not Available' }}
         </span>
-      </p>
+      </div>
     </div>
 
   </div>

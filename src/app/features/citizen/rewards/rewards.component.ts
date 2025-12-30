@@ -9,7 +9,8 @@ import {
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { finalize } from 'rxjs/operators';
+import { finalize, concatMap } from 'rxjs/operators';
+import { from } from 'rxjs';
 
 import { Reward } from '@core/models/rewards/reward.model';
 import { LanguageService } from '@core/services/language.service';
@@ -19,11 +20,11 @@ import { RewardService } from '@core/services/admin.services/adminreward.service
 import { CitizenStatsCardsComponent } from '../citizen-dashboard/stats-cards/stats-cards.component';
 
 @Component({
-  standalone: true,
   selector: 'app-reward-component',
+  standalone: true,
+  imports: [CommonModule, FormsModule, CitizenStatsCardsComponent],
   templateUrl: './rewards.component.html',
   styleUrls: ['./rewards.component.css'],
-  imports: [CommonModule, FormsModule, CitizenStatsCardsComponent],
 })
 export class RewardsComponent implements OnInit {
 
@@ -239,14 +240,20 @@ this.citizenRewardService.redeem(reward.id!, 1).subscribe({
 
   const items = [...this.cart()];
   let successCount = 0;
-  let completed = 0;
 
-items.forEach(item => {
-  this.citizenRewardService.redeem(item.id!, 1)
-    .pipe(finalize(() => {
-      completed++;
-
-      if (completed === items.length) {
+  // Redeem items sequentially (one after another)
+  from(items)
+    .pipe(
+      concatMap(item => 
+        this.citizenRewardService.redeem(item.id!, 1)
+          .pipe(
+            finalize(() => {
+              // Reload points after each redemption to ensure accurate balance
+              this.loadPoints();
+            })
+          )
+      ),
+      finalize(() => {
         this.isCheckingOut.set(false);
 
         if (successCount > 0) {
@@ -261,18 +268,18 @@ items.forEach(item => {
           );
         } else {
           this.showToastNotification(
-            'Not enough points or out of stock',
+            'All redemptions failed',
             'error'
           );
         }
-      }
-    }))
+      })
+    )
     .subscribe({
       next: () => successCount++,
-      error: () => {}
+      error: (err) => {
+        console.error('Redemption error:', err);
+      }
     });
-});
-
 }
 
 

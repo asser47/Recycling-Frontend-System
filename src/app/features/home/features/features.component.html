@@ -1,12 +1,22 @@
-<section id="features" class="why">
-  <h2>Why Choose GreenZone?</h2>
+<section id="features" class="features-section">
+  <div class="features-header">
+    <div class="section-badge">
+      <span class="badge-icon">✨</span>
+      <span>Features</span>
+    </div>
+    <h2 class="section-title">Why Choose GreenZone?</h2>
+    <p class="section-subtitle">Everything you need to make recycling simple, rewarding, and impactful</p>
+  </div>
 
-  <div class="why-grid">
+  <div class="features-grid">
     @for (f of features; track $index) {
-      <div class="why-card">
-        <div class="icon">{{ getIconEmoji(f.icon) }}</div>
-        <h4>{{ f.title }}</h4>
-        <p>{{ f.description }}</p>
+      <div class="feature-card">
+        <div class="feature-icon-wrapper">
+          <div class="icon-bg"></div>
+          <div class="feature-icon">{{ getIconEmoji(f.icon) }}</div>
+        </div>
+        <h3 class="feature-title">{{ f.title }}</h3>
+        <p class="feature-description">{{ f.description }}</p>
       </div>
     }
   </div>

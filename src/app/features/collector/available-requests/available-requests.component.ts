@@ -8,6 +8,7 @@ import { CollectorService } from '../../../core/services/collector.sevices/colle
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LanguageService } from '../../../core/services/language.service';
 import { BadgeComponent } from '../../../shared/ui/badge/badge.component';
+import { FlashMessageService } from '../../../core/services/flash-message.service';
 
 @Component({
   selector: 'app-collector-available-requests',
@@ -187,7 +188,7 @@ export class CollectorAvailableRequestsComponent {
 
   acceptOrder(orderId: number): void {
     if (!this.canAcceptOrder()) {
-      alert(`You can only accept up to ${this.maxActiveOrders} orders at a time. Complete one first.`);
+      inject(FlashMessageService).showError(`You can only accept up to ${this.maxActiveOrders} orders at a time. Complete one first.`);
       return;
     }
 
@@ -198,10 +199,10 @@ export class CollectorAvailableRequestsComponent {
         next: () => {
           this.loadAvailableOrders();
           this.loadCollectorActiveOrders();
-          console.log(`Order ${orderId} accepted successfully.`);
+          inject(FlashMessageService).showSuccess(`Order ${orderId} accepted successfully.`);
         },
         error: () => {
-          alert('Failed to accept order. Please try again.');
+          inject(FlashMessageService).showError('Failed to accept order. Please try again.');
         }
       });
   }
@@ -214,10 +215,10 @@ export class CollectorAvailableRequestsComponent {
         next: () => {
           this.loadAvailableOrders();
           this.loadCollectorActiveOrders();
-          console.log(`Order ${orderId} status changed to ${status}.`);
+          inject(FlashMessageService).showSuccess(`Order ${orderId} status changed to ${status}.`);
         },
         error: (err) => {
-          alert('Failed to update order status. Please try again.');
+          inject(FlashMessageService).showError('Failed to update order status. Please try again.');
           console.error('Error:', err);
         }
       });

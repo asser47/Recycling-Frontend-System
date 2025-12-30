@@ -1,99 +1,199 @@
-.why {
-  background:
-    radial-gradient(at 20% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 50%),
-    linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--background)) 100%);
-  padding: 80px 8%;
-  color: hsl(var(--foreground));
+/* ====================================================================================
+   MODERN FEATURES SECTION - DARK/LIGHT MODE SUPPORT
+==================================================================================== */
+
+.features-section {
+  padding: 6rem 8%;
+  background: hsl(var(--background));
+  position: relative;
+}
+
+/* Section Header */
+.features-header {
   text-align: center;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  max-width: 800px;
+  margin: 0 auto 4rem;
 }
 
-.dark .why {
-  background:
-    radial-gradient(at 20% 20%, rgba(16, 185, 129, 0.12) 0%, transparent 50%),
-    linear-gradient(135deg, #16191d 0%, #1a1e26 100%);
+.section-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: 999px;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
+  font-weight: 600;
   color: hsl(var(--foreground));
 }
 
-.why h2 {
-  font-size: 2.8rem;
-  font-weight: 800;
-  margin-bottom: 4rem;
-  color: hsl(var(--primary));
-  letter-spacing: -0.5px;
-  transition: color 0.3s ease;
+.badge-icon {
+  font-size: 1.125rem;
 }
 
-.why-grid {
+.section-title {
+  font-size: 3rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+  color: hsl(var(--foreground));
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Features Grid */
+.features-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-  max-width: 1200px;
+  gap: 2rem;
+  max-width: 1400px;
   margin: 0 auto;
 }
 
+/* Feature Card */
+.feature-card {
+  position: relative;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, hsla(var(--primary), 0.05) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  border-color: hsl(var(--primary));
+  box-shadow: 0 12px 32px hsla(var(--primary), 0.15);
+}
+
+.feature-card:hover::before {
+  opacity: 1;
+}
+
+/* Feature Icon */
+.feature-icon-wrapper {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon-bg {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+  border-radius: 50%;
+  opacity: 0.1;
+  transition: all 0.4s ease;
+}
+
+.feature-card:hover .icon-bg {
+  opacity: 0.2;
+  transform: scale(1.1);
+}
+
+.feature-icon {
+  position: relative;
+  font-size: 2.5rem;
+  z-index: 1;
+  transition: transform 0.4s ease;
+}
+
+.feature-card:hover .feature-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+/* Feature Content */
+.feature-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0 0 0.75rem 0;
+  color: hsl(var(--foreground));
+  transition: color 0.3s ease;
+}
+
+.feature-card:hover .feature-title {
+  color: hsl(var(--primary));
+}
+
+.feature-description {
+  font-size: 0.9375rem;
+  color: hsl(var(--muted-foreground));
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* ====================================================================================
+   RESPONSIVE
+==================================================================================== */
+
 @media (max-width: 1024px) {
-  .why-grid {
+  .features-section {
+    padding: 5rem 5%;
+  }
+
+  .features-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    gap: 1.5rem;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .features-section {
+    padding: 4rem 5%;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
   }
 }
 
 @media (max-width: 640px) {
-  .why-grid {
+  .features-grid {
     grid-template-columns: 1fr;
-    gap: 20px;
+    gap: 1.25rem;
   }
-}
 
-.why-card {
-  background: hsl(var(--card), 0.6);
-  backdrop-filter: blur(12px);
-  padding: 40px 28px;
-  border-radius: 16px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: 1px solid hsl(var(--primary), 0.15);
-  box-shadow: 0 2px 8px hsl(0, 0%, 0%, 0.04);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
+  .feature-card {
+    padding: 2rem 1.5rem;
+  }
 
-.why-card:hover {
-  transform: translateY(-12px);
-  background: hsl(var(--card), 0.9);
-  border-color: hsl(var(--primary), 0.3);
-  box-shadow: 0 12px 24px hsl(var(--primary), 0.15);
-}
-
-.dark .why-card {
-  background: rgba(15, 17, 23, 0.95);
-  border-color: hsl(var(--primary), 0.3);
-  box-shadow: 0 2px 12px rgba(16, 185, 129, 0.1);
-}
-
-.dark .why-card:hover {
-  background: rgba(20, 24, 32, 0.98);
-  border-color: hsl(var(--primary), 0.5);
-  box-shadow: 0 12px 28px rgba(16, 185, 129, 0.25);
-}
-
-.icon {
-  font-size: 3rem;
-  margin-bottom: 1.5rem;
-}
-
-.why-card h3 {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: hsl(var(--primary));
-  transition: color 0.3s ease;
-}
-
-.why-card p {
-  font-size: 0.95rem;
-  color: hsl(var(--muted-foreground));
-  line-height: 1.6;
-  transition: color 0.3s ease;
+  .section-title {
+    font-size: 1.75rem;
+  }
 }

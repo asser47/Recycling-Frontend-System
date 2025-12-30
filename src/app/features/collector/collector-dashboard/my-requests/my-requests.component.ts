@@ -23,33 +23,33 @@ import { CollectorService } from '@core/services/collector.sevices/collector.ser
     TabsTriggerComponent
   ],
   template: `
-    <div class="">
+    <div class="requests-wrapper">
       <div class="max-w-7xl mx-auto space-y-8">
 
         <!-- Stats -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <app-card>
-            <app-card-content class="p-4 text-center">
-              <div class="text-2xl font-bold text-primary">{{ userRequests().length }}</div>
-              <p class="text-sm text-muted-foreground">Total Requests</p>
+        <div class="stats-grid">
+          <app-card class="stat-card">
+            <app-card-content class="stat-card-content">
+              <div class="stat-value">{{ userRequests().length }}</div>
+              <p class="stat-label">Total Requests</p>
             </app-card-content>
           </app-card>
-          <app-card>
-            <app-card-content class="p-4 text-center">
-              <div class="text-2xl font-bold text-primary">{{ completedCount() }}</div>
-              <p class="text-sm text-muted-foreground">{{ t('completed') }}</p>
+          <app-card class="stat-card">
+            <app-card-content class="stat-card-content">
+              <div class="stat-value">{{ completedCount() }}</div>
+              <p class="stat-label">{{ t('completed') }}</p>
             </app-card-content>
           </app-card>
-          <app-card>
-            <app-card-content class="p-4 text-center">
-              <div class="text-2xl font-bold text-accent">{{ deliveredCount() }}</div>
-              <p class="text-sm text-muted-foreground">{{ t('Delivered') }}</p>
+          <app-card class="stat-card">
+            <app-card-content class="stat-card-content">
+              <div class="stat-value stat-value-accent">{{ deliveredCount() }}</div>
+              <p class="stat-label">{{ t('Delivered') }}</p>
             </app-card-content>
           </app-card>
-          <app-card>
-            <app-card-content class="p-4 text-center">
-              <div class="text-2xl font-bold text-muted-foreground">{{ pendingCount() }}</div>
-              <p class="text-sm text-muted-foreground">{{ t('pending') }}</p>
+          <app-card class="stat-card">
+            <app-card-content class="stat-card-content">
+              <div class="stat-value stat-value-muted">{{ pendingCount() }}</div>
+              <p class="stat-label">{{ t('pending') }}</p>
             </app-card-content>
           </app-card>
         </div>
@@ -103,16 +103,117 @@ import { CollectorService } from '@core/services/collector.sevices/collector.ser
         ></app-request-card>
       }
       @if (requests.length === 0) {
-        <app-card>
-          <app-card-content class="p-8 text-center">
-            <span class="text-4xl mb-4 block">{{ emptyIcon }}</span>
-            <p class="text-muted-foreground">{{ emptyText }}</p>
+        <app-card class="empty-card">
+          <app-card-content class="empty-card-content">
+            <span class="empty-icon">{{ emptyIcon }}</span>
+            <p class="empty-text">{{ emptyText }}</p>
           </app-card-content>
         </app-card>
       }
     </ng-template>
   `,
-  styles: []
+  styles: [`
+    .requests-wrapper {
+      position: relative;
+      z-index: 1;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .stat-card {
+      position: relative;
+      background: hsla(var(--card), 0.95);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid hsla(var(--border), 0.5);
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, hsla(var(--primary), 0.05) 0%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px hsla(0, 0%, 0%, 0.12);
+    }
+
+    .stat-card:hover::before {
+      opacity: 1;
+    }
+
+    .stat-card-content {
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-value-accent {
+      background: linear-gradient(135deg, hsl(var(--accent)) 0%, hsl(var(--primary)) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-value-muted {
+      color: hsl(var(--muted-foreground));
+      background: none;
+      -webkit-text-fill-color: unset;
+    }
+
+    .stat-label {
+      font-size: 0.875rem;
+      color: hsl(var(--muted-foreground));
+      margin-top: 0.25rem;
+    }
+
+    .empty-card {
+      background: hsla(var(--card), 0.95);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid hsla(var(--border), 0.5);
+    }
+
+    .empty-card-content {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .empty-icon {
+      font-size: 2.5rem;
+      display: block;
+      margin-bottom: 1rem;
+    }
+
+    .empty-text {
+      color: hsl(var(--muted-foreground));
+    }
+  `]
 })
 export class CollectorRequestsComponent {
   languageService = inject(LanguageService);

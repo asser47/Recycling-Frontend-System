@@ -1,165 +1,193 @@
+<div class="rewards-page">
+  <div class="rewards-container">
 
-  <div class="min-h-screen py-8 px-6 lg:px-8">
-  <div class="max-w-7xl mx-auto space-y-8">
-
-    <!-- Top Row: Header + Points + Cart -->
-    <div class="top-row">
-      <!-- Header Section -->
-      <div class="header-section">
-        <h1 class="page-title">🎁 {{ t('rewards') || 'Rewards Store' }}</h1>
-        <p class="page-subtitle">{{ t('redeemDescription') || 'Redeem your points for amazing rewards' }}</p>
-      </div>
-
-      <!-- Points Card -->
-      <div class="stats-section">
-        <app-citizen-stats-cards [stats]="stats()"></app-citizen-stats-cards>
-      </div>
-
-      <!-- Cart Card -->
-      <div class="cart-card" (click)="openCart()">
-        <div class="cart-icon">🛒</div>
-        <div class="cart-info">
-          <p class="cart-label">My Cart</p>
-          <h2 class="cart-count">{{ cartItemCount() }} item{{ cartItemCount() !== 1 ? 's' : '' }}</h2>
-          <p class="cart-total">{{ cartTotal() }} points</p>
+    <!-- Header Section -->
+    <div class="page-header">
+      <div class="header-content">
+        <div class="title-wrapper">
+          <div class="icon-badge">🎁</div>
+          <div>
+            <h1 class="page-title">{{ t('rewards') || 'Rewards Store' }}</h1>
+            <p class="page-subtitle">{{ t('redeemDescription') || 'Redeem your points for amazing rewards' }}</p>
+          </div>
         </div>
-        @if (cartItemCount() > 0) {
-          <div class="cart-badge">{{ cartItemCount() }}</div>
-        }
+      </div>
+
+      <!-- Stats & Cart Row -->
+      <div class="stats-cart-row">
+        <!-- Points Card -->
+        <div class="stats-card">
+          <app-citizen-stats-cards [stats]="stats()"></app-citizen-stats-cards>
+        </div>
+
+        <!-- Cart Button -->
+        <button class="cart-button" (click)="openCart()">
+          <div class="cart-button-content">
+            <div class="cart-icon-wrapper">
+              <span class="cart-icon">🛒</span>
+              @if (cartItemCount() > 0) {
+                <span class="cart-badge-count">{{ cartItemCount() }}</span>
+              }
+            </div>
+            <div class="cart-details">
+              <span class="cart-label">My Cart</span>
+              <span class="cart-info">{{ cartItemCount() }} items · {{ cartTotal() }} pts</span>
+            </div>
+          </div>
+          <span class="cart-arrow">→</span>
+        </button>
       </div>
     </div>
 
-    <!-- Search Bar -->
+    <!-- Search Section -->
     <div class="search-section">
-      <div class="search-bar">
+      <div class="search-wrapper">
+        <div class="search-icon">🔍</div>
         <input
           class="search-input"
-          placeholder="🔍 Search rewards..."
+          placeholder="Search rewards..."
           [(ngModel)]="searchTerm"
-          (keyup.enter)="search()">
-        <button class="search-btn" (click)="search()">Search</button>
-        <button class="reset-btn" (click)="resetSearch()">Reset</button>
-      </div>
-    </div>
-
-  <!-- Toast Notification -->
-  @if (showToast) {
-    <div class="toast-notification" [class.success]="toastType === 'success'" [class.error]="toastType === 'error'">
-      <div class="toast-icon">
-        @if (toastType === 'success') {
-          <span>✅</span>
-        } @else {
-          <span>❌</span>
-        }
-      </div>
-      <div class="toast-content">
-        <p class="toast-title">{{ toastType === 'success' ? 'Success' : 'Error' }}</p>
-        <p class="toast-message">{{ toastMessage }}</p>
-      </div>
-      <button class="toast-close" (click)="closeToast()">×</button>
-    </div>
-  }
-
-  @if (isLoading) {
-    <div class="loading-container">
-      <div class="loading-spinner"></div>
-      <p class="loading-text">Loading rewards...</p>
-    </div>
-  }
-
-  @if (!isLoading && rewards.length === 0) {
-    <div class="empty-container">
-      <div class="empty-icon">🎁</div>
-      <h2 class="empty-title">No Rewards Found</h2>
-      <p class="empty-subtitle">
+          (keyup.enter)="search()"
+          (input)="search()">
         @if (searchTerm) {
-          No rewards match your search. Try different keywords or reset the search.
-        } @else {
-          Check back later for amazing rewards you can redeem with your points!
+          <button class="clear-search-btn" (click)="resetSearch()">✕</button>
         }
-      </p>
-      @if (searchTerm) {
-        <button class="reset-btn" style="margin-top: 20px;" (click)="resetSearch()">Clear Search</button>
-      }
+      </div>
     </div>
-  }
 
-  @if (!isLoading && rewards.length > 0) {
-    <div class="reward-grid">
-      @for (r of rewards; track r.id) {
-        <div class="reward-card" [class.out-of-stock]="r.stockQuantity === 0" [class.can-redeem]="canRedeem(r)">
-          <!-- Stock Badge -->
-          @if (r.stockQuantity === 0) {
-            <div class="stock-badge out-of-stock">Out of Stock</div>
-          } @else if (r.stockQuantity <= 5) {
-            <div class="stock-badge low-stock">Only {{ r.stockQuantity }} left!</div>
+    <!-- Toast Notification -->
+    @if (showToast) {
+      <div class="toast" [class.toast-success]="toastType === 'success'" [class.toast-error]="toastType === 'error'">
+        <div class="toast-icon">
+          @if (toastType === 'success') {
+            <span>✓</span>
+          } @else {
+            <span>✕</span>
           }
-
-          <!-- Image -->
-          <div class="reward-image-wrapper">
-            <img [src]="r.imageUrl" [alt]="r.name">
-          </div>
-
-          <!-- Content -->
-          <div class="reward-card-content">
-            <h3 class="reward-title">{{ r.name }}</h3>
-            <p class="reward-description">{{ r.description }}</p>
-
-            <!-- Points -->
-            <div class="reward-points">
-              <span class="points-icon">⭐</span>
-              <span class="points-value">{{ r.requiredPoints }}</span>
-              <span class="points-text">Points</span>
-            </div>
-
-            <!-- Stock Info -->
-            <div class="stock-info">
-              <span class="stock-icon">📦</span>
-              <span [class.text-danger]="r.stockQuantity === 0"
-                    [class.text-warning]="r.stockQuantity > 0 && r.stockQuantity <= 5"
-                    [class.text-success]="r.stockQuantity > 5">
-                {{ r.stockQuantity }} available
-              </span>
-            </div>
-
-            <!-- Add to Cart Button -->
-            <button
-              class="add-to-cart-btn"
-              [class.disabled]="!canRedeem(r) || isInCart(r)"
-              [class.in-cart]="isInCart(r)"
-              [disabled]="!canRedeem(r) && !isInCart(r)"
-              (click)="isInCart(r) ? removeFromCart(r) : addToCart(r)">
-              @if (isInCart(r)) {
-                <span>✅ In Cart - Remove</span>
-              } @else if (r.stockQuantity === 0) {
-                <span>❌ Out of Stock</span>
-              } @else if (userPoints() < r.requiredPoints) {
-                <span>🔒 Need {{ r.requiredPoints - userPoints() }} more</span>
-              } @else {
-                <span>🛒 Add to Cart</span>
-              }
-            </button>
-          </div>
         </div>
-      }
-    </div>
-  }
+        <div class="toast-body">
+          <p class="toast-title">{{ toastType === 'success' ? 'Success' : 'Error' }}</p>
+          <p class="toast-message">{{ toastMessage }}</p>
+        </div>
+        <button class="toast-close" (click)="closeToast()">✕</button>
+      </div>
+    }
+
+    <!-- Loading State -->
+    @if (isLoading) {
+      <div class="loading-state">
+        <div class="spinner"></div>
+        <p>Loading rewards...</p>
+      </div>
+    }
+
+    <!-- Empty State -->
+    @if (!isLoading && rewards.length === 0) {
+      <div class="empty-state">
+        <div class="empty-icon">🎁</div>
+        <h2 class="empty-title">No Rewards Found</h2>
+        <p class="empty-description">
+          @if (searchTerm) {
+            No rewards match your search. Try different keywords.
+          } @else {
+            Check back later for amazing rewards you can redeem with your points!
+          }
+        </p>
+        @if (searchTerm) {
+          <button class="btn-primary" (click)="resetSearch()">Clear Search</button>
+        }
+      </div>
+    }
+
+    <!-- Rewards Grid -->
+    @if (!isLoading && rewards.length > 0) {
+      <div class="rewards-grid">
+        @for (r of rewards; track r.id) {
+          <div class="reward-card" 
+               [class.reward-card-available]="canRedeem(r)"
+               [class.reward-card-disabled]="!canRedeem(r) || r.stockQuantity === 0">
+            
+            <!-- Stock Badge -->
+            @if (r.stockQuantity === 0) {
+              <div class="badge badge-danger">Out of Stock</div>
+            } @else if (r.stockQuantity <= 5) {
+              <div class="badge badge-warning">{{ r.stockQuantity }} left!</div>
+            }
+
+            <!-- Reward Image -->
+            <div class="reward-image">
+              <img [src]="r.imageUrl" [alt]="r.name">
+            </div>
+
+            <!-- Reward Content -->
+            <div class="reward-content">
+              <h3 class="reward-name">{{ r.name }}</h3>
+              <p class="reward-description">{{ r.description }}</p>
+
+              <!-- Points Badge -->
+              <div class="reward-points-badge">
+                <span class="points-icon">⭐</span>
+                <span class="points-amount">{{ r.requiredPoints }}</span>
+                <span class="points-label">points</span>
+              </div>
+
+              <!-- Stock Info -->
+              <div class="stock-info">
+                <span class="stock-icon">📦</span>
+                <span class="stock-text" 
+                      [class.text-danger]="r.stockQuantity === 0"
+                      [class.text-warning]="r.stockQuantity > 0 && r.stockQuantity <= 5"
+                      [class.text-success]="r.stockQuantity > 5">
+                  {{ r.stockQuantity }} in stock
+                </span>
+              </div>
+
+              <!-- Cart Button -->
+              <button class="cart-action-btn"
+                      [class.cart-action-btn-added]="isInCart(r)"
+                      [class.cart-action-btn-disabled]="!canRedeem(r) && !isInCart(r)"
+                      [disabled]="!canRedeem(r) && !isInCart(r)"
+                      (click)="isInCart(r) ? removeFromCart(r) : addToCart(r)">
+                @if (isInCart(r)) {
+                  <span class="btn-icon">✓</span>
+                  <span>Remove from Cart</span>
+                } @else if (r.stockQuantity === 0) {
+                  <span class="btn-icon">✕</span>
+                  <span>Out of Stock</span>
+                } @else if (userPoints() < r.requiredPoints) {
+                  <span class="btn-icon">🔒</span>
+                  <span>Need {{ r.requiredPoints - userPoints() }} pts</span>
+                } @else {
+                  <span class="btn-icon">+</span>
+                  <span>Add to Cart</span>
+                }
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
   </div>
 </div>
 
-<!-- Cart Modal Popup -->
+<!-- Cart Modal -->
 @if (showCartModal()) {
-  <div class="modal-backdrop" (click)="closeCart()"></div>
+  <div class="modal-overlay" (click)="closeCart()"></div>
   <div class="cart-modal">
-    <div class="cart-modal-header">
-      <h2>🛒 My Cart</h2>
-      <button class="close-modal-btn" (click)="closeCart()">×</button>
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <div class="modal-title">
+        <span class="modal-icon">🛒</span>
+        <h2>My Cart</h2>
+      </div>
+      <button class="modal-close-btn" (click)="closeCart()">✕</button>
     </div>
 
-    <div class="cart-modal-content">
+    <!-- Modal Body -->
+    <div class="modal-body">
       @if (cart().length === 0) {
         <div class="cart-empty">
-          <span class="cart-empty-icon">🛒</span>
+          <div class="cart-empty-icon">🛒</div>
           <h3>Your cart is empty</h3>
           <p>Add some rewards to get started!</p>
         </div>
@@ -167,14 +195,14 @@
         <div class="cart-items">
           @for (item of cart(); track item.id) {
             <div class="cart-item">
-              <div class="cart-item-image">
+              <div class="cart-item-img">
                 <img [src]="item.imageUrl" [alt]="item.name">
               </div>
-              <div class="cart-item-info">
+              <div class="cart-item-details">
                 <h4>{{ item.name }}</h4>
                 <p class="cart-item-points">⭐ {{ item.requiredPoints }} points</p>
               </div>
-              <button class="remove-item-btn" (click)="removeFromCart(item)">
+              <button class="cart-item-remove" (click)="removeFromCart(item)" title="Remove">
                 🗑️
               </button>
             </div>
@@ -183,49 +211,48 @@
       }
     </div>
 
-    <div class="cart-modal-footer">
-      <div class="cart-summary">
-        <div class="summary-row">
-          <span>Items in Cart:</span>
-          <span class="summary-value">{{ cartItemCount() }}</span>
-        </div>
-        <div class="summary-row total">
-          <span>Total Points:</span>
-          <span class="summary-value text-primary">⭐ {{ cartTotal() }}</span>
-        </div>
-        <div class="summary-row balance">
-          <span>Your Balance:</span>
-          <span class="summary-value" [class.text-danger]="cartTotal() > userPoints()" [class.text-success]="cartTotal() <= userPoints()">
-            💰 {{ userPoints() }}
-          </span>
-        </div>
-        @if (cartTotal() > userPoints()) {
-          <div class="summary-warning">
-            ⚠️ You need {{ cartTotal() - userPoints() }} more points!
+    <!-- Modal Footer -->
+    @if (cart().length > 0) {
+      <div class="modal-footer">
+        <div class="cart-summary">
+          <div class="summary-row">
+            <span>Items:</span>
+            <strong>{{ cartItemCount() }}</strong>
           </div>
-        }
-      </div>
-
-      <div class="cart-actions">
-        <button
-          class="clear-cart-btn"
-          (click)="clearCart()"
-          [disabled]="cart().length === 0">
-          Clear Cart
-        </button>
-        <button
-          class="redeem-cart-btn"
-          (click)="redeemCart()"
-          [disabled]="cart().length === 0 || cartTotal() > userPoints() || isCheckingOut()"
-          [class.disabled]="cart().length === 0 || cartTotal() > userPoints()">
-          @if (isCheckingOut()) {
-            <span>⏳ Processing...</span>
-          } @else {
-            <span>✨ Redeem All ({{ cartTotal() }} pts)</span>
+          <div class="summary-row summary-total">
+            <span>Total Points:</span>
+            <strong class="text-primary">{{ cartTotal() }}</strong>
+          </div>
+          <div class="summary-row">
+            <span>Your Balance:</span>
+            <strong [class.text-success]="cartTotal() <= userPoints()" 
+                    [class.text-danger]="cartTotal() > userPoints()">
+              {{ userPoints() }}
+            </strong>
+          </div>
+          @if (cartTotal() > userPoints()) {
+            <div class="insufficient-points">
+              ⚠️ Need {{ cartTotal() - userPoints() }} more points!
+            </div>
           }
-        </button>
+        </div>
+
+        <div class="cart-actions">
+          <button class="btn-secondary" (click)="clearCart()" [disabled]="cart().length === 0">
+            Clear Cart
+          </button>
+          <button class="btn-primary" 
+                  (click)="redeemCart()"
+                  [disabled]="cart().length === 0 || cartTotal() > userPoints() || isCheckingOut()">
+            @if (isCheckingOut()) {
+              <span class="btn-spinner"></span>
+              <span>Processing...</span>
+            } @else {
+              <span>Redeem All</span>
+            }
+          </button>
+        </div>
       </div>
-    </div>
+    }
   </div>
 }
-

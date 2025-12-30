@@ -1,16 +1,56 @@
 /* Root */
 .dashboard {
+  position: relative;
   padding: 24px;
-  background: linear-gradient(180deg, hsl(var(--background)) 0%, hsl(var(--background)) 100%);
+  background: hsl(var(--background));
   min-height: 100vh;
   animation: fadeIn 0.5s ease;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
   color: hsl(var(--foreground));
   transition: background-color 0.3s ease, color 0.3s ease;
+  overflow: hidden;
 }
 
-.dark .dashboard {
-  background: linear-gradient(180deg, hsl(210, 10%, 5%) 0%, hsl(210, 10%, 8%) 100%);
+/* Animated Background Orbs */
+.dashboard::before,
+.dashboard::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.3;
+  animation: float 20s infinite ease-in-out;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.dashboard::before {
+  width: 500px;
+  height: 500px;
+  background: hsl(var(--primary));
+  top: -10%;
+  left: -10%;
+}
+
+.dashboard::after {
+  width: 400px;
+  height: 400px;
+  background: hsl(var(--accent));
+  bottom: -10%;
+  right: -10%;
+  animation-delay: 10s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -30px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 20px) scale(0.9);
+  }
 }
 
 @media (max-width: 768px) {
@@ -27,6 +67,8 @@
 
 /* Header */
 .dash-header {
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -38,8 +80,10 @@
 .dash-header h1 {
   font-size: 32px;
   font-weight: 900;
-  color: hsl(var(--primary));
-  transition: color 0.3s ease;
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
   margin: 0;
   letter-spacing: -0.5px;
 }
@@ -52,12 +96,12 @@
 }
 
 .eco-badge {
-  background: linear-gradient(135deg, hsl(var(--primary)), hsl(160, 84%, 32%));
-  color: hsl(var(--primary-foreground));
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+  color: #ffffff;
   padding: 11px 20px;
   border-radius: 999px;
   font-weight: 700;
-  box-shadow: 0 8px 18px hsl(160, 84%, 45%, 0.2);
+  box-shadow: 0 8px 18px hsla(var(--primary), 0.3);
   transition: all 0.3s ease;
   font-size: 13px;
   white-space: nowrap;
@@ -65,7 +109,19 @@
 
 .eco-badge:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 24px hsl(160, 84%, 45%, 0.3);
+  box-shadow: 0 12px 24px hsla(var(--primary), 0.4);
+}
+
+.logo-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-badge img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
 }
 
 @media (max-width: 768px) {
@@ -88,6 +144,8 @@
 
 /* Stats Grid */
 .stats-grid {
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 24px;
@@ -110,19 +168,35 @@
 
 /* Eco Card */
 .eco-card {
-  background: hsl(var(--card));
-  backdrop-filter: blur(8px);
+  position: relative;
+  background: hsla(var(--card), 0.95);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-radius: 16px;
   padding: 24px;
-  box-shadow: 0 10px 30px hsl(160, 84%, 45%, 0.12);
-  transition: all 0.35s ease;
-  border: 1px solid hsl(160, 84%, 70%, 0.2);
+  box-shadow: 0 10px 30px hsla(0, 0%, 0%, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid hsla(var(--border), 0.5);
+  overflow: hidden;
+}
+
+.eco-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, hsla(var(--primary), 0.05) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .eco-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 45px hsl(160, 84%, 45%, 0.2);
-  border-color: hsl(160, 84%, 70%, 0.4);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 45px hsla(0, 0%, 0%, 0.15);
+}
+
+.eco-card:hover::before {
+  opacity: 1;
 }
 
 /* Card Content */
@@ -137,17 +211,24 @@
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  background: linear-gradient(135deg, hsl(var(--primary), 0.2), hsl(160, 84%, 80%));
+  background: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 24px;
-  color: hsl(var(--primary));
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+
+.eco-card:hover .eco-icon {
+  transform: scale(1.1) rotate(5deg);
 }
 
 .eco-title {
   font-weight: 700;
-  color: hsl(var(--primary));
+  color: hsl(var(--foreground));
+  font-size: 14px;
+}
   font-size: 15px;
   transition: color 0.3s ease;
 }
