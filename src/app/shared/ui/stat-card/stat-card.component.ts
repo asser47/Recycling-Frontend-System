@@ -1,7 +1,7 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CardComponent, CardContentComponent } from '../card/card.component';
-import { Stat } from '../../../core/models/stat.model';
+import { Stat } from '../../../core/models/users/stat.model';
 
 @Component({
   selector: 'app-stat-card',

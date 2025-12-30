@@ -11,10 +11,10 @@ import { catchError } from 'rxjs/operators';
 import { ChartOptions, ChartData } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 
-import { MaterialService } from '../../../core/services/material.service';
-import { FactoryService } from '../../../core/services/factory.service';
-import { OrderService } from '../../../core/services/order.service';
-import { CitizenService } from '../../../core/services/citizen.service';
+import { MaterialService } from '../../../core/services/materials.services/material.service';
+import { FactoryService } from '../../../core/services/factory.services/factory.service';
+import { OrderService } from '../../../core/services/order.services/order.service';
+import { CitizenService } from '../../../core/services/user.services/citizen.service';
 
 interface DashboardCard {
   title: string;

@@ -1,7 +1,7 @@
 import { Component, inject, ChangeDetectionStrategy, computed } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../../../core/services/auth.services/auth.service';
 import { FlashMessageService } from '../../../core/services/flash-message.service';
 import { ChangeDetectorRef, NgZone } from '@angular/core';
 import { ThemeService } from '../../../core/services/theme.service';

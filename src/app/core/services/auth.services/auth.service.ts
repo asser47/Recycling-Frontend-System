@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Role } from '../models/role.enum';
+import { Role } from '../../models/users/role.enum';
 import { jwtDecode } from 'jwt-decode';
 import { signal, computed } from '@angular/core';
 

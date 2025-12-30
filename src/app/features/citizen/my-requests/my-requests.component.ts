@@ -1,16 +1,16 @@
 import { Component, inject, signal, computed, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LanguageService } from '../../../core/services/language.service';
-import { UserService } from '../../../core/services/user.service';
-import { OrderService } from '../../../core/services/order.service';
-import { OrderDto } from '@core/models/order.model';
+import { UserService } from '../../../core/services/user.services/user.service';
+import { OrderService } from '../../../core/services/order.services/order.service';
+import { OrderDto } from '@core/models/orders/order.model';
 import { ButtonComponent } from '../../../shared/ui/button/button.component';
 import { RequestCardComponent } from '../../../shared/ui/request-card/request-card.component';
 import { CardComponent, CardContentComponent } from '../../../shared/ui/card/card.component';
 import { CreateCollectionModalComponent } from '../citizen-dashboard/create-collection-modal/create-collection-modal.component';
 import { TabsListComponent, TabsTriggerComponent } from '../../../shared/ui/tabs/tabs.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { CitizenService } from '@core/services/citizen.service';
+import { CitizenService } from '@core/services/user.services/citizen.service';
 
 @Component({
   selector: 'app-my-requests',

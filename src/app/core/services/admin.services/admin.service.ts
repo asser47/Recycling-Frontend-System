@@ -1,8 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { API_CONFIG, API_ENDPOINTS } from '../config/api.config';
-import { CreateFactoryDto, UpdateFactoryDto, MaterialDto, ApplicationUserDto } from '../models/dtos.model';
+import { API_CONFIG, API_ENDPOINTS } from '../../config/api.config';
+import { ApplicationUserDto } from '../../models/users/application-user.model';
+import { MaterialDto } from '../../models/materials/material.model';
+import { CreateFactoryDto, UpdateFactoryDto} from '../../models/factories/factory.model';
 
 @Injectable({
   providedIn: 'root'

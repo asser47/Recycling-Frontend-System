@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { API_CONFIG, API_ENDPOINTS } from '../config/api.config';
-import { Factory } from '../models/factory.model';
+import { API_CONFIG, API_ENDPOINTS } from '../../config/api.config';
+import { Factory } from '../../models/factories/factory.model';
 
 @Injectable({
   providedIn: 'root'

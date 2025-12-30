@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { LanguageService } from '../../core/services/language.service';
 import { ThemeService } from '../../core/services/theme.service';
-import { UserProfileService } from '../../core/services/user-profile.service';
+import { UserProfileService } from '../../core/services/user.services/user-profile.service';
 import { ButtonComponent } from '../../shared/ui/button/button.component';
 import {
   CardComponent,

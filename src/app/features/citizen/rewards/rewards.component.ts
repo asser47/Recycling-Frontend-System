@@ -11,11 +11,11 @@ import { FormsModule } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs/operators';
 
-import { Reward } from '@core/models/reward.model';
+import { Reward } from '@core/models/rewards/reward.model';
 import { LanguageService } from '@core/services/language.service';
-import { CitizenService } from '@core/services/citizen.service';
-import { CitizenRewardService } from '@core/services/citizenreward.service';
-import { RewardService } from '@core/services/adminreward.service';
+import { CitizenService } from '@core/services/user.services/citizen.service';
+import { CitizenRewardService } from '@core/services/user.services/citizenreward.service';
+import { RewardService } from '@core/services/admin.services/adminreward.service';
 import { CitizenStatsCardsComponent } from '../citizen-dashboard/stats-cards/stats-cards.component';
 
 @Component({

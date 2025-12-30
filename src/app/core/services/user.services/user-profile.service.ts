@@ -1,7 +1,7 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { API_CONFIG, API_ENDPOINTS } from '../config/api.config';
-import { UpdateUserDto } from '../models/update-user.dto';
+import { API_CONFIG, API_ENDPOINTS } from '../../config/api.config';
+import { UpdateUserDto } from '../../models/users/update-user.dto';
 import { tap, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 

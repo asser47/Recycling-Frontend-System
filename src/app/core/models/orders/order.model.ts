@@ -1,5 +1,5 @@
 // ===== Order DTOs =====
-import { MaterialType } from './materials/material-type.enum';
+import { MaterialType } from '../materials/material-type.enum';
 
 export interface CreateOrderDto {
   email: string;

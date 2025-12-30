@@ -1,8 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ApplicationUser } from '../models/application-user.model';
-import { ApplicationUserDto, UpdateUserDto } from '../models/dtos.model';
+import { ApplicationUser } from '../../models/users/application-user.model';
+import { ApplicationUserDto } from '../../models/users/application-user.model';
+import { UpdateUserDto } from '../../models/users/update-user.dto';
 import { API_CONFIG, API_ENDPOINTS } from '@core/config/api.config';
 
 @Injectable({ providedIn: 'root' })

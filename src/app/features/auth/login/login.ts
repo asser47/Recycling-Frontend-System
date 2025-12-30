@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component, inject, computed } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../../../core/services/auth.services/auth.service';
 import { FlashMessageService } from '../../../core/services/flash-message.service';
 import { extractAuthError } from '../../../core/utils/auth-error.util';
 import { NgZone, ChangeDetectorRef } from '@angular/core';
-import { Role } from '../../../core/models/role.enum';
-import { UserProfileService } from '@core/services/user-profile.service';
+import { Role } from '../../../core/models/users/role.enum';
+import { UserProfileService } from '@core/services/user.services/user-profile.service';
 import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({

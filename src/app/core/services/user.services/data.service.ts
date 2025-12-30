@@ -1,5 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { OrderDto, RequestStatus } from '../models/order.model';
+import { OrderDto, RequestStatus } from '../../models/orders/order.model';
 
 /* =======================
    Interfaces

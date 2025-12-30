@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { API_CONFIG, API_ENDPOINTS } from '@core/config/api.config';
-import { Reward } from '@core/models/reward.model';
+import { Reward } from '@core/models/rewards/reward.model';
 
 @Injectable({ providedIn: 'root' })
 export class CitizenRewardService {

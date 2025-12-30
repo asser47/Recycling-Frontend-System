@@ -1,10 +1,10 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { API_CONFIG, API_ENDPOINTS } from '../config/api.config';
-import { Collector } from '../models/collector.model';
-import { HireCollectorDto } from '../models/HireCollectorDto.model';
-import { ApplicationUserDto } from '../models/dtos.model';
+import { API_CONFIG, API_ENDPOINTS } from '../../config/api.config';
+import { Collector } from '../../models/collectors/collector.model';
+import { HireCollectorDto } from '../../models/collectors/HireCollectorDto.model';
+import { ApplicationUserDto } from '../../models/users/application-user.model';
 
 
 @Injectable({ providedIn: 'root' })

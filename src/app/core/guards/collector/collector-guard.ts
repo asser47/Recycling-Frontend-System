@@ -1,7 +1,7 @@
 import { CanActivateFn, Router } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../services/auth.services/auth.service';
 import { inject } from '@angular/core';
-import { Role } from '../../models/role.enum';
+import { Role } from '../../models/users/role.enum';
 
 export const collectorGuard: CanActivateFn = () => {
   const auth = inject(AuthService);

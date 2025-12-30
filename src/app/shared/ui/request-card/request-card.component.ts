@@ -9,7 +9,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { BadgeComponent } from '../badge/badge.component';
 import { ButtonComponent } from '../button/button.component';
-import { OrderDto } from '@core/models/order.model';
+import { OrderDto } from '@core/models/orders/order.model';
 import { LanguageService } from '@core/services/language.service';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { PointHistory } from '../../../core/models/reward.model';
+import { PointHistory } from '../../../core/models/rewards/reward.model';
 
 @Component({
   selector: 'app-point-history-item',

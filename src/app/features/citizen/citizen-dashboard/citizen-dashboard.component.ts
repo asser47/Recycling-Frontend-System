@@ -14,10 +14,10 @@ import { CitizenHeaderComponent } from './header/header.component';
 import { CitizenCollectionRequestComponent } from './collection-request/collection-request.component';
 import { CitizenStatsCardsComponent } from './stats-cards/stats-cards.component';
 import { CitizenRecentRequestsComponent } from './recent-requests/recent-requests.component';
-import { CitizenService } from '@core/services/citizen.service';
-import { OrderService } from '@core/services/order.service';
-import { AuthService } from '@core/services/auth.service';
-import { OrderDto } from '@core/models/order.model';
+import { CitizenService } from '@core/services/user.services/citizen.service';
+import { OrderService } from '@core/services/order.services/order.service';
+import { AuthService } from '@core/services/auth.services/auth.service';
+import { OrderDto } from '@core/models/orders/order.model';
 
 @Component({
   selector: 'app-citizen-dashboard',

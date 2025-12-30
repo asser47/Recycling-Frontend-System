@@ -1,8 +1,8 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs';
-import { API_CONFIG, API_ENDPOINTS } from '../config/api.config';
-import { Reward, RewardStats } from '../models/reward.model';
+import { API_CONFIG, API_ENDPOINTS } from '../../config/api.config';
+import { Reward, RewardStats } from '../../models/rewards/reward.model';
 
 @Injectable({ providedIn: 'root' })
 export class RewardService {

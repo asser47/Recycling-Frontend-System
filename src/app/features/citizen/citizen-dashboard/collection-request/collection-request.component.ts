@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LanguageService } from '../../../../core/services/language.service';
-import { OrderDto } from '@core/models/order.model';
+import { OrderDto } from '@core/models/orders/order.model';
 import { CreateCollectionModalComponent } from '../create-collection-modal/create-collection-modal.component';
 
 @Component({

@@ -1,10 +1,10 @@
 import { ChangeDetectorRef, Component, inject, NgZone } from '@angular/core';
 import { NgForm, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { CollectorService } from '../../../core/services/collector.service';
+import { CollectorService } from '../../../core/services/collector.sevices/collector.service';
 import { FlashMessageService } from '../../../core/services/flash-message.service';
 import { Router } from '@angular/router';
-import { HireCollectorDto } from '../../../core/models/HireCollectorDto.model';
+import { HireCollectorDto } from '../../../core/models/collectors/HireCollectorDto.model';
 
 @Component({
   selector: 'app-add-collector',

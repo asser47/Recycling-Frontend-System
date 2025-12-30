@@ -1,14 +1,14 @@
-import { CitizenService } from './../../../core/services/citizen.service';
+import { CitizenService } from '../../../core/services/user.services/citizen.service';
 import { Component, inject,ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { OrderService } from '../../../core/services/order.service';
-import { AuthService } from '../../../core/services/auth.service';
-import { Order } from '../../../core/models/order.model';
-import { Role } from '../../../core/models/role.enum';
+import { OrderService } from '../../../core/services/order.services/order.service';
+import { AuthService } from '../../../core/services/auth.services/auth.service';
+import { Order } from '../../../core/models/orders/order.model';
+import { Role } from '../../../core/models/users/role.enum';
 import { forkJoin } from 'rxjs';
-import { FactoryService } from '../../../core/services/factory.service';
-import { CollectorService } from '../../../core/services/collector.service';
+import { FactoryService } from '../../../core/services/factory.services/factory.service';
+import { CollectorService } from '../../../core/services/collector.sevices/collector.service';
 import { FlashMessageService } from '../../../core/services/flash-message.service';
 
 

@@ -7,8 +7,8 @@ import {
   Validators
 } from '@angular/forms';
 
-import { RewardService } from '../../../core/services/adminreward.service';
-import { Reward, RewardStats } from '../../../core/models/reward.model';
+import { RewardService } from '../../../core/services/admin.services/adminreward.service';
+import { Reward, RewardStats } from '../../../core/models/rewards/reward.model';
 
 @Component({
   standalone: true,

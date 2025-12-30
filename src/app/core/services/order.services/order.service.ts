@@ -1,9 +1,9 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Order } from '../models/order.model';
+import { Order } from '../../models/orders/order.model';
 import { Observable } from 'rxjs';
-import { API_CONFIG, API_ENDPOINTS } from '../config/api.config';
-import { CreateOrderDto, OrderDto, UpdateOrderStatusRequest } from '../models/order.model';
+import { API_CONFIG, API_ENDPOINTS } from '../../config/api.config';
+import { CreateOrderDto, OrderDto, UpdateOrderStatusRequest } from '../../models/orders/order.model';
 
 
 

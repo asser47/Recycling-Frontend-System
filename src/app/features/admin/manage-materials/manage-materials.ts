@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MaterialService } from '../../../core/services/material.service';
-import { AuthService } from '../../../core/services/auth.service';
-import { Material } from '../../../core/models/material.model';
+import { MaterialService } from '../../../core/services/materials.services/material.service';
+import { AuthService } from '../../../core/services/auth.services/auth.service';
+import { Material } from '../../../core/models/materials/material.model';
 import { NgZone, ChangeDetectorRef } from '@angular/core';
-import { Role } from '../../../core/models/role.enum';
+import { Role } from '../../../core/models/users/role.enum';
 
 @Component({
   standalone: true,

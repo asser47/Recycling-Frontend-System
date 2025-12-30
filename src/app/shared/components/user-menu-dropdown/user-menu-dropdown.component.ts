@@ -1,11 +1,11 @@
 import { Component, inject, signal, HostListener, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
-import { UserService } from '../../../core/services/user.service';
-import { UserProfileService } from '../../../core/services/user-profile.service';
-import { AuthService } from '../../../core/services/auth.service';
+import { UserService } from '../../../core/services/user.services/user.service';
+import { UserProfileService } from '../../../core/services/user.services/user-profile.service';
+import { AuthService } from '../../../core/services/auth.services/auth.service';
 import { ThemeService } from '../../../core/services/theme.service';
-import { Role } from '@core/models/role.enum';
+import { Role } from '@core/models/users/role.enum';
 
 @Component({
   selector: 'app-user-menu-dropdown',

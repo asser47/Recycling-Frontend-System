@@ -1,10 +1,10 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { FactoryService } from '../../../core/services/factory.service';
-import { AuthService } from '../../../core/services/auth.service';
-import { Factory } from '../../../core/models/factory.model';
-import { Role } from '../../../core/models/role.enum';
+import { FactoryService } from '../../../core/services/factory.services/factory.service';
+import { AuthService } from '../../../core/services/auth.services/auth.service';
+import { Factory } from '../../../core/models/factories/factory.model';
+import { Role } from '../../../core/models/users/role.enum';
 
 @Component({
   standalone: true,

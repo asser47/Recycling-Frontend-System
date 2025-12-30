@@ -2,16 +2,16 @@ import { Component, OnInit, inject, ChangeDetectorRef, computed, ChangeDetection
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-import { CollectorService } from '../../../core/services/collector.service';
-import { OrderService } from '../../../core/services/order.service';
+import { CollectorService } from '../../../core/services/collector.sevices/collector.service';
+import { OrderService } from '../../../core/services/order.services/order.service';
 import { ThemeService } from '../../../core/services/theme.service';
 
-import { Collector } from '../../../core/models/collector.model';
-import { Order } from '../../../core/models/order.model';
+import { Collector } from '../../../core/models/collectors/collector.model';
+import { Order } from '../../../core/models/orders/order.model';
 
 import { FlashMessageService } from '../../../core/services/flash-message.service';
-import { Role } from '../../../core/models/role.enum';
-import { AuthService } from '../../../core/services/auth.service';
+import { Role } from '../../../core/models/users/role.enum';
+import { AuthService } from '../../../core/services/auth.services/auth.service';
 
 @Component({
   standalone: true,

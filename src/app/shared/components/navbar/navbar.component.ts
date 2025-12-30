@@ -9,13 +9,12 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
-import { UserProfileService } from '@core/services/user-profile.service';
+import { UserProfileService } from '@core/services/user.services/user-profile.service';
 import { ThemeService } from '../../../core/services/theme.service';
 import { LanguageService } from '../../../core/services/language.service';
-import { UserService } from '../../../core/services/user.service';
-import { NotificationService } from '../../../core/services/notification.service';
-import { AuthService } from '../../../core/services/auth.service';
-import { Role } from '@core/models/role.enum';
+import { UserService } from '../../../core/services/user.services/user.service';
+import { AuthService } from '../../../core/services/auth.services/auth.service';
+import { Role } from '@core/models/users/role.enum';
 import { UserMenuDropdownComponent } from '../user-menu-dropdown/user-menu-dropdown.component';
 
 @Component({
@@ -36,7 +35,6 @@ export class NavbarComponent implements OnInit {
   themeService = inject(ThemeService);
   languageService = inject(LanguageService);
   userService = inject(UserService);
-  notificationService = inject(NotificationService);
 
   // ================= UI STATE =================
   showUserMenu = signal(false);
@@ -81,8 +79,6 @@ displayName = computed(() =>
   userPoints = computed(() =>
     this.profileService.userProfile()?.points ?? 0
   );
-
-  unreadNotifications = this.notificationService.unreadCount;
 
   // ================= INIT =================
   ngOnInit() {

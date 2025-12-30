@@ -1,7 +1,7 @@
 import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { LanguageService } from '../../../core/services/language.service';
-import { DataService } from '../../../core/services/data.service';
-import { OrderDto } from '@core/models/order.model';
+import { DataService } from '../../../core/services/user.services/data.service';
+import { OrderDto } from '@core/models/orders/order.model';
 import { CollectorHeaderComponent } from './header/header.component';
 import { CollectorRequestsComponent } from "./my-requests/my-requests.component";
 import { CollectorRecentCollectionsComponent } from './recent-collections/recent-collections.component';

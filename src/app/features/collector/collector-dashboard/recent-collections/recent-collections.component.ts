@@ -1,6 +1,6 @@
 import { Component, inject, signal, DestroyRef } from '@angular/core';
-import { DataService } from '../../../../core/services/data.service';
-import { CollectorService } from '../../../../core/services/collector.service';
+import { DataService } from '../../../../core/services/user.services/data.service';
+import { CollectorService } from '../../../../core/services/collector.sevices/collector.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RequestCardComponent } from '../../../../shared/ui/request-card/request-card.component';
 import { CardComponent, CardHeaderComponent, CardTitleComponent, CardDescriptionComponent, CardContentComponent } from '../../../../shared/ui/card/card.component';

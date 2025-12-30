@@ -1,9 +1,9 @@
 import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthService } from '../../core/services/auth.services/auth.service';
 // import { FlashMessageService } from '../../core/services/flash-message.service';
-import { Role } from '../../core/models/role.enum';
+import { Role } from '../../core/models/users/role.enum';
 import { LanguageService } from '../../core/services/language.service';
 import { HomeFeaturesComponent } from './features/features.component';
 

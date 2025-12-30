@@ -1,9 +1,9 @@
 // core/services/admin-user.service.ts
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { API_CONFIG } from '../config/api.config';
-import { ApplicationUser } from '../models/application-user.model';
-import { Order } from '../models/order.model';
+import { API_CONFIG } from '../../config/api.config';
+import { ApplicationUser } from '../../models/users/application-user.model';
+import { Order } from '../../models/orders/order.model';
 
 @Injectable({ providedIn: 'root' })
 export class AdminUserService {

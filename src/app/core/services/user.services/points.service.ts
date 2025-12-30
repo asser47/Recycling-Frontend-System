@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { API_CONFIG, API_ENDPOINTS } from '../config/api.config';
+import { API_CONFIG, API_ENDPOINTS } from '../../config/api.config';
 
 @Injectable({ providedIn: 'root' })
 export class PointsService {

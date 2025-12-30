@@ -1,8 +1,8 @@
 import { Component, inject, signal, DestroyRef, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DataService } from '../../../core/services/data.service';
+import { DataService } from '../../../core/services/user.services/data.service';
 import { ThemeService } from '../../../core/services/theme.service';
-import { CollectorService } from '../../../core/services/collector.service';
+import { CollectorService } from '../../../core/services/collector.sevices/collector.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { CardContentComponent } from '../../../shared/ui/card/card.component';
 import { LanguageService } from '../../../core/services/language.service';

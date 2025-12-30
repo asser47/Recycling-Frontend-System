@@ -1,10 +1,10 @@
 import { Component, DestroyRef, inject, output, signal, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DataService } from '../../../core/services/data.service';
+import { DataService } from '../../../core/services/user.services/data.service';
 import { ThemeService } from '../../../core/services/theme.service';
-import { OrderDto } from '../../../core/models/order.model';
+import { OrderDto } from '../../../core/models/orders/order.model';
 import { CardContentComponent } from '../../../shared/ui/card/card.component';
-import { CollectorService } from '../../../core/services/collector.service';
+import { CollectorService } from '../../../core/services/collector.sevices/collector.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { LanguageService } from '../../../core/services/language.service';
 import { BadgeComponent } from '../../../shared/ui/badge/badge.component';

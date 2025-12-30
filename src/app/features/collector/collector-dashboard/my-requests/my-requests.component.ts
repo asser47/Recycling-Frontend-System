@@ -1,14 +1,14 @@
 import { Component, inject, signal, computed, DestroyRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { OrderDto } from '@core/models/order.model';
-import { DataService } from '@core/services/data.service';
+import { OrderDto } from '@core/models/orders/order.model';
+import { DataService } from '@core/services/user.services/data.service';
 import { LanguageService } from '@core/services/language.service';
-import { UserService } from '@core/services/user.service';
+import { UserService } from '@core/services/user.services/user.service';
 import { CardComponent, CardContentComponent } from '@shared/ui/card/card.component';
 import { RequestCardComponent } from '@shared/ui/request-card/request-card.component';
 import { TabsListComponent, TabsTriggerComponent } from '@shared/ui/tabs/tabs.component';
-import { CollectorService } from '@core/services/collector.service';
+import { CollectorService } from '@core/services/collector.sevices/collector.service';
 
 
 @Component({

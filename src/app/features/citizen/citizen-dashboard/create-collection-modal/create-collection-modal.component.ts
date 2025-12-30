@@ -2,11 +2,11 @@ import { Component, Input, Output, EventEmitter, inject, signal, computed, OnCha
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LanguageService } from '../../../../core/services/language.service';
-import { DataService } from '../../../../core/services/data.service';
-import { CreateOrderDto, OrderDto } from '@core/models/order.model';
-import { OrderService } from '@core/services/order.service';
-import { MaterialService } from '../../../../core/services/material.service';
-import { MaterialType } from '@core/models/material-type.enum';
+import { DataService } from '../../../../core/services/user.services/data.service';
+import { CreateOrderDto, OrderDto } from '@core/models/orders/order.model';
+import { OrderService } from '@core/services/order.services/order.service';
+import { MaterialService } from '../../../../core/services/materials.services/material.service';
+import { MaterialType } from '@core/models/materials/material-type.enum';
 
 interface MaterialItem {
   id: string;        // TypeName from backend: "Plastic", "Carton", "Can", "Glass"
@@ -85,12 +85,12 @@ export class CreateCollectionModalComponent implements OnChanges, OnInit {
             icon: this.getMaterialIcon(typeName)
           };
         });
-        
+
         // Remove duplicates (in case same type appears multiple times)
         const uniqueMaterials = materialItems.filter((material, index, self) =>
           index === self.findIndex(m => m.id === material.id)
         );
-        
+
         this.materials.set(uniqueMaterials);
         console.log('✅ Materials loaded from API:', uniqueMaterials);
       },
@@ -237,20 +237,20 @@ export class CreateCollectionModalComponent implements OnChanges, OnInit {
       next: (order: OrderDto) => {
         console.log('✅ Order created successfully:', order);
         this.isSubmitting.set(false);
-        
+
         // Emit event with the created order
         this.requestCreated.emit(order);
-        
+
         // Close modal
         this.close();
       },
       error: (err) => {
         console.error('❌ Failed to create order:', err);
         this.isSubmitting.set(false);
-        
+
         // Extract and display error message
         let errorMessage = this.t('orderCreationFailed') || 'Failed to create order. Please try again.';
-        
+
         if (err.error?.message) {
           errorMessage = err.error.message;
         } else if (typeof err.error === 'string') {
@@ -262,7 +262,7 @@ export class CreateCollectionModalComponent implements OnChanges, OnInit {
         } else if (err.status === 500) {
           errorMessage = this.t('serverError') || 'Server error. Please try again later.';
         }
-        
+
         this.submitError.set(errorMessage);
       }
     });
@@ -275,7 +275,7 @@ export class CreateCollectionModalComponent implements OnChanges, OnInit {
 
   private resetForm(): void {
     const currentUser = this.dataService.currentUser();
-    
+
     // Reset form values
     this.form.patchValue({
       email: currentUser?.email || '',
@@ -284,14 +284,14 @@ export class CreateCollectionModalComponent implements OnChanges, OnInit {
       buildingNo: '',
       apartment: ''
     });
-    
+
     // Reset form state
     this.form.markAsUntouched();
     this.form.markAsPristine();
-    
+
     // Clear selected materials
     this._selectedMaterialsMap.set(new Map());
-    
+
     // Clear errors and loading state
     this.submitError.set(null);
     this.isSubmitting.set(false);

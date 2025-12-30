@@ -1,15 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { StatCardComponent } from '../../../../shared/ui/stat-card/stat-card.component';
-
-interface Stat {
-  id: string;
-  icon: string;
-  label: string;
-  value: string;
-  change: string;
-  color: string;
-}
+import { Stat } from '@core/models/users/stat.model';
 
 @Component({
   selector: 'app-citizen-stats-cards',
