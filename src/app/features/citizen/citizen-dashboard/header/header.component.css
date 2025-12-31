@@ -3,7 +3,15 @@
   width: 100%;
 }
 
+/* ===============================
+   Dashboard Header Layout
+   =============================== */
 .dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
   animation: fadeInDown 0.5s ease-out;
 }
 
@@ -18,11 +26,125 @@
   }
 }
 
-app-button {
+/* Header Content */
+.header-content {
+  flex: 1;
+  min-width: 250px;
+}
+
+.header-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  margin-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+.header-subtitle {
+  color: hsl(var(--muted-foreground));
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* Create Request Button */
+.create-request-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px hsla(var(--primary), 0.25);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-app-button:hover {
+.create-request-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 20px hsla(var(--primary), 0.35);
+}
+
+.create-request-btn:active {
+  transform: translateY(0);
+}
+
+.btn-icon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.btn-text {
+  font-weight: 600;
+}
+
+/* ===============================
+   Responsive Breakpoints
+   =============================== */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+  .header-title {
+    font-size: 2rem;
+  }
+
+  .header-subtitle {
+    font-size: 0.95rem;
+  }
+
+  .create-request-btn {
+    padding: 0.75rem 1.5rem;
+  }
+}
+
+/* Mobile Large (480px - 767px) */
+@media (max-width: 767px) {
+  .dashboard-header {
+    gap: 1.25rem;
+  }
+
+  .header-title {
+    font-size: 1.75rem;
+  }
+
+  .header-subtitle {
+    font-size: 0.9rem;
+  }
+
+  .create-request-btn {
+    width: 100%;
+    justify-content: center;
+    padding: 0.875rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .btn-icon {
+    font-size: 1.1rem;
+  }
+}
+
+/* Mobile Small (< 480px) */
+@media (max-width: 480px) {
+  .dashboard-header {
+    gap: 1rem;
+  }
+
+  .header-content {
+    min-width: 100%;
+  }
+
+  .header-title {
+    font-size: 1.5rem;
+  }
+
+  .header-subtitle {
+    font-size: 0.85rem;
+    line-height: 1.4;
+  }
+
+  .create-request-btn {
+    width: 100%;
+    padding: 1rem 1.5rem;
+    font-size: 0.95rem;
+  }
+
+  .btn-text {
+    font-size: 0.95rem;
+  }
 }

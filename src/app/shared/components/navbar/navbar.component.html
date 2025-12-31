@@ -13,47 +13,38 @@
         <span class="logo-text">Green Zone</span>
       </a>
 
-      <!-- ===== Role Based Links ===== -->
+      <!-- ===== Desktop Navigation Links ===== -->
       @if (isLoggedIn() && !isAuthRoute()) {
 
         <!-- ================= ADMIN ================= -->
         @if (isAdmin()) {
-          <div class="nav-links admin-links">
-            <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
-            <a routerLink="/admin/materials" routerLinkActive="active" class="nav-link">Materials</a>
-            <a routerLink="/admin/factories" routerLinkActive="active" class="nav-link">Factories</a>
-            <a routerLink="/admin/orders" routerLinkActive="active" class="nav-link">Orders</a>
-            <a routerLink="/admin/users" routerLinkActive="active" class="nav-link">Users</a>
-            <a routerLink="/admin/rewards" routerLinkActive="active" class="nav-link">Rewards</a>
-            <a routerLink="/admin/collectors" routerLinkActive="active" class="nav-link">Collectors</a>
-            <a routerLink="/admin/add-collector" routerLinkActive="active" class="nav-link">Add Collector</a>
+          <div class="nav-links desktop-only">
+            <a routerLink="/admin/dashboard" routerLinkActive="active" class="nav-link" (click)="closeDropdowns()">Dashboard</a>
+            <a routerLink="/admin/materials" routerLinkActive="active" class="nav-link" (click)="closeDropdowns()">Materials</a>
+            <a routerLink="/admin/factories" routerLinkActive="active" class="nav-link" (click)="closeDropdowns()">Factories</a>
+            <a routerLink="/admin/orders" routerLinkActive="active" class="nav-link" (click)="closeDropdowns()">Orders</a>
+            <a routerLink="/admin/users" routerLinkActive="active" class="nav-link" (click)="closeDropdowns()">Users</a>
+            <a routerLink="/admin/rewards" routerLinkActive="active" class="nav-link" (click)="closeDropdowns()">Rewards</a>
+            <a routerLink="/admin/collectors" routerLinkActive="active" class="nav-link" (click)="closeDropdowns()">Collectors</a>
+            <a routerLink="/admin/add-collector" routerLinkActive="active" class="nav-link" (click)="closeDropdowns()">Add Collector</a>
           </div>
         }
 
         <!-- ================= COLLECTOR ================= -->
         @if (isCollector()) {
-          <div class="nav-links">
-            <a routerLink="/collector-dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
-            <a routerLink="/collector-requests" routerLinkActive="active" class="nav-link">My Orders</a>
-            <a routerLink="/collector-active-route" routerLinkActive="active" class="nav-link">Active Route</a>
+          <div class="nav-links desktop-only">
+            <a routerLink="/collector-dashboard" routerLinkActive="active" class="nav-link" (click)="closeDropdowns()">Dashboard</a>
+            <a routerLink="/collector-requests" routerLinkActive="active" class="nav-link" (click)="closeDropdowns()">My Orders</a>
+            <a routerLink="/collector-active-route" routerLinkActive="active" class="nav-link" (click)="closeDropdowns()">Active Route</a>
           </div>
         }
 
         <!-- ================= USER ================= -->
         @if (isUser()) {
-          <div class="nav-links">
-            <a routerLink="/citizen-dashboard" routerLinkActive="active" class="nav-link">Dashboard</a>
-
-            <a routerLink="/rewards" routerLinkActive="active" class="nav-link">
-              Rewards
-              <!-- @if (userPoints()) {
-                <span class="points-badge">{{ userPoints() }}</span>
-              } -->
-            </a>
-
-            <a routerLink="/my-requests" routerLinkActive="active" class="nav-link">
-              My Requests
-            </a>
+          <div class="nav-links desktop-only">
+            <a routerLink="/citizen-dashboard" routerLinkActive="active" class="nav-link" (click)="closeDropdowns()">Dashboard</a>
+            <a routerLink="/rewards" routerLinkActive="active" class="nav-link" (click)="closeDropdowns()">Rewards</a>
+            <a routerLink="/my-requests" routerLinkActive="active" class="nav-link" (click)="closeDropdowns()">My Requests</a>
           </div>
         }
 
@@ -63,16 +54,20 @@
     <!-- ===== Right ===== -->
     <div class="navbar-right">
 
-      <!-- 🌐 Language -->
-      <button
-        type="button"
-        class="action-btn"
-        (click)="languageService.toggleLanguage()"
-      >
-        <i class="fa-solid fa-globe"></i>
-      </button>
+      <!-- Hamburger Menu Button (Tablet & Mobile) -->
+      @if (isLoggedIn() && !isAuthRoute()) {
+        <button
+          type="button"
+          class="hamburger-btn"
+          (click)="toggleMobileMenu($event)"
+          [attr.aria-label]="mobileMenuOpen() ? 'Close menu' : 'Open menu'"
+          [attr.aria-expanded]="mobileMenuOpen()"
+        >
+          <i class="fa-solid" [class.fa-bars]="!mobileMenuOpen()" [class.fa-times]="mobileMenuOpen()"></i>
+        </button>
+      }
 
-      <!-- 🌙 / ☀️ Theme -->
+      <!-- Theme Toggle -->
       <button
         type="button"
         class="action-btn"
@@ -87,10 +82,11 @@
 
       <!-- 👤 User Menu with Dropdown Component -->
       @if (isLoggedIn() && !isAuthRoute()) {
-        <div class="relative user-menu-container">
+        <div class="relative user-menu-container desktop-only">
           <app-user-menu-dropdown></app-user-menu-dropdown>
         </div>
       }
+
       <!-- 👋 Guest (on non-auth pages) -->
       @if (!isLoggedIn() && !isAuthRoute()) {
         <a routerLink="/login" class="btn-ghost1">Login</a>
@@ -99,33 +95,108 @@
 
     </div>
   </div>
+
+  <!-- ================= 📱 Mobile/Tablet Dropdown Menu ================= -->
+  @if (mobileMenuOpen() && isLoggedIn() && !isAuthRoute()) {
+    <!-- Overlay -->
+    <div class="mobile-overlay" (click)="closeDropdowns()"></div>
+
+    <!-- Menu -->
+    <div class="mobile-menu">
+      <!-- User Info Section -->
+      <div class="mobile-user-info">
+        <div class="mobile-user-avatar">
+          {{ displayName().charAt(0).toUpperCase() }}
+        </div>
+        <div class="mobile-user-details">
+          <div class="mobile-user-name">{{ displayName() }}</div>
+          <div class="mobile-user-role">{{ roleLabel() }}</div>
+        </div>
+      </div>
+
+      <div class="mobile-menu-divider"></div>
+
+      <!-- Navigation Links -->
+      <div class="mobile-nav-links">
+        @if (isAdmin()) {
+          <a routerLink="/admin/dashboard" routerLinkActive="active" class="mobile-nav-link" (click)="closeDropdowns()">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Dashboard</span>
+          </a>
+          <a routerLink="/admin/materials" routerLinkActive="active" class="mobile-nav-link" (click)="closeDropdowns()">
+            <i class="fa-solid fa-box"></i>
+            <span>Materials</span>
+          </a>
+          <a routerLink="/admin/factories" routerLinkActive="active" class="mobile-nav-link" (click)="closeDropdowns()">
+            <i class="fa-solid fa-industry"></i>
+            <span>Factories</span>
+          </a>
+          <a routerLink="/admin/orders" routerLinkActive="active" class="mobile-nav-link" (click)="closeDropdowns()">
+            <i class="fa-solid fa-list"></i>
+            <span>Orders</span>
+          </a>
+          <a routerLink="/admin/users" routerLinkActive="active" class="mobile-nav-link" (click)="closeDropdowns()">
+            <i class="fa-solid fa-users"></i>
+            <span>Users</span>
+          </a>
+          <a routerLink="/admin/rewards" routerLinkActive="active" class="mobile-nav-link" (click)="closeDropdowns()">
+            <i class="fa-solid fa-gift"></i>
+            <span>Rewards</span>
+          </a>
+          <a routerLink="/admin/collectors" routerLinkActive="active" class="mobile-nav-link" (click)="closeDropdowns()">
+            <i class="fa-solid fa-truck"></i>
+            <span>Collectors</span>
+          </a>
+          <a routerLink="/admin/add-collector" routerLinkActive="active" class="mobile-nav-link" (click)="closeDropdowns()">
+            <i class="fa-solid fa-user-plus"></i>
+            <span>Add Collector</span>
+          </a>
+        }
+
+        @if (isCollector()) {
+          <a routerLink="/collector-dashboard" routerLinkActive="active" class="mobile-nav-link" (click)="closeDropdowns()">
+            <i class="fa-solid fa-chart-line"></i>
+            <span>Dashboard</span>
+          </a>
+          <a routerLink="/collector-requests" routerLinkActive="active" class="mobile-nav-link" (click)="closeDropdowns()">
+            <i class="fa-solid fa-list"></i>
+            <span>My Orders</span>
+          </a>
+          <a routerLink="/collector-active-route" routerLinkActive="active" class="mobile-nav-link" (click)="closeDropdowns()">
+            <i class="fa-solid fa-route"></i>
+            <span>Active Route</span>
+          </a>
+        }
+
+        @if (isUser()) {
+          <a routerLink="/citizen-dashboard" routerLinkActive="active" class="mobile-nav-link" (click)="closeDropdowns()">
+            <i class="fa-solid fa-home"></i>
+            <span>Dashboard</span>
+          </a>
+          <a routerLink="/rewards" routerLinkActive="active" class="mobile-nav-link" (click)="closeDropdowns()">
+            <i class="fa-solid fa-gift"></i>
+            <span>Rewards</span>
+          </a>
+          <a routerLink="/my-requests" routerLinkActive="active" class="mobile-nav-link" (click)="closeDropdowns()">
+            <i class="fa-solid fa-list"></i>
+            <span>My Requests</span>
+          </a>
+        }
+      </div>
+
+      <div class="mobile-menu-divider"></div>
+
+      <!-- Profile & Logout -->
+      <div class="mobile-nav-links">
+        <a routerLink="/profile" class="mobile-nav-link" (click)="closeDropdowns()">
+          <i class="fa-solid fa-user"></i>
+          <span>Profile</span>
+        </a>
+        <button class="mobile-nav-link logout-link" (click)="logout()">
+          <i class="fa-solid fa-sign-out-alt"></i>
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
+  }
 </nav>
-
-<!-- ================= 📱 Mobile Bottom Navbar ================= -->
-<!-- @if (isLoggedIn() && !isAuthRoute() && !isAdmin()) {
-  <nav class="navbar-mobile-bottom"> -->
-
-    <!-- Admin -->
-    <!-- @if (isAdmin()) {
-      <a routerLink="/admin/dashboard" routerLinkActive="active" class="mobile-nav-item">📊</a>
-      <a routerLink="/admin/orders" routerLinkActive="active" class="mobile-nav-item">📦</a>
-      <a routerLink="/admin/users" routerLinkActive="active" class="mobile-nav-item">👥</a>
-    } -->
-
-    <!-- Collector -->
-    <!-- @if (isCollector()) {
-      <a routerLink="/collector-dashboard" routerLinkActive="active" class="mobile-nav-item">📍</a>
-      <a routerLink="/my-requests" routerLinkActive="active" class="mobile-nav-item">📦</a>
-    } -->
-
-    <!-- User -->
-    <!-- @if (isUser()) {
-      <a routerLink="/citizen-dashboard" routerLinkActive="active" class="mobile-nav-item">🏠</a>
-      <a routerLink="/rewards" routerLinkActive="active" class="mobile-nav-item">🎁</a>
-      <a routerLink="/my-requests" routerLinkActive="active" class="mobile-nav-item">📄</a>
-    } -->
-
-    <!-- Logout -->
-    <!-- <button class="mobile-nav-item logout-mobile" (click)="logout()">🚪</button>
-  </nav>
-} -->

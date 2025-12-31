@@ -11,7 +11,6 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { UserProfileService } from '@core/services/user.services/user-profile.service';
 import { ThemeService } from '../../../core/services/theme.service';
-import { LanguageService } from '../../../core/services/language.service';
 import { UserService } from '../../../core/services/user.services/user.service';
 import { AuthService } from '../../../core/services/auth.services/auth.service';
 import { Role } from '@core/models/users/role.enum';
@@ -33,13 +32,13 @@ export class NavbarComponent implements OnInit {
    profileService = inject(UserProfileService);
 
   themeService = inject(ThemeService);
-  languageService = inject(LanguageService);
   userService = inject(UserService);
 
   // ================= UI STATE =================
   showUserMenu = signal(false);
   showNotificationsDropdown = signal(false);
   showRoleMenu = signal(false);
+  mobileMenuOpen = signal(false);
 
   // ================= AUTH =================
   isLoggedIn = this.authService.isLoggedIn;
@@ -113,10 +112,16 @@ displayName = computed(() =>
     this.showUserMenu.set(false);
   }
 
+  toggleMobileMenu(event: MouseEvent): void {
+    event.stopPropagation();
+    this.mobileMenuOpen.set(!this.mobileMenuOpen());
+  }
+
   closeDropdowns(): void {
     this.showUserMenu.set(false);
     this.showNotificationsDropdown.set(false);
     this.showRoleMenu.set(false);
+    this.mobileMenuOpen.set(false);
   }
 
   @HostListener('document:click')

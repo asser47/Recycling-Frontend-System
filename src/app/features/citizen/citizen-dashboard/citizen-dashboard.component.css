@@ -79,3 +79,65 @@
   }
 }
 
+/* ===============================
+   Responsive Dashboard
+   =============================== */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .dashboard-page {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .dashboard-container {
+    gap: 1.75rem;
+  }
+
+  .orb-1 {
+    width: 400px;
+    height: 400px;
+  }
+
+  .orb-2 {
+    width: 350px;
+    height: 350px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+  .dashboard-page {
+    padding: 1.25rem 1rem;
+  }
+
+  .dashboard-container {
+    gap: 1.5rem;
+  }
+
+  .orb-1 {
+    width: 300px;
+    height: 300px;
+  }
+
+  .orb-2 {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .dashboard-page {
+    padding: 1rem 0.75rem;
+  }
+
+  .dashboard-container {
+    gap: 1.25rem;
+  }
+
+  .orb-1,
+  .orb-2 {
+    filter: blur(60px);
+    opacity: 0.15;
+  }
+}
