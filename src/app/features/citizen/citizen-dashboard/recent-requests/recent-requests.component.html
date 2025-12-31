@@ -8,12 +8,50 @@
       @for (request of requests; track request.id) {
 <app-request-card
   [request]="request"
-  [clickable]="false"
+  [clickable]="true"
   [showActions]="true"
   [isCanceling]="cancelingOrderId === request.id"
   (onCancel)="cancelOrder($event)"
+  (onCardClick)="toggleRequest($event)"
 >
 </app-request-card>
+@if (selectedRequestId === request.id) {
+  <div class="request-details-expanded">
+    <div class="details-grid">
+
+      <div>
+<strong>📦 Quantity:</strong>
+{{ getQuantityLabel(request) }}
+
+      </div>
+
+      <div>
+        <strong>🏠 Full Address:</strong>
+        {{ request.street }}, {{ request.buildingNo }},
+        {{ request.city }}
+      </div>
+
+      <div>
+        <strong>📅 Created At:</strong>
+        {{ request.orderDate | date:'mediumDate' }}
+      </div>
+
+      @if (request.collectorName) {
+        <div>
+          <strong>🚛 Collector:</strong>
+          {{ request.collectorName }}
+        </div>
+      }
+
+      @if (request.status === 'completed') {
+        <div class="text-green-600 font-semibold">
+          ✅ Order Completed Successfully
+        </div>
+      }
+
+    </div>
+  </div>
+}
 
 
       }

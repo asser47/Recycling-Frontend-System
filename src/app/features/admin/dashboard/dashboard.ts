@@ -15,6 +15,7 @@ import { MaterialService } from '../../../core/services/materials.services/mater
 import { FactoryService } from '../../../core/services/factory.services/factory.service';
 import { OrderService } from '../../../core/services/order.services/order.service';
 import { CitizenService } from '../../../core/services/user.services/citizen.service';
+import { RewardService } from '@core/services/admin.services/adminreward.service';
 
 interface DashboardCard {
   title: string;
@@ -39,6 +40,8 @@ export class AdminDashboardComponent implements OnInit {
   factories: any[] = [];
   orders: any[] = [];
   users: any[] = [];
+totalRedeemptions = 0;
+totalRedeemedPoints = 0;
 
   private cdr = inject(ChangeDetectorRef);
 
@@ -46,6 +49,7 @@ export class AdminDashboardComponent implements OnInit {
   private factoryService = inject(FactoryService);
   private orderService = inject(OrderService);
   private userService = inject(CitizenService);
+private rewardService = inject(RewardService);
 
   // ---------------------------
   // Chart Config
@@ -71,12 +75,14 @@ export class AdminDashboardComponent implements OnInit {
   // Load Dashboard Data
   // ---------------------------
   loadDashboard() {
-    forkJoin({
-      materials: this.materialService.getAll().pipe(catchError(() => of([]))),
-      factories: this.factoryService.getAll().pipe(catchError(() => of([]))),
-      orders: this.orderService.getAll().pipe(catchError(() => of([]))),
-      users: this.userService.getAll().pipe(catchError(() => of([]))),
-    }).subscribe({
+forkJoin({
+  materials: this.materialService.getAll().pipe(catchError(() => of([]))),
+  factories: this.factoryService.getAll().pipe(catchError(() => of([]))),
+  orders: this.orderService.getAll().pipe(catchError(() => of([]))),
+  users: this.userService.getAll().pipe(catchError(() => of([]))),
+  rewards: this.rewardService.getAll().pipe(catchError(() => of([]))), // ✅ جديد
+})
+.subscribe({
       next: (data: any) => {
 
         this.materials = data.materials ?? [];
@@ -88,6 +94,9 @@ export class AdminDashboardComponent implements OnInit {
         // Admin Metrics
         // ---------------------------
         const totalUsers = this.users.length;
+const rewards = data.rewards ?? [];
+
+this.loadTotalRedeemptions(rewards);
 
         const deliveredOrders = this.orders.filter(
           o => o.status === 'Delivered'
@@ -96,9 +105,6 @@ export class AdminDashboardComponent implements OnInit {
         const completedOrders = this.orders.filter(
           o => o.status === 'Completed'
         ).length;
-
-        const rewardsDistributed =
-          this.calculateDistributedRewards(this.orders);
 
         const co2Kg = this.computeCO2FromMaterials(this.materials);
         const co2Tons = +(co2Kg / 1000).toFixed(1);
@@ -134,7 +140,7 @@ export class AdminDashboardComponent implements OnInit {
           },
           {
             title: 'Rewards Distributed',
-            count: rewardsDistributed,
+            count: this.totalRedeemptions,
             subtitle: 'Points granted by admin',
             changePercent: null,
             icon: '🎁'
@@ -188,11 +194,7 @@ export class AdminDashboardComponent implements OnInit {
   // ---------------------------
   // Rewards Logic (Admin-only)
   // ---------------------------
-private calculateDistributedRewards(orders: any[]): number {
-  return orders.filter(
-    o => String(o.status).toLowerCase() === 'completed'
-  ).length;
-}
+
   // ---------------------------
   // Helpers
   // ---------------------------
@@ -252,4 +254,54 @@ private calculateDistributedRewards(orders: any[]): number {
     }
     return totalKg;
   }
+
+  private loadTotalRedeemptions(rewards: any[]) {
+  if (!rewards.length) {
+    this.totalRedeemptions = 0;
+    return;
+  }
+
+  const statsCalls = rewards.map(r =>
+    this.rewardService.getStats(r.id).pipe(
+      catchError(() => of({ totalRedeemptions: 0 }))
+    )
+  );
+
+forkJoin(statsCalls).subscribe((statsList: any[]) => {
+
+  console.log('🔥 Reward stats list:', statsList);
+
+this.totalRedeemptions = 0;
+this.totalRedeemedPoints = 0;
+
+statsList.forEach(s => {
+  const redemptions = s.totalRedemptions || 0;
+  const points = s.requiredPoints || 0;
+
+  this.totalRedeemptions += redemptions;
+  this.totalRedeemedPoints += redemptions * points;
+});
+
+
+
+  this.updateRewardsCard();
+  this.cdr.detectChanges();
+});
+
+}
+private updateRewardsCard() {
+  const index = this.cards.findIndex(
+    c => c.title === 'Rewards Distributed'
+  );
+
+  if (index !== -1) {
+    this.cards[index] = {
+      ...this.cards[index],
+      count: this.totalRedeemedPoints, // ⭐ المهم
+      subtitle: 'Points granted to users'
+    };
+  }
+}
+
+
 }

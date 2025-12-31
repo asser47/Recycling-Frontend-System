@@ -237,6 +237,11 @@ tr:hover {
   color: #1f2937;
 }
 
+.collected {
+  background: #169191;   /* teal-500 */
+  color: white;
+}
+
 .accepted {
   background: #3b82f6;
 }

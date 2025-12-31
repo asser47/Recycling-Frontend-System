@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject, Input } from "@angular/core";
-import { OrderDto } from "@core/models/order.model";
+import { OrderDto } from "../../../../core/models/orders/order.model";
 import { LanguageService } from "@core/services/language.service";
 import { OrderService } from "@core/services/order.services/order.service";
 import { CardComponent, CardHeaderComponent, CardTitleComponent, CardDescriptionComponent, CardContentComponent } from "@shared/ui/card/card.component";
@@ -32,6 +32,19 @@ cancelingOrderId: number | null = null;
   t = (key: string) => this.languageService.t(key);
   flashMessage: string | null = null;
   flashType: 'success' | 'error' = 'success';
+selectedRequestId: number | null = null;
+
+toggleRequest(request: OrderDto) {
+  this.selectedRequestId =
+    this.selectedRequestId === request.id ? null : request.id;
+}
+getQuantityLabel(request: OrderDto): string {
+  if (request.quantity === null || request.quantity === undefined) {
+    return 'Not specified yet';
+  }
+
+  return `${request.quantity} kg`;
+}
 
   showFlash(message: string, type: 'success' | 'error') {
     this.flashMessage = message;
