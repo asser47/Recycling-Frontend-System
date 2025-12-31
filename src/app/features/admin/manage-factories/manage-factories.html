@@ -71,11 +71,43 @@
     @if (!selectedFactory.orders || selectedFactory.orders.length === 0) {
       <p class="muted">No orders linked</p>
     } @else {
-      <ul>
-        @for (o of selectedFactory.orders; track o.id) {
-          <li>Order #{{ o.id }} — {{ o.status }}</li>
+      <div class="order-slider-container">
+        <div class="order-slider-wrapper">
+          @for (o of selectedFactory.orders; track o.id) {
+            <div class="order-card" [class.active]="currentOrderIndex === $index">
+              <div class="order-header">
+                <span class="order-id">Order #{{ o.id }}</span>
+                <span class="order-status" [class]="'status-' + (o.status?.toLowerCase() || 'pending')">{{ o.status }}</span>
+              </div>
+              <div class="order-details">
+                <p><strong>Date:</strong> {{ o.orderDate ? (o.orderDate | date:'short') : 'N/A' }}</p>
+                <p><strong>User:</strong> {{ o.userName || 'N/A' }}</p>
+                <p><strong>Material:</strong> {{ o.typeOfMaterial || 'N/A' }}</p>
+                <p><strong>Quantity:</strong> {{ o.quantity || 0 }} kg</p>
+              </div>
+            </div>
+          }
+        </div>
+        
+        @if (selectedFactory.orders.length > 1) {
+          <button class="order-slider-btn prev" (click)="prevOrder(); $event.stopPropagation()">❮</button>
+          <button class="order-slider-btn next" (click)="nextOrder(); $event.stopPropagation()">❯</button>
+          
+          <div class="order-slider-dots">
+            @for (o of selectedFactory.orders; track $index) {
+              <span 
+                class="order-dot" 
+                [class.active]="currentOrderIndex === $index"
+                (click)="goToOrder($index); $event.stopPropagation()">
+              </span>
+            }
+          </div>
+          
+          <div class="order-counter">
+            {{ currentOrderIndex + 1 }} / {{ selectedFactory.orders.length }}
+          </div>
         }
-      </ul>
+      </div>
     }
 
   </div>

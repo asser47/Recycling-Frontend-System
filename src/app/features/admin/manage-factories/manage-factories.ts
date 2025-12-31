@@ -22,6 +22,7 @@ export class ManageFactoriesComponent implements OnInit {
   factories: Factory[] = [];
 
   selectedFactory: any | null = null;
+  currentOrderIndex = 0;
 
   showForm = false;
   editing = false;
@@ -75,6 +76,7 @@ export class ManageFactoriesComponent implements OnInit {
     this.showForm = false;
     this.editing = false;
     this.selectedFactory = null;
+    this.currentOrderIndex = 0;
 
     // 👇 تحديث فوري قبل الريكوست
     this.cdr.detectChanges();
@@ -89,9 +91,27 @@ export class ManageFactoriesComponent implements OnInit {
 
   closeFactory() {
     this.selectedFactory = null;
+    this.currentOrderIndex = 0;
 
     // 👇 تحديث بعد الغلق
     this.cdr.detectChanges();
+  }
+
+  // ================= ORDER SLIDER =================
+  nextOrder() {
+    if (this.selectedFactory?.orders && this.selectedFactory.orders.length > 0) {
+      this.currentOrderIndex = (this.currentOrderIndex + 1) % this.selectedFactory.orders.length;
+    }
+  }
+
+  prevOrder() {
+    if (this.selectedFactory?.orders && this.selectedFactory.orders.length > 0) {
+      this.currentOrderIndex = (this.currentOrderIndex - 1 + this.selectedFactory.orders.length) % this.selectedFactory.orders.length;
+    }
+  }
+
+  goToOrder(index: number) {
+    this.currentOrderIndex = index;
   }
 
   // ================= ADD / EDIT =================
