@@ -47,11 +47,23 @@ import { CitizenService } from '@core/services/user.services/citizen.service';
         ></app-create-collection-modal>
 
         <!-- Stats -->
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4">
           <app-card>
             <app-card-content class="p-4 text-center">
               <div class="text-2xl font-bold text-primary">{{ userRequests().length }}</div>
               <p class="text-sm text-muted-foreground">Total Requests</p>
+            </app-card-content>
+          </app-card>
+          <app-card>
+            <app-card-content class="p-4 text-center">
+              <div class="text-2xl font-bold text-muted-foreground">{{ pendingCount() }}</div>
+              <p class="text-sm text-muted-foreground">{{ t('pending') }}</p>
+            </app-card-content>
+          </app-card>
+          <app-card>
+            <app-card-content class="p-4 text-center">
+              <div class="text-2xl font-bold text-accent">{{ deliveredCount() }}</div>
+              <p class="text-sm text-muted-foreground">{{ t('delivered') }}</p>
             </app-card-content>
           </app-card>
           <app-card>
@@ -62,14 +74,8 @@ import { CitizenService } from '@core/services/user.services/citizen.service';
           </app-card>
           <app-card>
             <app-card-content class="p-4 text-center">
-              <div class="text-2xl font-bold text-accent">{{ inProgressCount() }}</div>
-              <p class="text-sm text-muted-foreground">{{ t('inProgress') }}</p>
-            </app-card-content>
-          </app-card>
-          <app-card>
-            <app-card-content class="p-4 text-center">
-              <div class="text-2xl font-bold text-muted-foreground">{{ pendingCount() }}</div>
-              <p class="text-sm text-muted-foreground">{{ t('pending') }}</p>
+              <div class="text-2xl font-bold text-red-500">{{ cancelledCount() }}</div>
+              <p class="text-sm text-muted-foreground">{{ t('cancelled') }}</p>
             </app-card-content>
           </app-card>
         </div>
@@ -191,12 +197,20 @@ citizenService = inject(CitizenService);
     this.userRequests().filter(r => r.status.toLocaleLowerCase() === 'completed').length
   );
 
-  inProgressCount = computed(() =>
-    this.userRequests().filter(r => r.status.toLocaleLowerCase() === 'in-progress').length
+  deliveredCount = computed(() =>
+    this.userRequests().filter(r => r.status.toLocaleLowerCase() === 'delivered').length
   );
+
+  //   inProgressCount = computed(() =>
+  //   this.userRequests().filter(r => r.status.toLocaleLowerCase() === 'in-progress').length
+  // );
 
   pendingCount = computed(() =>
     this.userRequests().filter(r => r.status.toLocaleLowerCase() === 'pending').length
+  );
+
+  cancelledCount = computed(() =>
+    this.userRequests().filter(r => r.status.toLocaleLowerCase() === 'cancelled').length
   );
 
   getRequestsByStatus(status: string): OrderDto[] {

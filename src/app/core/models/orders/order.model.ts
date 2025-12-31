@@ -36,7 +36,7 @@ export interface OrderDto {
   userStreet?: string
 }
 
-export type RequestStatus = 'pending' | 'in-progress' | 'completed' | 'cancelled';
+export type RequestStatus = 'pending' | 'delivered' | 'completed' | 'cancelled';
 
 export interface UpdateOrderStatusRequest {
   newStatus?: string;
