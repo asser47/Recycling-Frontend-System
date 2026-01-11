@@ -3,7 +3,7 @@
  */
 export const environment = {
   production: true,
-  apiUrl: 'https://api.greenzone-recycling.com/api',
+  apiUrl: 'https://recycle-hub.runasp.net/api',
   apiVersion: 'v1',
   timeout: 30000
 };
